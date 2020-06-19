@@ -21,13 +21,12 @@ defmodule TwoSum do
     Enum.reduce_while(map, [], fn {k, v}, acc ->
       k2 = target - k
 
-      acc =
-        if k2 > 0 and Map.has_key?(map, k2) do
-          v2 = Map.get(map, k2)
-          {:halt, [v | [v2 | acc]]}
-        else
-          {:cont, acc}
-        end
+      if k2 > 0 and Map.has_key?(map, k2) do
+        v2 = Map.get(map, k2)
+        {:halt, [v | [v2 | acc]]}
+      else
+        {:cont, acc}
+      end
     end)
   end
 end
