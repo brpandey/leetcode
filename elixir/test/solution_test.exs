@@ -21,4 +21,12 @@ defmodule SolutionTest do
     assert 3 == LongestSubstrNoRepeat.run("abcabcbb")
     assert 1 == LongestSubstrNoRepeat.run("bbbbb")
   end
+
+  # p0004_median_two_sorted_arrays.ex
+  test "median two sorted arrays" do
+    assert 2 == MedianTwoSortedArrays.run([1, 3], [2])
+    assert 2.5 == MedianTwoSortedArrays.run([1, 2], [3, 40])
+    assert 4 == MedianTwoSortedArrays.run([1, 2, 3, 4, 7], [0, 5, 6, 9])
+    assert 4.5 == MedianTwoSortedArrays.run([1, 2, 3, 4, 7], [0, 5, 6, 9, 100])
+  end
 end
