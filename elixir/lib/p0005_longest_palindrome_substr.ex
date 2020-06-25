@@ -38,27 +38,17 @@ defmodule LongestPalindromeSubstring do
     String.slice(str, low..high)
   end
 
-  def palindrome(array, low, high, len) do
-    # Functional version of a while loop using composable streams
-    # "Generating" only empty lists and a final tuple value for the sequence list
-    # Revert l and h back to the prev iteration on final value
-    # Including a length value in the final tuple for easier term ordering later
-    Stream.unfold({low, high, false}, fn {l, h, stop} ->
-      cond do
-        # Ends unfold
-        stop ->
-          nil
-
-        # Are the valid indice values a mirror of each other?
-        l >= 0 and h < len and :array.get(l, array) == :array.get(h, array) ->
-          {[], {l - 1, h + 1, false}}
-
-        true ->
-          {{h - l - 1, l + 1, h - 1}, {nil, nil, true}}
+  def palindrome(array, left, right, len) do
+    # Functional version of a while loop
+    # Generate a lazy stream of palindrome boundary values first and then consume with our while condition
+    Stream.iterate({left, right}, fn {l, r} -> {l - 1, r + 1} end)
+    |> Enum.reduce_while([], fn {l, r}, acc ->
+      # Are the valid indice values a mirror of each other?
+      if l >= 0 and r < len and :array.get(l, array) == :array.get(r, array) do
+        {:cont, acc}
+      else
+        {:halt, {r - l - 1, l + 1, r - 1}}
       end
     end)
-    |> Stream.filter(fn x -> x != [] end)
-    |> Enum.take(len)
-    |> List.first()
   end
 end
