@@ -29,4 +29,12 @@ defmodule SolutionTest do
     assert 4 == MedianTwoSortedArrays.run([1, 2, 3, 4, 7], [0, 5, 6, 9])
     assert 4.5 == MedianTwoSortedArrays.run([1, 2, 3, 4, 7], [0, 5, 6, 9, 100])
   end
+
+  test "longest palindrome" do
+    assert "b" == LongestPalindromeSubstring.run("ab")
+    assert "aa" == LongestPalindromeSubstring.run("aab")
+    assert "aba" == LongestPalindromeSubstring.run("babad")
+    assert "bb" == LongestPalindromeSubstring.run("cbbd")
+    assert "racecar" == LongestPalindromeSubstring.run("racecars")
+  end
 end
