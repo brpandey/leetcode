@@ -38,7 +38,8 @@ defmodule LongestPalindromeSubstring do
     String.slice(str, low..high)
   end
 
-  def palindrome(array, left, right, len) do
+  def palindrome(array, left, right, len)
+      when is_integer(left) and is_integer(right) and is_integer(len) do
     # Functional version of a while loop
     # Generate a lazy stream of palindrome boundary values first and then consume with our while condition
     Stream.iterate({left, right}, fn {l, r} -> {l - 1, r + 1} end)
