@@ -49,7 +49,7 @@ impl Solution {
         // Iterate across the column
         for j in 0..len {
             // Iterate across the row
-            for i in 0..=j {
+            for i in (0..=j).rev() {
                 //              0123
                 // If value is "abba" and i is 0 and j is 3, we need to check if ?? is already
                 // verified as a palindrome as in,"a??a" using our dynamic programming matrix
@@ -89,7 +89,77 @@ mod tests {
         assert_eq!("b", Solution::longest_palindrome_substring("ab"));
         assert_eq!("aa", Solution::longest_palindrome_substring("aab"));
         assert_eq!("aba", Solution::longest_palindrome_substring("babad"));
+
+/*
+        Evaluating string "c", i 0, j 0
+        Found palindrome string "c"
+        Evaluating string "b", i 1, j 1
+        Found palindrome string "b"
+        Evaluating string "cb", i 0, j 1
+        Evaluating string "b", i 2, j 2
+        Found palindrome string "b"
+        Evaluating string "bb", i 1, j 2
+        Found palindrome string "bb"
+        Evaluating string "cbb", i 0, j 2
+        Evaluating string "d", i 3, j 3
+        Found palindrome string "d"
+        Evaluating string "bd", i 2, j 3
+        Evaluating string "bbd", i 1, j 3
+        Evaluating string "cbbd", i 0, j 3
+*/
         assert_eq!("bb", Solution::longest_palindrome_substring("cbbd"));
+
+
+/*
+        Evaluating string "r", i 0, j 0
+        Found palindrome string "r"
+        Evaluating string "a", i 1, j 1
+        Found palindrome string "a"
+        Evaluating string "ra", i 0, j 1
+        Evaluating string "c", i 2, j 2
+        Found palindrome string "c"
+        Evaluating string "ac", i 1, j 2
+        Evaluating string "rac", i 0, j 2
+        Evaluating string "e", i 3, j 3
+        Found palindrome string "e"
+        Evaluating string "ce", i 2, j 3
+        Evaluating string "ace", i 1, j 3
+        Evaluating string "race", i 0, j 3
+        Evaluating string "c", i 4, j 4
+        Found palindrome string "c"
+        Evaluating string "ec", i 3, j 4
+        Evaluating string "cec", i 2, j 4
+        Found palindrome string "cec"
+        Evaluating string "acec", i 1, j 4
+        Evaluating string "racec", i 0, j 4
+        Evaluating string "a", i 5, j 5
+        Found palindrome string "a"
+        Evaluating string "ca", i 4, j 5
+        Evaluating string "eca", i 3, j 5
+        Evaluating string "ceca", i 2, j 5
+        Evaluating string "aceca", i 1, j 5
+        Found palindrome string "aceca"
+        Evaluating string "raceca", i 0, j 5
+        Evaluating string "r", i 6, j 6
+        Found palindrome string "r"
+        Evaluating string "ar", i 5, j 6
+        Evaluating string "car", i 4, j 6
+        Evaluating string "ecar", i 3, j 6
+        Evaluating string "cecar", i 2, j 6
+        Evaluating string "acecar", i 1, j 6
+        Evaluating string "racecar", i 0, j 6
+        Found palindrome string "racecar"
+        Evaluating string "s", i 7, j 7
+        Found palindrome string "s"
+        Evaluating string "rs", i 6, j 7
+        Evaluating string "ars", i 5, j 7
+        Evaluating string "cars", i 4, j 7
+        Evaluating string "ecars", i 3, j 7
+        Evaluating string "cecars", i 2, j 7
+        Evaluating string "acecars", i 1, j 7
+        Evaluating string "racecars", i 0, j 7
+         */
+        
         assert_eq!("racecar", Solution::longest_palindrome_substring("racecars"));
     }
 }
