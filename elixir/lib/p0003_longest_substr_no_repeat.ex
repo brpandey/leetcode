@@ -45,7 +45,7 @@ defmodule LongestSubstrNoRepeat do
         end
       end)
 
-    IO.puts("Explanation: The answer is \"#{inspect(longest)}\"")
+    #    IO.puts("Explanation: The answer is \"#{inspect(longest)}\"")
 
     Kernel.map_size(longest)
   end

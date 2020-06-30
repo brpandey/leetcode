@@ -37,4 +37,11 @@ defmodule SolutionTest do
     assert "bb" == LongestPalindromeSubstring.run("cbbd")
     assert "racecar" == LongestPalindromeSubstring.run("racecars")
   end
+
+  test "zigzag conversion" do
+    assert "PAYPALISHIRING" == ZigZagConversion.run("PAYPALISHIRING", 1)
+    assert "PYAIHRNAPLSIIG" == ZigZagConversion.run("PAYPALISHIRING", 2)
+    assert "PAHNAPLSIIGYIR" == ZigZagConversion.run("PAYPALISHIRING", 3)
+    assert "PINALSIGYAHRPI" == ZigZagConversion.run("PAYPALISHIRING", 4)
+  end
 end
