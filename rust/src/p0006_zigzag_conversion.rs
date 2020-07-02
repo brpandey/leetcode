@@ -50,13 +50,13 @@ impl Solution {
         let steps = (0..n).chain(step_down).cycle();
         let zipped = steps.zip(input.graphemes(true).clone());
 
-        let zipped2 = zipped.fold(BTreeMap::new(), |mut map, (row, ch)| {
+        let map = zipped.fold(BTreeMap::new(), |mut map, (row, ch)| {
             let val = map.entry(row).or_insert(vec![]);
             val.push(ch);
             map
         });
 
-        zipped2.iter().fold(String::new(), |mut s, (_, v)| {
+        map.iter().fold(String::new(), |mut s, (_, v)| {
             s.push_str(&v.join(""));
             s
         })
