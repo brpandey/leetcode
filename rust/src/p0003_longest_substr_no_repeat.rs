@@ -70,7 +70,7 @@ impl Solution {
                 }
         }
 
-        println!("Explanation: The answer is {:?}, with the length of {} ", longest_acc, longest_size);
+//        println!("Explanation: The answer is {:?}, with the length of {} ", longest_acc, longest_size);
 
         longest_size
     }
