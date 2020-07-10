@@ -42,7 +42,7 @@ use std::collections::BTreeMap;
 pub struct Solution {}
 
 impl Solution {
-    pub fn run(input: &str, n: usize) -> String {
+    pub fn zigzag(input: &str, n: usize) -> String {
 
         if n == input.len() { return input.to_string() }
 
@@ -69,9 +69,9 @@ mod tests {
 
     #[test]
     fn test_0006() {
-        assert_eq!("PAYPALISHIRING", Solution::run("PAYPALISHIRING", 1));
-        assert_eq!("PYAIHRNAPLSIIG", Solution::run("PAYPALISHIRING", 2));
-        assert_eq!("PAHNAPLSIIGYIR", Solution::run("PAYPALISHIRING", 3));
-        assert_eq!("PINALSIGYAHRPI", Solution::run("PAYPALISHIRING", 4));
+        assert_eq!("PAYPALISHIRING", Solution::zigzag("PAYPALISHIRING", 1));
+        assert_eq!("PYAIHRNAPLSIIG", Solution::zigzag("PAYPALISHIRING", 2));
+        assert_eq!("PAHNAPLSIIGYIR", Solution::zigzag("PAYPALISHIRING", 3));
+        assert_eq!("PINALSIGYAHRPI", Solution::zigzag("PAYPALISHIRING", 4));
     }
 }
