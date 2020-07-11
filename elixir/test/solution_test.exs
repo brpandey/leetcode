@@ -44,4 +44,12 @@ defmodule SolutionTest do
     assert "PAHNAPLSIIGYIR" == ZigZagConversion.run("PAYPALISHIRING", 3)
     assert "PINALSIGYAHRPI" == ZigZagConversion.run("PAYPALISHIRING", 4)
   end
+
+  test "reverse integer" do
+    assert 321 = ReverseInt.run(123)
+    assert -321 = ReverseInt.run(-123)
+    assert 21 = ReverseInt.run(120)
+    assert 8_463_847_412 = ReverseInt.run(floor(:math.pow(2, 31)))
+    assert 0 = ReverseInt.run(floor(:math.pow(2, 31) + 1))
+  end
 end

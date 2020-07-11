@@ -16,5 +16,3 @@ defmodule ReverseInt do
     end)
   end
 end
-
-ReverseInt.run(231) |> IO.inspect(label: "output")
