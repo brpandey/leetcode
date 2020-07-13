@@ -6,3 +6,4 @@ pub mod p0005_longest_palindrome_substring;
 pub mod p0006_zigzag_conversion;
 pub mod p0007_reverse_int;
 pub mod p0008_atoi;
+pub mod p0009_integer_palindrome;

@@ -46,18 +46,28 @@ defmodule SolutionTest do
   end
 
   test "reverse integer" do
-    assert 321 = ReverseInt.run(123)
-    assert -321 = ReverseInt.run(-123)
-    assert 21 = ReverseInt.run(120)
-    assert 8_463_847_412 = ReverseInt.run(floor(:math.pow(2, 31)))
-    assert 0 = ReverseInt.run(floor(:math.pow(2, 31) + 1))
+    assert 321 == ReverseInt.run(123)
+    assert -321 == ReverseInt.run(-123)
+    assert 21 == ReverseInt.run(120)
+    assert 8_463_847_412 == ReverseInt.run(floor(:math.pow(2, 31)))
+    assert 0 == ReverseInt.run(floor(:math.pow(2, 31) + 1))
   end
 
   test "atoi" do
-    assert 42 = Atoi.run("42")
-    assert -42 = Atoi.run("    -42")
-    assert 4193 = Atoi.run("4193 with words")
-    assert 0 = Atoi.run("words and 987")
-    assert -2_147_483_648 = Atoi.run("-91283472332")
+    assert 42 == Atoi.run("42")
+    assert -42 == Atoi.run("    -42")
+    assert 4193 == Atoi.run("4193 with words")
+    assert 0 == Atoi.run("words and 987")
+    assert -2_147_483_648 == Atoi.run("-91283472332")
+  end
+
+  test "integer palindrome" do
+    assert true == IntPalindrome.run(121)
+    assert false == IntPalindrome.run(-121)
+    assert false == IntPalindrome.run(10)
+    assert true == IntPalindrome.run(12321)
+    assert false == IntPalindrome.run(12351)
+    assert true == IntPalindrome.run(1881)
+    assert false == IntPalindrome.run(1981)
   end
 end

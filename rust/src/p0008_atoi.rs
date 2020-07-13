@@ -76,7 +76,6 @@ impl Solution {
         // Grab numbers
         while let Some(ch) = iter.next() {
             if nums.contains(&ch) {
-                println!("ch is {}, output is {}" , ch, output);
                 output = output * 10 + (ch as u32 - '0' as u32) as i32
             }
             else {
