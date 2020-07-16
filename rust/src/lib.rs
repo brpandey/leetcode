@@ -7,3 +7,4 @@ pub mod p0006_zigzag_conversion;
 pub mod p0007_reverse_int;
 pub mod p0008_atoi;
 pub mod p0009_integer_palindrome;
+pub mod p0010_regular_expr_match;

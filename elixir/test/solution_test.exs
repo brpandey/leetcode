@@ -70,4 +70,13 @@ defmodule SolutionTest do
     assert true == IntPalindrome.run(1881)
     assert false == IntPalindrome.run(1981)
   end
+
+  test "" do
+    assert false == RegularExprMatch.run("aa", "a")
+    assert true == RegularExprMatch.run("aa", "a*")
+    assert true == RegularExprMatch.run("ab", ".*")
+    assert true == RegularExprMatch.run("aab", "c*a*b")
+    assert false == RegularExprMatch.run("mississippi", "mis*is*p*.")
+    assert true == RegularExprMatch.run("abcdb", "a.*b")
+  end
 end
