@@ -62,8 +62,8 @@ pub struct Solution {}
 impl Solution {
     pub fn regular_expr_match(text: &str, pattern: &str) -> bool {
         let (m, n) = (text.len(), pattern.len());
-        let s: Vec<char> = text.chars().clone().collect();
-        let p: Vec<char> = pattern.chars().clone().collect();
+        let s: Vec<char> = text.chars().collect();
+        let p: Vec<char> = pattern.chars().collect();
         // first create vec of size m+1 (text) and then do that n+1 times (pattern)
         // index into pattern first then text
         let mut dp = vec![vec![false; m+1]; n+1];
