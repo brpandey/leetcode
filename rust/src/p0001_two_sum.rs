@@ -17,7 +17,7 @@ use std::collections::HashMap;
 pub struct Solution {}
 
 impl Solution {
-    pub fn two_sum(numbers: &Vec<i32>, target: i32) -> Vec<i32> {
+    pub fn two_sum(numbers: &[i32], target: i32) -> Vec<i32> {
 
         // Hash Maps and Ownership
         // For types that implement the Copy trait, such as i32, the values are copied

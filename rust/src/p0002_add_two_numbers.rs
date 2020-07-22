@@ -20,7 +20,7 @@ pub struct Solution{}
 
 impl Solution {
 
-    pub fn add_two_numbers_list(list1: &LinkedList<u32>, list2: &LinkedList<u32>) -> LinkedList<u32> {
+    pub fn add_two_numbers_list(list1: &LinkedList<&u32>, list2: &LinkedList<&u32>) -> LinkedList<u32> {
         let mut output: LinkedList<u32> = LinkedList::new();
         let mut iter1 = list1.iter().peekable();
         let mut iter2 = list2.iter().peekable();
@@ -47,8 +47,8 @@ impl Solution {
 
 
     pub fn add_two_numbers(list1: &Vec<u32>, list2: &Vec<u32>) -> Vec<u32> {
-        let l1: LinkedList<_> = list1.clone().into_iter().collect::<LinkedList<_>>();
-        let l2: LinkedList<_> = list2.clone().into_iter().collect::<LinkedList<_>>();
+        let l1: LinkedList<_> = list1.iter().collect::<LinkedList<_>>();
+        let l2: LinkedList<_> = list2.iter().collect::<LinkedList<_>>();
         let output = Solution::add_two_numbers_list(&l1, &l2);
         output.into_iter().collect::<Vec<_>>()
     }
