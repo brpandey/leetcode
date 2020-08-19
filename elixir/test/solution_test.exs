@@ -71,12 +71,17 @@ defmodule SolutionTest do
     assert false == IntPalindrome.run(1981)
   end
 
-  test "" do
+  test "regular expression match" do
     assert false == RegularExprMatch.run("aa", "a")
     assert true == RegularExprMatch.run("aa", "a*")
     assert true == RegularExprMatch.run("ab", ".*")
     assert true == RegularExprMatch.run("aab", "c*a*b")
     assert false == RegularExprMatch.run("mississippi", "mis*is*p*.")
     assert true == RegularExprMatch.run("abcdb", "a.*b")
+  end
+
+  test "longest common prefix" do
+    assert "fl" == LongestCommonPrefix.run(["flower", "flow", "flight"])
+    assert "" == LongestCommonPrefix.run(["dog", "racecar", "car"])
   end
 end
