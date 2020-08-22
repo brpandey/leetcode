@@ -10,7 +10,7 @@ Input: 1->2->4, 1->3->4
     Output: 1->1->2->3->4->4
  */
 
-type NodeLink<T> = Option<Box<ListNode<T>>>;
+pub type NodeLink<T> = Option<Box<ListNode<T>>>;
 
 #[derive(PartialEq, Eq, Clone, Debug)]
 pub struct ListNode<T> {
@@ -30,7 +30,7 @@ impl<T> ListNode<T> {
 pub struct Solution {}
 
 impl Solution {
-    pub fn run(mut l1: NodeLink<u32>, mut l2: NodeLink<u32>) -> NodeLink<u32> {
+    pub fn sorted_merge(mut l1: NodeLink<u32>, mut l2: NodeLink<u32>) -> NodeLink<u32> {
         // This needs to be mut since as we need a &mut pointing to it
         let mut dummy_head: NodeLink<u32> = ListNode::new(0);
 
@@ -102,6 +102,6 @@ mod tests {
         let x = Some(Box::new(ListNode { data: 1, next: Some(Box::new(ListNode { data: 3, next: Some(Box::new(ListNode { data: 4, next: None })) })) }));
 
         assert_eq!(x, Solution::to_list(&[1, 3, 4]));
-        assert_eq!(Solution::to_list(&[1, 1, 2, 3, 4, 4]), Solution::run(Solution::to_list(&[1, 2, 4]), Solution::to_list(&[1, 3, 4])));
+        assert_eq!(Solution::to_list(&[1, 1, 2, 3, 4, 4]), Solution::sorted_merge(Solution::to_list(&[1, 2, 4]), Solution::to_list(&[1, 3, 4])));
     }
 }
