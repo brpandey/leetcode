@@ -44,6 +44,15 @@ pub struct Solution {}
 impl Solution {
 
     pub fn run(lists: &mut [NodeLink<u32>]) -> NodeLink<u32> {
+        /*
+        lists
+        [list0, list1, list2, list3, list4, list5]
+        
+        becomes: 
+        [list0(0,5), list1(1,4), list2(2,3)] -->
+        [list0(0,2), list1] -->
+        [list0(0,1)]
+        */
 
         if lists.len() == 0 { return None; }
         let mut end = lists.len() - 1;
