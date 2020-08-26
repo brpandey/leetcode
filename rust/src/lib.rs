@@ -19,3 +19,4 @@ pub mod p0020_valid_parentheses;
 pub mod p0021_merge_two_sorted_lists;
 pub mod p0022_generate_parens;
 pub mod p0023_merge_k_sorted_lists;
+pub mod p0024_swap_nodes_in_pairs;

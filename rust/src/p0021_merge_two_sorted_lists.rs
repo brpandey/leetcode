@@ -15,7 +15,7 @@ pub type NodeLink<T> = Option<Box<ListNode<T>>>;
 #[derive(PartialEq, Eq, Clone, Debug)]
 pub struct ListNode<T> {
     pub data: T,
-    pub next: NodeLink<T>
+    pub next: Option<Box<ListNode<T>>>
 }
 
 impl<T> ListNode<T> {

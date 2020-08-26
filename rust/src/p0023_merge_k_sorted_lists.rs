@@ -1,10 +1,10 @@
-#[path = "./p0021_merge_two_sorted_lists.rs"] pub mod two_sorted_lists;
-
+#[path = "./p0021_merge_two_sorted_lists.rs"] pub mod lists;
+use lists::Solution as util;
 /*
 23. Merge k Sorted Lists
 Hard
 
-Given an array of linked-lists lists, each linked list is sorted in ascending order.
+Given an array of linked-lists, each linked list is sorted in ascending order.
 
 Merge all the linked-lists into one sort linked-list and return it.
 
@@ -37,7 +37,7 @@ Output: []
 
 // Using code from p0021_merge_two_sorted_lists
 
-type NodeLink<T> = two_sorted_lists::NodeLink<T>;
+type NodeLink<T> = lists::NodeLink<T>;
 
 pub struct Solution {}
 
@@ -49,9 +49,9 @@ impl Solution {
         [list0, list1, list2, list3, list4, list5]
         
         becomes: 
-        [list0(0,5), list1(1,4), list2(2,3)] -->
-        [list0(0,2), list1] -->
-        [list0(0,1)]
+        [list0(0,5), list1(1,4), list2(2,3), None, None, None] -->
+        [list0(0,2), list1, None, None, None, None] -->
+        [list0(0,1), None, None, None, None, None]
         */
 
         if lists.len() == 0 { return None; }
@@ -67,7 +67,10 @@ impl Solution {
             // We finish once there is only 1 list left in the array
 
             while i < j {
-                lists[i] = two_sorted_lists::Solution::sorted_merge(lists[i].take(), lists[j].take());
+                // Since we can't move out of indexed content use take() which uses mem:replace
+                // under the covers to replace the taken value from the array slice with None
+                // so that the array doesn't have holes 
+                lists[i] = util::sorted_merge(lists[i].take(), lists[j].take());
 
                 //If the old pair was 0, k, its now at index 1, k-1, then 2, k-2 ..
                 i += 1;
@@ -97,11 +100,11 @@ mod tests {
     fn test_0023(){
 
         let mut y = [
-            two_sorted_lists::Solution::to_list(&[1,4,5]),
-            two_sorted_lists::Solution::to_list(&[1,3,4]),
-            two_sorted_lists::Solution::to_list(&[2,6])
+            util::to_list(&[1,4,5]),
+            util::to_list(&[1,3,4]),
+            util::to_list(&[2,6])
         ];
-        assert_eq!(two_sorted_lists::Solution::to_list(&[1, 1, 2, 3, 4, 4, 5, 6]), Solution::run(&mut y));
+        assert_eq!(util::to_list(&[1, 1, 2, 3, 4, 4, 5, 6]), Solution::run(&mut y));
         assert_eq!(None, Solution::run(&mut []));
         assert_eq!(None, Solution::run(&mut [None]));
     }
