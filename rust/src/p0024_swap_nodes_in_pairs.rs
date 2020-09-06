@@ -20,6 +20,17 @@ Given 1->2->3->4, you should return the list as 2->1->4->3.
 type NodeLink<T> = lists::NodeLink<T>;
 type ListNode<T> = lists::ListNode<T>;
 
+/*
+pub type NodeLink<T> = Option<Box<ListNode<T>>>;
+
+#[derive(PartialEq, Eq, Clone, Debug)]
+pub struct ListNode<T> {
+  pub data: T,
+  pub next: Option<Box<ListNode<T>>>
+}
+
+*/
+
 pub struct Solution {}
 
 impl Solution {
@@ -33,7 +44,7 @@ impl Solution {
         // current is essentially x to begin with
         let mut current: &mut NodeLink<u32> = &mut dummy_head;
 
-        // Do a read only check if current != None and current.next != None and current.next.next != None
+        // Do a check if current != None and current.next != None and current.next.next != None
         // x -> a -> b -> c -> d
         while current.is_some() // x != None
             && current.as_mut().unwrap().next.is_some() // a != None
@@ -41,7 +52,7 @@ impl Solution {
 
                 // params are current.next and current.next.next
                 // take() allows us to take ownership of the value at struct field next, otherwise
-                // we get move errors
+                // we get move errors since we can't leave source uninitialized, have to replace it with None
 
                 // for the first iteration first is a and second is b
                 let mut first: NodeLink<u32> = current.as_mut().unwrap().next.take();

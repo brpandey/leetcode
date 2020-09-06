@@ -20,3 +20,6 @@ pub mod p0021_merge_two_sorted_lists;
 pub mod p0022_generate_parens;
 pub mod p0023_merge_k_sorted_lists;
 pub mod p0024_swap_nodes_in_pairs;
+pub mod p0026_remove_duplicates;
+pub mod p0028_strstr;
+pub mod p0118_pascals_triangle;
