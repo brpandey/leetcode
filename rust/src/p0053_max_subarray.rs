@@ -78,7 +78,7 @@ mod tests {
 
         Explanation: [4,-1,2,1] has the largest sum = 6.
         */
-        assert_eq!(61, Solution::run(&[-2,1,-3,4,-1,2,1,-5,4]));
+        assert_eq!(6, Solution::run(&[-2,1,-3,4,-1,2,1,-5,4]));
         assert_eq!(1, Solution::run(&[1]));
         assert_eq!(0, Solution::run(&[0]));
         assert_eq!(-1, Solution::run(&[-1]));

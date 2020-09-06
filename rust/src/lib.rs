@@ -24,3 +24,4 @@ pub mod p0026_remove_duplicates;
 pub mod p0028_strstr;
 pub mod p0053_max_subarray;
 pub mod p0118_pascals_triangle;
+pub mod p0121_best_time_to_buy_sell;
