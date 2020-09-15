@@ -33,7 +33,7 @@ pub struct Solution {}
 
 impl Solution {
     pub fn fib(mut n: u32) -> u32 {
-        let mut stack = Vec::with_capacity(2*n as usize);
+        let mut stack = Vec::with_capacity(n as usize + 1);
         let (mut a, mut b) : (u32, u32);
         stack.push(0);
         stack.push(1);
