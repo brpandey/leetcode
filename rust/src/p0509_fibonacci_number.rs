@@ -95,7 +95,7 @@ impl Solution {
                 // If not found, generate it through divide and conquer using cache memoization
                 let result;
                 {
-                    let mut unlocked = cache.lock().unwrap();
+                    let unlocked = cache.lock().unwrap();
                     result = unlocked[n as usize];
                 }
 

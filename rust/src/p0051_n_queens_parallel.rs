@@ -23,12 +23,24 @@
 
 // Explanation: There exist two distinct solutions to the 4-queens puzzle as shown above.
 
+/*
+  use std::thread;
+
+Note:
+  Using threads without a threadpool breaks down at n = 10 or 724 board solutions
+' panicked at 'failed to spawn thread: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }', /home/brpandey/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/libstd/thread/mod.rs:619:5
+
+:5::55thread '<unnamed>' panicked at 'called `Result::unwrap()` on an `Err` value: Any', src/p0051_n_queens_parallel.rs:595
+ */
+
+use std::sync::{Arc, Mutex};
 use std::time::{Instant};
 
 pub struct Solution {}
 
 
 impl Solution {
+
 
     pub fn safe(board: &Vec<Vec<u8>>, size: usize, row: usize, column: usize) -> bool {
         // Note: We don't need to be concerned with checking rows below us (greater than the current row)
@@ -60,30 +72,55 @@ impl Solution {
         return true;
     }
 
+
     // Attempt to solve problem by placing queen in topmost row advancing
     // to the right along all the squares until a spot is found, then
     // recurse for the next row to put the next queen
-    pub fn solve(solutions: &mut Vec<Vec<String>>, board: &mut Vec<Vec<u8>>, size: u32, row: u32) {
+    pub fn solve(solutions_lock: Arc<Mutex<Vec<Vec<String>>>>, board: &mut Vec<Vec<u8>>, size: u32) {
+
+        // Attempt to successfully put Queen on every square in current row
+        // When valid spot found, attempt to recurse to place remaining queens
+        for col in 0..size {
+            // One top-level thread for each spot on the row (for each column)
+            // Hence if NxN board we have N threads each doing their own recursive due diligence
+            // for a queen on the column spot
+            let slock = Arc::clone(&solutions_lock);
+            let b = &mut board.to_vec();
+
+            rayon::scope(move |_| {
+                // For each thread place queens on each column
+                b[0][col as usize] = 'Q' as u8;
+                Solution::solve_helper(&slock, b, size, 1);
+            });
+        }
+    }
+
+
+    // Attempt to solve problem by placing queen in topmost row advancing
+    // to the right along all the squares until a spot is found, then
+    // recurse for the next row to put the next queen
+    pub fn solve_helper(solutions_lock: &Arc<Mutex<Vec<Vec<String>>>>, board: &mut Vec<Vec<u8>>, size: u32, row: u32) {
 
         // If we have placed all queens successfully on all rows 0..row,
         // the if row == size e.g. 4 means we have successfully finished placing 4 queens
         if row == size {
-            // to_vec does x.iter().cloned().collect::Vector<>()
-            // Either slice::to_vec or to_owned() method from the ToOwned trait can be used to create Vec<T> from &[T].
             let answer: Vec<String> = board.iter().map(|x| {String::from_utf8(x.to_vec()).unwrap()}).collect();
-            solutions.push(answer);
+            {
+                let mut unlocked = solutions_lock.lock().unwrap();
+                unlocked.push(answer);
+            }
+
         };
 
         // Attempt to successfully put Queen on every square in current row
         // When valid spot found, attempt to recurse to place remaining queens
         for col in 0..size {
-            if Solution::safe(board, size as usize, row as usize, col as usize) {
+
+            if Solution::safe(&board, size as usize, row as usize, col as usize) {
                 // Set queen on current square since there are no threats
                 board[row as usize][col as usize] = 'Q' as u8;
-
                 // Attempt to place the remaining queens successfully through recursive calls
-                Solution::solve(solutions, board, size, row + 1);
-
+                Solution::solve_helper(&solutions_lock, board, size, row + 1);
                 // Backtrack and undo the placement of the queen to
                 // generate other solution combinations
                 board[row as usize][col as usize] = '.' as u8;
@@ -91,10 +128,28 @@ impl Solution {
         }
     }
 
+
     pub fn run(size: u32) -> Vec<Vec<String>>{
+
         let mut solutions: Vec<Vec<String>> = Vec::with_capacity(size as usize);
         let mut board = vec![vec!['.' as u8; size as usize]; size as usize];
-        Solution::solve(&mut solutions, &mut board, size, 0);  // Start with row 0
+
+        // Create shared lock
+        let solutions_lock: Arc<Mutex<Vec<Vec<String>>>> = Arc::new(Mutex::new(solutions));
+
+        let thread_count = size as usize;
+        let thread_pool = rayon::ThreadPoolBuilder::new().num_threads(thread_count).build().unwrap();
+        let sl = Arc::clone(&solutions_lock);
+
+        // Ensure that the threadpool has access to the context with which we want to run threads within
+        thread_pool.install(|| Solution::solve(sl, &mut board, size));
+
+        // remove solutions value out of Arc and Mutex
+        let lock = Arc::try_unwrap(solutions_lock).expect("Unable to shed Arc wrapping as Arc still has multiple owners");
+        solutions = lock.into_inner().expect("Mutex lock can not be retrieved");
+
+//        println!("Solutions are {:#?}", solutions);
+
         solutions
     }
 }
@@ -105,7 +160,7 @@ mod tests {
     use super::*;
 
     #[test]
-    pub fn test_0051_recursive() {
+    pub fn test_0051_parallel() {
         let solution = [
             [
                 ".Q..",
@@ -121,85 +176,9 @@ mod tests {
             ],
         ];
 
-
         let start = Instant::now();
         assert_eq!(Solution::run(4), solution);
         let duration = start.elapsed();
-
-        println!("N Queens Recursive: {:?}", duration);
+        println!("N Queens Parallel & Recursive: {:?}", duration);
     }
 }
-
-// 10 solution where size is a 5x5 board or 5 queens
-// Solutions = [
-//     [
-//         "Q....",
-//         "..Q..",
-//         "....Q",
-//         ".Q...",
-//         "...Q.",
-//     ],
-//     [
-//         "Q....",
-//         "...Q.",
-//         ".Q...",
-//         "....Q",
-//         "..Q..",
-//     ],
-//     [
-//         ".Q...",
-//         "...Q.",
-//         "Q....",
-//         "..Q..",
-//         "....Q",
-//     ],
-//     [
-//         ".Q...",
-//         "....Q",
-//         "..Q..",
-//         "Q....",
-//         "...Q.",
-//     ],
-//     [
-//         "..Q..",
-//         "Q....",
-//         "...Q.",
-//         ".Q...",
-//         "....Q",
-//     ],
-//     [
-//         "..Q..",
-//         "....Q",
-//         ".Q...",
-//         "...Q.",
-//         "Q....",
-//     ],
-//     [
-//         "...Q.",
-//         "Q....",
-//         "..Q..",
-//         "....Q",
-//         ".Q...",
-//     ],
-//     [
-//         "...Q.",
-//         ".Q...",
-//         "....Q",
-//         "..Q..",
-//         "Q....",
-//     ],
-//     [
-//         "....Q",
-//         ".Q...",
-//         "...Q.",
-//         "Q....",
-//         "..Q..",
-//     ],
-//     [
-//         "....Q",
-//         "..Q..",
-//         "Q....",
-//         "...Q.",
-//         ".Q...",
-//     ],
-// ]
