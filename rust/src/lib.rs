@@ -1,3 +1,5 @@
+#[macro_use] extern crate maplit;
+
 pub mod p0001_two_sum;
 pub mod p0002_add_two_numbers;
 pub mod p0003_longest_substr_no_repeat;
@@ -30,4 +32,5 @@ pub mod p0121_best_time_to_buy_sell;
 pub mod p0187_repeated_dna_sequence;
 pub mod p0225_stack_using_queues;
 pub mod p0232_queue_using_stacks;
+pub mod p0322_coin_change;
 pub mod p0509_fibonacci_number;
