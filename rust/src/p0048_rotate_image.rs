@@ -39,7 +39,7 @@
 pub struct Solution {}
 
 impl Solution {
-    pub fn run(matrix: &mut Vec<Vec<u16>>) {
+    pub fn run(matrix: &mut Vec<Vec<i16>>) {
         let size = matrix.len();
 
         if matrix[0].len() != size {
@@ -95,7 +95,7 @@ impl Solution {
                 };
 
                 // Shift values between 2d Vector locations
-                let apply_shift = |m: &mut Vec<Vec<u16>>, src: (usize, usize), dest: (usize, usize)| {
+                let apply_shift = |m: &mut Vec<Vec<i16>>, src: (usize, usize), dest: (usize, usize)| {
                     m[dest.0][dest.1] = m[src.0][src.1];
                 };
 
@@ -140,8 +140,8 @@ mod tests {
     #[test]
     pub fn test_0048() {
         // 1
-        let original: &mut Vec<Vec<u16>> = &mut vec![vec![1,2,3],vec![4,5,6],vec![7,8,9]];
-        let check: &mut Vec<Vec<u16>> = &mut vec![vec![7,4,1],vec![8,5,2],vec![9,6,3]];
+        let original: &mut Vec<Vec<i16>> = &mut vec![vec![1,2,3],vec![4,5,6],vec![7,8,9]];
+        let check: &mut Vec<Vec<i16>> = &mut vec![vec![7,4,1],vec![8,5,2],vec![9,6,3]];
         Solution::run(original);
         assert_eq!(original, check); // Original vector is modified in place
 
@@ -149,14 +149,14 @@ mod tests {
         // Input: matrix = [[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]]
         //    Output: [[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]
 
-        let original: &mut Vec<Vec<u16>> = &mut vec![vec![5,1,9,11],vec![2,4,8,10],vec![13,3,6,7],vec![15,14,12,16]];
-        let check: &mut Vec<Vec<u16>> = &mut vec![vec![15,13,2,5],vec![14,3,4,1],vec![12,6,8,9],vec![16,7,10,11]];
+        let original: &mut Vec<Vec<i16>> = &mut vec![vec![5,1,9,11],vec![2,4,8,10],vec![13,3,6,7],vec![15,14,12,16]];
+        let check: &mut Vec<Vec<i16>> = &mut vec![vec![15,13,2,5],vec![14,3,4,1],vec![12,6,8,9],vec![16,7,10,11]];
         Solution::run(original);
         assert_eq!(original, check); // Original vector is modified in place
 
         // 3
-        let original: &mut Vec<Vec<u16>> = &mut vec![vec![1]];
-        let check: &mut Vec<Vec<u16>> = &mut vec![vec![1]];
+        let original: &mut Vec<Vec<i16>> = &mut vec![vec![1]];
+        let check: &mut Vec<Vec<i16>> = &mut vec![vec![1]];
         Solution::run(original);
         assert_eq!(original, check); // Original vector is modified in place
 
@@ -164,8 +164,8 @@ mod tests {
         // Input: matrix = [[1,2],[3,4]]
         //     Output: [[3,1],[4,2]]
 
-        let original: &mut Vec<Vec<u16>> = &mut vec![vec![1,2],vec![3,4]];
-        let check: &mut Vec<Vec<u16>> = &mut vec![vec![3,1],vec![4,2]];
+        let original: &mut Vec<Vec<i16>> = &mut vec![vec![1,2],vec![3,4]];
+        let check: &mut Vec<Vec<i16>> = &mut vec![vec![3,1],vec![4,2]];
         Solution::run(original);
         assert_eq!(original, check); // Original vector is modified in place
     }
