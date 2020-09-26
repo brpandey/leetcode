@@ -67,7 +67,7 @@ impl Solution {
         transitions into that place for that first "cycle" so to speak
          */
 
-        // Col is dependent on Row so we have separate for loops
+        // Note: column is dependent on row so we have separate for loops
         for r in 0..size/2 { // Essentially how many squares (nested concentric squares including outer square)
             for c in r..(size-1-r) { // Start 1 col in extra on every depth essentially shaving off two from the sides each depth
 
@@ -105,7 +105,8 @@ impl Solution {
 
                 // Cycle 2: 2 -> 6 -> 8 -> 4 -> 2
                 // Assume 0 is the location of 1 or (r,c)
-                let cycle = (1..4).scan((r,c), |state, _x| {
+
+                let cycle = (1..4).scan(hole, |state, _x| {
                     *state = shift(*state);
                     Some(*state)
                 }).collect::<Vec<_>>(); // We collect it so that we have a finite collection one that we can reverse
@@ -121,6 +122,7 @@ impl Solution {
                 // 1st iteration: 1 is a hole, it now has 7's contents,
                 // 2nd: 7 is now a hole, it now has 9's contents,
                 // 3rd: 9 is now a hole, it now has 3's contents
+
                 for &source in cycle.iter().rev() {
                     apply_shift(matrix, source, hole);
                     hole = source;
