@@ -28,6 +28,7 @@ pub mod p0048_rotate_image;
 pub mod p0051_n_queens;
 pub mod p0051_n_queens_parallel;
 pub mod p0053_max_subarray;
+pub mod p0108_convert_sorted_array_to_bst;
 pub mod p0118_pascals_triangle;
 pub mod p0121_best_time_to_buy_sell;
 pub mod p0187_repeated_dna_sequence;
