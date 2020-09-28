@@ -36,4 +36,5 @@ pub mod p0200_number_of_islands;
 pub mod p0225_stack_using_queues;
 pub mod p0232_queue_using_stacks;
 pub mod p0322_coin_change;
+pub mod p0450_delete_node_in_bst;
 pub mod p0509_fibonacci_number;
