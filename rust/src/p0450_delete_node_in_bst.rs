@@ -141,7 +141,6 @@ mod tests {
         let new_root = Solution::delete_node(root, 3);
 
         let mut check = vec![];
-        // Verify Solution root via inorder traversal is the same as the input!
         util::inorder(new_root, &mut check);
         assert_eq!(vec![2,4,5,6,7], check);
 
@@ -152,7 +151,6 @@ mod tests {
         let new_root = Solution::delete_node(root, 0);
 
         let mut check = vec![];
-        // Verify Solution root via inorder traversal is the same as the input!
         util::inorder(new_root, &mut check);
         assert_eq!(vec![2,3,4,5,6,7], check);
 

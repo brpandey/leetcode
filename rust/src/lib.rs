@@ -25,6 +25,7 @@ pub mod p0024_swap_nodes_in_pairs;
 pub mod p0026_remove_duplicates;
 pub mod p0028_strstr;
 pub mod p0048_rotate_image;
+pub mod p0049_group_anagrams;
 pub mod p0051_n_queens;
 pub mod p0051_n_queens_parallel;
 pub mod p0053_max_subarray;
