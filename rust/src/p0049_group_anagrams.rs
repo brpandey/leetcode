@@ -38,19 +38,20 @@ use std::collections::HashMap;
 
 pub struct Solution {}
 
-impl Solution {
-    pub fn run(anagrams: &Vec<String>) -> Vec<Vec<String>> {
+impl<'a> Solution {
+    pub fn run(anagrams: &Vec<&'a str>) -> Vec<Vec<&'a str>> {
         let sum: u16 = 0;
-        let mut table: HashMap<u16, Vec<String>> = HashMap::new();
+        let mut table: HashMap<u16, Vec<&str>> = HashMap::new();
 
         // Generate ids for each sequence based on their ascii values, use that as hash table key
         for a in anagrams {
             let key = a.as_bytes().iter().fold(sum, |s, &u| s + u as u16);
-            table.entry(key).or_insert_with(|| vec![]).push(a.to_owned())
+            table.entry(key).or_insert_with(|| vec![]).push(a);
         }
 
-        let mut result: Vec<Vec<String>> = table.values().cloned().collect();
+        let mut result: Vec<Vec<&str>> = table.values().cloned().collect();
         result.sort(); // So we can assert in tests
+
         result
     }
 }
@@ -62,14 +63,11 @@ mod tests {
 
     #[test]
     fn test_0049() {
+        let input: Vec<&str> = vec!["eat","tea","tan","ate","nat","bat"];
+        let output: Vec<Vec<&str>> = vec![vec!["bat"], vec!["eat", "tea", "ate"], vec!["tan", "nat"]];
 
-        let input: Vec<String> = vec!["eat","tea","tan","ate","nat","bat"].into_iter().map(|s| s.to_owned()).collect();
-        let output: Vec<Vec<String>> = vec![vec!["bat".to_owned()], vec!["eat", "tea", "ate"].into_iter().map(|s| s.to_owned()).collect(), vec!["tan".to_owned(), "nat".to_owned()]];
         assert_eq!(Solution::run(&input), output);
-
-        let input: Vec<String> = vec!["a".to_owned()];
-        assert_eq!(Solution::run(&input), vec![vec!["a".to_owned()]]);
-
-        assert_eq!(Solution::run(&vec!["".to_owned()]), vec![vec!["".to_owned()]]);
+        assert_eq!(Solution::run(&vec!["a"]), vec![vec!["a"]]);
+        assert_eq!(Solution::run(&vec![""]), vec![vec![""]]);
     }
 }
