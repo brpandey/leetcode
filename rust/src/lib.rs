@@ -35,6 +35,7 @@ pub mod p0121_best_time_to_buy_sell;
 pub mod p0187_repeated_dna_sequence;
 pub mod p0200_number_of_islands;
 pub mod p0207_course_schedule;
+pub mod p0210_course_schedule_ii;
 pub mod p0225_stack_using_queues;
 pub mod p0232_queue_using_stacks;
 pub mod p0252_meeting_rooms_i;
