@@ -28,7 +28,7 @@
 //     Note: 0 ≤ N ≤ 30.
 
 use std::sync::{Arc, Mutex};
-use std::time::{Duration, Instant};
+
 
 pub struct Solution {}
 
@@ -142,6 +142,7 @@ impl Solution {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::time::{Instant};
 
     #[test]
     pub fn test_0509() {

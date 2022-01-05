@@ -23,7 +23,7 @@
 
 // Explanation: There exist two distinct solutions to the 4-queens puzzle as shown above.
 
-use std::time::{Instant};
+
 
 pub struct Solution {}
 
@@ -103,7 +103,8 @@ impl Solution {
 #[cfg(test)]
 mod tests {
     use super::*;
-
+    use std::time::{Instant};
+    
     #[test]
     pub fn test_0051_recursive() {
         let solution = [

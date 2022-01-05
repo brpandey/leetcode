@@ -23,7 +23,7 @@
 //     Depending on your language, stack may not be supported natively. You may simulate a stack by using a list or deque (double-ended queue), as long as you use only standard operations of a stack.
 //     You may assume that all operations are valid (for example, no pop or peek operations will be called on an empty queue).
 
-struct MyQueue {
+pub struct MyQueue {
     // use Vecs as stacks, as it supports push and pop to/of the last element
     inbox: Vec<i32>,
     outbox: Vec<i32>,
@@ -36,7 +36,7 @@ struct MyQueue {
  */
 impl MyQueue {
     /** Initialize your data structure here. */
-    fn new() -> Self {
+    pub fn new() -> Self {
         return MyQueue {
             inbox: Vec::new(),
             outbox: Vec::new(),
@@ -44,12 +44,12 @@ impl MyQueue {
     }
 
     /** Push element x to the back of queue. */
-    fn push(&mut self, x: i32) {
+    pub fn push(&mut self, x: i32) {
         self.inbox.push(x);
     }
 
     /** Removes the element from in front of queue and returns that element. */
-    fn pop(&mut self) -> i32 {
+    pub fn pop(&mut self) -> i32 {
         if self.outbox.is_empty() {
             // grab everything from inbox
             while let Some(y) = self.inbox.pop() {
@@ -63,7 +63,7 @@ impl MyQueue {
     }
 
     /** get the front element. */
-    fn peek(&self) -> i32 {
+    pub fn peek(&self) -> i32 {
         if !MyQueue::empty(self) {
             if self.outbox.is_empty() {
                 return self.inbox[0];
@@ -76,7 +76,7 @@ impl MyQueue {
     }
 
     /** Returns whether the queue is empty. */
-    fn empty(&self) -> bool {
+    pub fn empty(&self) -> bool {
         self.outbox.is_empty() && self.inbox.is_empty()
     }
 }

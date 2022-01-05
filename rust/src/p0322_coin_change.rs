@@ -95,6 +95,7 @@ impl Solution {
 #[cfg(test)]
 pub mod tests {
     use super::*;
+    use maplit::hashset;
 
     #[test]
     fn test_0322() {

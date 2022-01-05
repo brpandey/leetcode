@@ -39,7 +39,7 @@ impl Solution {
         // base 4 has only 4 values
         let base: i32 = map.len() as i32;
         let mut initial_hash = 0;
-        let mut code = 0;
+        let mut code;
 
         // E.g if base = 10 and m = 4, h => 1000
         // In essence this is the multiplier to remove the leading digit
@@ -103,8 +103,6 @@ impl Solution {
             if false == unique.insert(key) {
                 results.push(String::from_utf8(window.to_vec()).unwrap()); // Convert &[u8] to Vec<u8> then to String
             }
-
-            let mut diff: i32;
 
             // Keep going
             if i + m < n {

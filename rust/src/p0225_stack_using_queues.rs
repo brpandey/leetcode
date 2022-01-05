@@ -21,7 +21,7 @@
 use std::mem;
 use std::collections::VecDeque;
 
-struct MyStack {
+pub struct MyStack {
     // use VecDeques as queues
     first: VecDeque<i32>,
     second: VecDeque<i32>,
@@ -34,7 +34,7 @@ struct MyStack {
  */
 impl MyStack {
     /** Initialize your data structure here. */
-    fn new() -> Self {
+    pub fn new() -> Self {
         return MyStack {
             first: VecDeque::new(),
             second: VecDeque::new(),
@@ -42,12 +42,12 @@ impl MyStack {
     }
 
     /** Push element x onto the stack. */
-    fn push(&mut self, x: i32) {
+    pub fn push(&mut self, x: i32) {
         self.first.push_back(x);
     }
 
     /** Removes the element on top of the stack and returns that element **/
-    fn pop(&mut self) -> i32 {
+    pub fn pop(&mut self) -> i32 {
         // Move everything except the last element in first to second
         // E.g. start position: first [1, 2, 3] and second []
         // first is now => [3], second is [1, 2]
@@ -69,7 +69,7 @@ impl MyStack {
     }
 
     /** Get the top element. **/
-    fn top(&self) -> i32 {
+    pub fn top(&self) -> i32 {
         if !MyStack::empty(self) {
             self.first[self.first.len() - 1]
         } else {
@@ -78,7 +78,7 @@ impl MyStack {
     }
 
     /** Returns whether the stack is empty. */
-    fn empty(&self) -> bool {
+    pub fn empty(&self) -> bool {
         self.first.is_empty() && self.second.is_empty()
     }
 }
@@ -86,7 +86,6 @@ impl MyStack {
 #[cfg(test)]
 mod tests {
     use super::*;
-
 
     // stack.push(1);
     // stack.push(2);  

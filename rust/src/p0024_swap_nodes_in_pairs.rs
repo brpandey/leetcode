@@ -1,5 +1,5 @@
-#[path = "./p0021_merge_two_sorted_lists.rs"] pub mod lists;
-use lists::Solution as util;
+
+
 
 
 /*
@@ -55,8 +55,10 @@ impl Solution {
                 // we get move errors since we can't leave source uninitialized, have to replace it with None
 
                 // for the first iteration first is a and second is b
+                // only first needs to be mut, second doesn't as we are not borrowing
+                // it as mut later on
                 let mut first: NodeLink<u32> = current.as_mut().unwrap().next.take();
-                let mut second: NodeLink<u32> = first.as_mut().unwrap().next.take();
+                let second: NodeLink<u32> = first.as_mut().unwrap().next.take();
 
                 // current is x
                 // since we took x.next it is None but is now b
@@ -81,11 +83,12 @@ impl Solution {
     }
 }
 
-
+#[path = "./p0021_merge_two_sorted_lists.rs"] pub mod lists;
 #[cfg(test)]
 mod tests {
     use super::*;
-
+    use lists::Solution as util;
+    
     #[test]
     fn test_0024(){
         assert_eq!(util::to_list(&[2, 1, 4, 3]), Solution::run(util::to_list(&[1,2,3,4])));

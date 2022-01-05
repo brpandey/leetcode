@@ -46,8 +46,6 @@ Constraints:
  */
 
 #[path = "./p0108_convert_sorted_array_to_bst.rs"] pub mod bst;
-use bst::Solution as util;
-
 type TreeNode = bst::TreeNode;
 
 pub struct Solution {}
@@ -131,6 +129,7 @@ impl Solution {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use bst::Solution as util;
 
     #[test]
     pub fn test_0450() {

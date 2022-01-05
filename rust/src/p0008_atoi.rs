@@ -68,8 +68,8 @@ impl Solution {
 
         // Consume any optional sign info
         match iter.peek() {
-            Some('-') => {sign = -1;iter.next();()},
-            Some('+') => {iter.next(); ()}
+            Some('-') => {sign = -1;iter.next();},
+            Some('+') => {iter.next();}
             _ => (),
         }
 

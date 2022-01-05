@@ -34,7 +34,7 @@ Note:
  */
 
 use std::sync::{Arc, Mutex};
-use std::time::{Instant};
+
 
 pub struct Solution {}
 
@@ -158,7 +158,8 @@ impl Solution {
 #[cfg(test)]
 mod tests {
     use super::*;
-
+    use std::time::{Instant};
+   
     #[test]
     pub fn test_0051_parallel() {
         let solution = [
