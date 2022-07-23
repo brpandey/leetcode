@@ -47,7 +47,8 @@ impl Solution {
                 // the local_maximum at index i is the maximum of nums[i] or x
                 // and the sum of nums[i] or x and local_maximum at index i-1.
                 local_max = cmp::max(x, x + local_max);
-                if local_max > global_max { global_max = local_max};
+                global_max = cmp::max(local_max, global_max);
+
                 (global_max, local_max)
             });
         // Since we've folded the entire array this now the global maximum
