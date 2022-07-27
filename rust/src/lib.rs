@@ -42,6 +42,8 @@ pub mod p0225_stack_using_queues;
 pub mod p0232_queue_using_stacks;
 pub mod p0252_meeting_rooms_i;
 pub mod p0253_meeting_rooms_ii;
+pub mod p0289_game_of_life;
+pub mod p0300_longest_increasing_subsequence;
 pub mod p0322_coin_change;
 pub mod p0450_delete_node_in_bst;
 pub mod p0509_fibonacci_number;

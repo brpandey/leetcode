@@ -10,7 +10,7 @@ pub mod tests {
     use super::*;
     
     #[test]
-    fn test_XXXX() {
+    pub fn test_XXXX() {
 
     }
 }
