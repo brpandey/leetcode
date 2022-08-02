@@ -2,7 +2,7 @@ use std::cell::RefCell;
 use std::rc::Rc;
 
 type NodeRef<T> = Rc<RefCell<ListNode<T>>>;
-type NodeLink<T> = Option<Rc<RefCell<ListNode<T>>>>;
+type NodeLink<T> = Option<NodeRef<T>>;
 
 #[derive(PartialEq, Eq, Debug)]
 pub struct ListNode<T> {
@@ -12,25 +12,29 @@ pub struct ListNode<T> {
 
 impl<T> ListNode<T> {
     pub fn new(data: T) -> NodeRef<T> {
-        Rc::new(RefCell::new(ListNode {
-            next: None,
-            data
-        }))
+        Rc::new(
+            RefCell::new(
+                ListNode {
+                    next: None,
+                    data
+                }
+            )
+        )
     }
 }
 
 pub struct Solution {}
 
 impl Solution {
-    pub fn run(head: &NodeLink<u32>, n: u32) -> NodeLink<u32> {
+    pub fn run(head: &Option<NodeRef<u32>>, n: u32) -> Option<NodeRef<u32>> {
 
         let dummy: NodeRef<u32> = ListNode::new(0);
         dummy.borrow_mut().next = Some(Rc::clone(head.as_ref().unwrap()));
         let marker = Some(dummy);
 
-        let mut first: NodeLink<u32> = Some(Rc::clone(head.as_ref().unwrap()));
-        let mut second: NodeLink<u32>= Some(Rc::clone(head.as_ref().unwrap()));
-        let mut temp: NodeLink<u32>;
+        let mut first: Option<NodeRef<u32>> = Some(Rc::clone(head.as_ref().unwrap()));
+        let mut second: Option<NodeRef<u32>>= Some(Rc::clone(head.as_ref().unwrap()));
+        let mut temp: Option<NodeRef<u32>>;
 
         // Advance first so that first and second are n nodes apart
 
@@ -58,26 +62,17 @@ impl Solution {
         Solution::next(&marker)
     }
 
-    pub fn next(current: &NodeLink<u32>) -> NodeLink<u32>{
-        let next: NodeLink<u32>;
-
-        next = match current {
-            Some(temp) => {
-                match &(temp.borrow().next) {
-                    Some(next_node) => {
-                        Some(Rc::clone(next_node))
-                    },
-                    _ => None
-                }
-            },
-            _ => None
-        };
-
-        next
+    // type NodeRef<T> = Rc<RefCell<ListNode<T>>>;
+    pub fn next(current: &Option<NodeRef<u32>>) -> Option<NodeRef<u32>>{
+        if let Some(temp) = current {
+            (temp.borrow().next).as_ref().map(|next| Rc::clone(next))
+        } else {
+            None
+        }
     }
 
-    pub fn to_list(a: &[u32]) -> NodeLink<u32> {
-        let mut head: NodeLink<u32> = None;
+    pub fn to_list(a: &[u32]) -> Option<NodeRef<u32>> {
+        let mut head: Option<NodeRef<u32>> = None;
         let mut n: NodeRef<u32>;
 
         // Reverse the array list so 4 then points to 5 etc..
