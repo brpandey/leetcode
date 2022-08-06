@@ -36,48 +36,47 @@ pub struct Solution {}
 
 /*
 
-_  _  = represents houses that aren't adjacent that we can rob
+_  _  = represents houses that aren't adjacent that we can rob,
+
+the first _ represents that max rob value at that index (a), the second _ represents the money value
+the X represents the max at that indice or b
+
+ a b --> a  b  m         where m = money
+ 0,0,[1, 2, 3, 1]
+      1  2  4  4
+
+ _ X  _         = (0+1) = 1 > 0
+   _  X  _       = (0+2) = 2 > 1
+      _  X  _     = 4 > 2
+         _  X  _   = (2+1) = 3 < 4
 
 
- 0,0,[1,2,3,1]
- _    _         = new_a (0+1) = 1
-   _    _       = new_a (0+2) = 2
-      _   _     = new_a (1+3) = 4
-        _   _   = new_a (2+1) = 3
+a b -->    a  b  m
+0,0,[2, 7, 9, 3, 1]
+     2  7 11 11 12 // b values
 
-new_a reflects the longest non_adjacent_sequence sum thus far
-new_b reflects the total running max
+_ X  _         = (0+2) = 2 > 0
+  _  X  _       = (0+7) = 7 > 2
+     _  X  _     = (2+9) = 11 > 7
+        _  X  _   = (7+3) = 10 < 11
+           _  X  _ = (11+1) = 12 > 11
 
-
-
-0,0,[2,7,9,3,1]
-
-_    _         = new_a (0+2) = 2
-  _    _       = new_a (0+7) = 7
-     _   _     = new_a (2+9) = 11
-       _   _   = new_a (7+3) = 10
-         _   _ = new_a (11+1) = 12
-
-new_a reflects the longest non_adjacent_sequence sum thus far
-new_b reflects the total running max
 
  */
 
 
 
-
-
 impl Solution {
     pub fn rob(nums: Vec<i32>) -> i32 {
-        let result = nums.iter().fold((0,0), |(a,b), money| {
-            let new_a = b + *money; // new non-adjacent max sequence sum
-            let new_b = cmp::max(a,b); // new max from: last non-adjacent max sequence sum and last max
-//            println!("new_a (b+money) {}, new_b (max(a,b)) {}, money {}, a {}, b {}", &new_a, &new_b, money, a, b);
+        let result = nums.iter().fold((0,0), |(mut a, mut b), money| {
+            let temp = cmp::max(a + *money, b);
+            a = b; // advance a to b
+            b = temp; // b takes value for current house we are evaluating
 
-            (new_a, new_b)
+            (a, b)
         });
 
-        cmp::max(result.0, result.1)
+        result.1
     }
 }
 
@@ -110,7 +109,6 @@ impl Solution2 {
                     dp[i] = cmp::max(nums[i] + dp[i - 2], dp[i - 1]);
                 }
 
-                dbg!(&dp);
 
                 return dp[len-1]
             }
@@ -133,51 +131,6 @@ pub mod tests {
 
     }
 
-
-    /*
-    Test Case 1
-
-    _  _  = represents houses that aren't adjacent that we can rob
-
-
-        0,0,[1,2,3,1]
-        _    _         = new_a (0+1) = 1
-          _    _       = new_a (0+2) = 2
-             _   _     = new_a (1+3) = 4
-                _   _   = new_a (2+1) = 3
-
-        new_b reflects the running max
-
-
-    new_a (b+money) 1, new_b (max(a,b)) 0, money 1, a 0, b 0
-    new_a (b+money) 2, new_b (max(a,b)) 1, money 2, a 1, b 0
-    new_a (b+money) 4, new_b (max(a,b)) 2, money 3, a 2, b 1
-    new_a (b+money) 3, new_b (max(a,b)) 4, money 1, a 4, b 2
-    */
-
-
-    /*
-    Test Case 2
-    0,0,[2,7,9,3,1]
-
-    _    _         = new_a (0+2) = 2
-      _    _       = new_a (0+7) = 7
-         _   _     = new_a (2+9) = 11
-           _   _   = new_a (7+3) = 10
-             _   _ = new_a (11+1) = 12
-
-        new_b reflects the running max
-
-
-*/
-
-    /* test case 2
-    new_a (b+money) 2, new_b (max(a,b)) 0, money 2, a 0, b 0
-    new_a (b+money) 7, new_b (max(a,b)) 2, money 7, a 2, b 0
-    new_a (b+money) 11, new_b (max(a,b)) 7, money 9, a 7, b 2
-    new_a (b+money) 10, new_b (max(a,b)) 11, money 3, a 11, b 7
-    new_a (b+money) 12, new_b (max(a,b)) 11, money 1, a 10, b 11
-     */
 
     /*
     Solution2
