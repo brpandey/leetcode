@@ -50,11 +50,12 @@ You can assume that no duplicate edges will appear in edges. Since all edges are
   Lastly, store parent data in HashSet to eliminate duplicates and take size
 */
 
-use std::collections::HashSet;
+use std::collections::{HashSet, HashMap};
 
-pub struct Solution {}
+pub struct Solution1 {}
 
-impl Solution {
+// Union Find approach
+impl Solution1 {
     pub fn count_components(n: i32, edges: Vec<Vec<i32>>) -> i32 {
         // create a vector with each node value signifying they're a parent to themself
         // essentially each item item is its own subset
@@ -64,12 +65,12 @@ impl Solution {
         // essentially merge subsets together
         for e in edges.iter() {
             if e.len() == 2 {
-                Solution::union(e[0], e[1], &mut parents) // incorporate edge info
+                Solution1::union(e[0], e[1], &mut parents) // incorporate edge info
             }
         }
 
         for p in 0..n {
-              Solution::find(p, &mut parents);
+              Solution1::find(p, &mut parents);
         }
 
         // return the count of unique parents - or connected components
@@ -81,8 +82,8 @@ impl Solution {
     pub fn union(node1: i32, node2: i32, parents: &mut Vec<i32>) {
         // Merge subsets
         // Refer to Second explanation above of [0,1], so 1 is made parent of 0
-        let p1 = Solution::find(node1, parents);
-        let p2 = Solution::find(node2, parents);
+        let p1 = Solution1::find(node1, parents);
+        let p2 = Solution1::find(node2, parents);
         parents[p1 as usize] = p2;
     }
 
@@ -93,10 +94,61 @@ impl Solution {
         // this is a form of path compression as when done 0 now points to 2 as its parent
         // instead of an intermediate 1, and then 1's parent as 2
         if node != parents[node as usize] { // not subset parent yet so keep going
-            parents[node as usize] = Solution::find(parents[node as usize], parents);
+            parents[node as usize] = Solution1::find(parents[node as usize], parents);
         }
 
         parents[node as usize]
+    }
+}
+
+// Using traditional dfs
+pub struct Solution2 {}
+
+impl Solution2 {
+    // reorganize list of edge pairs into map of node to its edges (adjacency list)
+    pub fn setup(edges: Vec<Vec<i32>>) -> HashMap<i32, Vec<i32>>{
+        let mut map = HashMap::new();
+
+        for e in edges.iter() {
+            if e.len() == 2 {
+                map.entry(e[0]).or_insert_with(|| vec![]).push(e[1]);
+                map.entry(e[1]).or_insert_with(|| vec![]).push(e[0]);
+            }
+        }
+
+        dbg!(&map);
+
+        map
+    }
+
+    pub fn count_components(n: i32, edges: Vec<Vec<i32>>) -> i32 {
+        let map = Solution2::setup(edges);
+        let mut visited: Vec<bool> = vec![false; n as usize];
+        let mut count: i32 = 0;
+
+        // Loop through the number of unique nodes, for each node not visited yet,
+        // do a dfs to mark all the reachable nodes from this current node as visited
+        for i in 0..n as usize{
+            if !visited[i] {
+                count += 1;
+                Solution2::dfs(i as i32, &map, &mut visited);
+            }
+        }
+
+        count
+    }
+
+    pub fn dfs(node: i32, map: &HashMap<i32, Vec<i32>>, visited: &mut Vec<bool>) {
+        if let Some(peers) = map.get(&node) {
+            visited[node as usize] = true;
+
+            // do recursive dfs on peer node if it hasn't been visited
+            for peer_node in peers.iter() {
+                if false == visited[*peer_node as usize] {
+                    Solution2::dfs(*peer_node, map, visited)
+                }
+            }
+        }
     }
 }
 
@@ -107,8 +159,12 @@ pub mod tests {
 
     #[test]
     pub fn test_0323() {
-        assert_eq!(2, Solution::count_components(5, vec![vec![0,1], vec![1,2], vec![3,4]]));
-        assert_eq!(1, Solution::count_components(5, vec![vec![0, 1], vec![1, 2], vec![2, 3], vec![3, 4]]));
+        assert_eq!(2, Solution1::count_components(5, vec![vec![0,1], vec![1,2], vec![3,4]]));
+        assert_eq!(1, Solution1::count_components(5, vec![vec![0, 1], vec![1, 2], vec![2, 3], vec![3, 4]]));
+
+        assert_eq!(2, Solution2::count_components(5, vec![vec![0,1], vec![1,2], vec![3,4]]));
+        assert_eq!(1, Solution2::count_components(5, vec![vec![0, 1], vec![1, 2], vec![2, 3], vec![3, 4]]));
+
     }
 }
 
