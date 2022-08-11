@@ -58,6 +58,7 @@ pub mod p0289_game_of_life;
 pub mod p0300_longest_increasing_subsequence;
 pub mod p0322_coin_change;
 pub mod p0323_number_of_connected_components_in_undirected_graph;
+pub mod p0377_comb_sum_iv;
 pub mod p0417_pacific_atlantic_water_flow;
 pub mod p0424_longest_repeating_char_replacement;
 pub mod p0450_delete_node_in_bst;
