@@ -50,6 +50,7 @@ pub mod p0213_house_robber_ii;
 pub mod p0217_contains_duplicate;
 pub mod p0225_stack_using_queues;
 pub mod p0226_invert_binary_tree;
+pub mod p0230_kth_smallest_element_in_bst;
 pub mod p0232_queue_using_stacks;
 pub mod p0252_meeting_rooms_i;
 pub mod p0253_meeting_rooms_ii;
