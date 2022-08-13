@@ -66,3 +66,4 @@ pub mod p0424_longest_repeating_char_replacement;
 pub mod p0450_delete_node_in_bst;
 pub mod p0509_fibonacci_number;
 pub mod p0704_binary_search;
+pub mod p1143_longest_common_subsequence;
