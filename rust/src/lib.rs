@@ -38,6 +38,7 @@ pub mod p0100_same_tree;
 pub mod p0108_convert_sorted_array_to_bst;
 pub mod p0118_pascals_triangle;
 pub mod p0121_best_time_to_buy_sell;
+pub mod p0125_valid_palindrome;
 pub mod p0128_longest_consecutive_sequence;
 pub mod p0133_clone_graph;
 pub mod p0139_word_break;
