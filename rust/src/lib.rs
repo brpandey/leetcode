@@ -30,6 +30,7 @@ pub mod p0051_n_queens;
 pub mod p0053_max_subarray;
 pub mod p0055_jump_game;
 pub mod p0062_unique_paths;
+pub mod p0070_climbing_stairs;
 pub mod p0076_minimum_window_substring;
 pub mod p0078_subsets;
 pub mod p0091_decode_ways;
