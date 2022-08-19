@@ -151,25 +151,24 @@ impl Solution {
         // Note cycles on their own e.g. z -> x -> z will never have indegrees 0 because z will always be 1, and x will always be 1
         // Seed the ready to process queue
         let mut queue = indegrees.iter().fold(VecDeque::new(), |mut acc, (k,v)| {
-            if v == &0 {acc.push_back(*k)};
+            if v == &0 { acc.push_back(*k) };
             acc
         });
 
         // Process the queue bfs style
-        let mut node: char;
+        let mut current: char;
         while !queue.is_empty() {
-            node = queue.pop_front().unwrap();
+            current = queue.pop_front().unwrap();
 
             // add char to resultant String
-            result.push(node);
+            result.push(current);
 
-            if let Some(directed_peers) = graph.get(&node) {
+            if let Some(directed_peers) = graph.get(&current) {
                 for p in directed_peers {
-                    // add first if count is 1 since we'll decrement it later
-                    // a node's indegree never increases so the node won't be processed again
-                    if let Some(&1) = indegrees.get(&p) { queue.push_back(*p) }
                     // reduce indegree for peer since the node that is pointing to it has been processed
-                    indegrees.entry(*p).and_modify(|e| if *e > 0 {*e -= 1});
+                    indegrees.entry(*p).and_modify(|e| *e -= 1);
+                    // add to bfs queue if no incoming edges
+                    if let Some(&0) = indegrees.get(&p) { queue.push_back(*p) }
                 }
             }
         }
