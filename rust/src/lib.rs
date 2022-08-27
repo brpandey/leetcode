@@ -29,6 +29,7 @@ pub mod p0048_rotate_image;
 pub mod p0049_group_anagrams;
 pub mod p0051_n_queens;
 pub mod p0053_max_subarray;
+pub mod p0054_spiral_matrix;
 pub mod p0055_jump_game;
 pub mod p0056_merge_intervals;
 pub mod p0057_insert_interval;
