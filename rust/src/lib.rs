@@ -53,6 +53,7 @@ pub mod p0128_longest_consecutive_sequence;
 pub mod p0133_clone_graph;
 pub mod p0139_word_break;
 pub mod p0141_linked_list_cycle;
+pub mod p0143_reorder_list;
 pub mod p0152_maximum_product_subarray;
 pub mod p0167_two_sum_ii;
 pub mod p0187_repeated_dna_sequence;

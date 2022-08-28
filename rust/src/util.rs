@@ -90,3 +90,52 @@ impl TreeNode {
         Some(head)
     }
 }
+
+
+pub type NodeRef<T> = Rc<RefCell<ListNode<T>>>;
+
+#[derive(PartialEq, Eq, Debug)]
+pub struct ListNode<T> {
+    pub data: T,
+    pub next: Option<NodeRef<T>>
+}
+
+impl<T> ListNode<T> {
+    pub fn new(data: T) -> NodeRef<T> {
+        Rc::new(
+            RefCell::new(
+                ListNode {
+                    next: None,
+                    data
+                }
+            )
+        )
+    }
+
+    pub fn clone(node: &Option<NodeRef<T>>) -> Option<NodeRef<T>>{
+        node.as_ref().map(Rc::clone)
+    }
+
+    pub fn next(current: &Option<NodeRef<T>>) -> Option<NodeRef<T>>{
+        if current.is_none() { return None }
+        current.as_ref().unwrap().borrow().next.as_ref().map(Rc::clone)
+    }
+
+    pub fn from_list(a: &[T]) -> Option<NodeRef<T>> 
+    where T: Copy {
+        let mut head: Option<NodeRef<T>> = None;
+        let mut n: NodeRef<T>;
+
+        // Reverse the array list so 4 then points to 5 etc..
+        for v in a.iter().rev() {
+            n = ListNode::new(*v);
+            if head.is_none() {
+                n.borrow_mut().next = head;
+            } else {
+                n.borrow_mut().next = Some(Rc::clone(&head.unwrap()));
+            }
+            head = Some(n);
+        }
+        head
+    }
+}
