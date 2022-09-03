@@ -1,6 +1,6 @@
 use std::rc::Rc;
 use std::cell::RefCell;
-use std::collections::VecDeque;
+use std::collections::{HashMap, VecDeque};
 
 pub type TreeNodeRef = Rc<RefCell<TreeNode>>;
 
@@ -137,5 +137,73 @@ impl<T> ListNode<T> {
             head = Some(n);
         }
         head
+    }
+}
+
+pub struct TrieNode {
+    pub children: HashMap<char, TrieNode>,
+    pub terminal: bool,
+}
+
+impl TrieNode {
+    pub fn new() -> Self {
+        TrieNode {
+            children: HashMap::new(),
+            terminal: false,
+        }
+    }
+
+    pub fn insert(&mut self, word: String) {
+        self.add_word(word);
+    }
+
+    pub fn add_word(&mut self, word: String) {
+        let mut node = self;
+
+        for ch in word.chars() {
+            node = node.children.entry(ch).or_insert_with(|| TrieNode::new())
+        }
+
+        node.terminal = true;
+    }
+
+    pub fn search_helper(&self, index: usize, len: usize, word: &[char]) -> bool {
+        let mut current = self;
+        let mut ch;
+
+        for i in index..len {
+            ch = word.get(i).unwrap();
+
+            if let Some(tmp) = current.children.get(&ch) {
+                current = tmp;
+            } else if *ch == '.' {
+                for v in current.children.values() {
+                    if v.search_helper(i+1, len, word) { return true };
+                }
+            } else {
+                return false
+            }
+        }
+
+        if current.terminal { true } else { false } 
+    }
+
+    pub fn search(&self, word: String) -> bool {
+        let list: Vec<char> = word.chars().collect();
+        self.search_helper(0, list.len(), &list)
+    }
+
+    pub fn starts_with(&self, prefix: String) -> bool {
+        let mut current = self;
+
+        for ch in prefix.chars() {
+            if let Some(tmp) = current.children.get(&ch) {
+                 current = tmp;
+            } else {
+                 return false
+            }
+        }
+
+        true
     }
 }
