@@ -27,12 +27,56 @@ Explanation: The answer is "wke", with the length of 3.
 Note that the answer must be a substring, "pwke" is a subsequence and not a substring.
 */
 
+
+/*
+Strategy:
+Use l and r as pointers to demarcate our sliding window
+Advance r until r's character is a duplicate in the set,
+at this point increase l's index rightward until r can proceed
+
+Do all this tracking the longest sequence
+
+//r  (2)
+//l  r
+//abcabcbb // (2) Need to move l to the left by 1
+  ^
+  Start, both l and r at the beginning
+
+*/
+
+use std::collections::HashSet;
+
 pub struct Solution {}
 
 impl Solution {
+    pub fn length_of_longest_substring(s: String) -> i32 {
+        // Use sliding window approach and a set
+        let mut l = 0;
+        let mut max = 0;
+        let list: Vec<char> = s.chars().collect();
+        let mut unique: HashSet<char> = HashSet::new();
+
+        for r in 0..list.len() {
+            // shift left pointer to right by 1, ensuring uniqueness is upheld
+            while unique.contains(&list[r]) {
+                unique.remove(&list[l]);
+                l+=1;
+            }
+            unique.insert(list[r]);
+            max = std::cmp::max(max, r-l+1);
+        }
+
+        max as i32
+    }
+}
+
+
+pub struct Solution1 {}
+
+impl Solution1 {
 
     // Note: we use HashMap instead of HashSet to grab the substring order
-    pub fn longest_substr_no_repeat(val: &str) -> usize {
+    pub fn length_of_longest_substring(val: String) -> i32 {
         let mut longest_acc: HashMap<char, usize> = HashMap::new();
         let mut current_acc: HashMap<char, usize> = HashMap::new();
         let mut longest_size: usize = 0;
@@ -72,7 +116,7 @@ impl Solution {
 
 //        println!("Explanation: The answer is {:?}, with the length of {} ", longest_acc, longest_size);
 
-        longest_size
+        longest_size as i32
     }
 }
 
@@ -80,11 +124,11 @@ impl Solution {
 #[cfg(test)]
 mod tests {
     use super::*;
-    
+
     #[test]
     fn test_0003() {
-        assert_eq!(3, Solution::longest_substr_no_repeat("pwwkew"));
-        assert_eq!(3, Solution::longest_substr_no_repeat("abcabcbb"));
-        assert_eq!(1, Solution::longest_substr_no_repeat("bbbbb"));
+        assert_eq!(3, Solution::length_of_longest_substring("pwwkew".to_string()));
+        assert_eq!(3, Solution::length_of_longest_substring("abcabcbb".to_string()));
+        assert_eq!(1, Solution::length_of_longest_substring("bbbbb".to_string()));
     }
 }
