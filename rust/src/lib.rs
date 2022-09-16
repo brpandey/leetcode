@@ -71,6 +71,7 @@ pub mod p0210_course_schedule_ii;
 pub mod p0211_add_and_search_word;
 pub mod p0212_word_search_ii;
 pub mod p0213_house_robber_ii;
+pub mod p0215_kth_largest_element_in_array;
 pub mod p0217_contains_duplicate;
 pub mod p0224_basic_calculator;
 pub mod p0225_stack_using_queues;
