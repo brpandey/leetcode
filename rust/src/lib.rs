@@ -81,6 +81,7 @@ pub mod p0230_kth_smallest_element_in_bst;
 pub mod p0232_queue_using_stacks;
 pub mod p0235_lowest_common_ancestor_of_a_binary_tree;
 pub mod p0238_product_of_array_except_self;
+pub mod p0239_sliding_window_maximum;
 pub mod p0242_valid_anagram;
 pub mod p0252_meeting_rooms_i;
 pub mod p0253_meeting_rooms_ii;
