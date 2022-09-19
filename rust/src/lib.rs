@@ -25,6 +25,7 @@ pub mod p0026_remove_duplicates;
 pub mod p0028_strstr;
 pub mod p0033_search_in_rotated_sorted_array;
 pub mod p0039_comb_sum_i;
+pub mod p0040_combination_sum_ii;
 pub mod p0046_permutations;
 pub mod p0048_rotate_image;
 pub mod p0049_group_anagrams;
