@@ -45,16 +45,16 @@ impl Solution {
         let mut right = vec![0; height.len()];
         let mut max = 0;
 
-        for i in 0..height.len() {
+        for i in 0..height.len()-1 {
             max = std::cmp::max(max, height[i]);
-            left[i] = max;
+            left[i+1] = max;
         }
 
         max = 0;
 
-        for i in (0..height.len()).rev() {
+        for i in (1..height.len()).rev() {
             max = std::cmp::max(max, height[i]);
-            right[i] = max;
+            right[i-1] = max;
         }
 
         let mut x;
