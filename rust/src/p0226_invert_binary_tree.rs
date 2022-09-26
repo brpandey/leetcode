@@ -106,9 +106,9 @@ pub mod tests {
 
         let head = Some(n2);
 
-        let inverted = Solution::invert_tree(head);
+        let _inverted = Solution::invert_tree(head);
 
-        dbg!(inverted);
+//        dbg!(inverted);
 
         // case 2
         let n4 = TreeNode::new(4);
@@ -130,9 +130,9 @@ pub mod tests {
 
         let head = Some(n4);
 
-        let inverted = Solution::invert_tree(head);
+        let _inverted = Solution::invert_tree(head);
 
-        dbg!(inverted);
+//       dbg!(inverted);
 
         // case 3
         assert_eq!(None, Solution::invert_tree(None));

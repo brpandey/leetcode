@@ -125,9 +125,9 @@ mod tests {
 
         let start = Instant::now();
         assert_eq!(Solution::run(4), solution);
-        let duration = start.elapsed();
+        let _duration = start.elapsed();
 
-        println!("N Queens Recursive: {:?}", duration);
+//        println!("N Queens Recursive: {:?}", duration);
     }
 }
 

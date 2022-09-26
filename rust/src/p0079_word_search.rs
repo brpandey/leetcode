@@ -68,7 +68,7 @@ impl Solution {
                 // rule out boundary conditions 
         let (r, c) = (row as usize, col as usize);
 
-        println!("r is {}, c is {}, index is {}, board len is {}", r, c, index, board.len());
+//        println!("r is {}, c is {}, index is {}, board len is {}", r, c, index, board.len());
 
         if row >= rows as i32 || row < 0 || col >= cols as i32 || col < 0 as i32 
             || board[r][c] != word.get(index..index+1).unwrap() 
