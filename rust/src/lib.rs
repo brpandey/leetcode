@@ -42,6 +42,7 @@ pub mod p0073_set_matrix_zeroes;
 pub mod p0076_minimum_window_substring;
 pub mod p0078_subsets;
 pub mod p0079_word_search;
+pub mod p0088_merge_sorted_array;
 pub mod p0091_decode_ways;
 pub mod p0098_validate_binary_search_tree;
 pub mod p0100_same_tree;

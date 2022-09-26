@@ -67,9 +67,12 @@ impl Solution {
             //
             // if sum was 3 e.g. [1,1,1] and k is 2, sum - k is 1 then
             // so increment total count by key 1's count
+            // e.g. by grabbing key 1's contribution, we are really subtracting out
+            // the subarrays that sum to 1 thus far from the subarray [1,1,1] that
+            // start at index 0, so [1,1,1] - [1,X,X] gives [X,1,1] so to speak
             count += *map.entry(sum-k).or_insert(0);
 
-            // record sum count in map
+            // increment count for sum by 1 in map
             *map.entry(sum).or_insert(0) += 1;
         }
 
