@@ -108,6 +108,7 @@ pub mod p0424_longest_repeating_char_replacement;
 pub mod p0435_non_overlapping_intervals;
 pub mod p0450_delete_node_in_bst;
 pub mod p0509_fibonacci_number;
+pub mod p0560_subarray_sum_equals_k;
 pub mod p0572_subtree_of_another_tree;
 pub mod p0647_palindromic_substrings;
 pub mod p0704_binary_search;
