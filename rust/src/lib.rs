@@ -95,6 +95,7 @@ pub mod p0261_graph_valid_tree;
 pub mod p0268_missing_number;
 pub mod p0269_alien_dictionary;
 pub mod p0271_encode_and_decode_strings;
+pub mod p0287_find_the_duplicate_number;
 pub mod p0289_game_of_life;
 pub mod p0295_find_median_from_data_stream;
 pub mod p0297_serialize_and_deserialize_binary_tree;
