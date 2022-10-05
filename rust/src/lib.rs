@@ -107,6 +107,7 @@ pub mod p0338_counting_bits;
 pub mod p0347_top_k_frequent_elements;
 pub mod p0371_sum_of_two_integers;
 pub mod p0377_comb_sum_iv;
+pub mod p0416_partition_equal_subset_sum;
 pub mod p0417_pacific_atlantic_water_flow;
 pub mod p0424_longest_repeating_char_replacement;
 pub mod p0435_non_overlapping_intervals;
