@@ -57,6 +57,7 @@ pub mod p0121_best_time_to_buy_sell;
 pub mod p0122_best_time_to_buy_sell_stock_ii;
 pub mod p0124_binary_tree_max_path_sum;
 pub mod p0125_valid_palindrome;
+pub mod p0127_word_ladder;
 pub mod p0128_longest_consecutive_sequence;
 pub mod p0133_clone_graph;
 pub mod p0139_word_break;
