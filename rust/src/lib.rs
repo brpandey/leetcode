@@ -68,6 +68,7 @@ pub mod p0152_maximum_product_subarray;
 pub mod p0153_find_minimum_in_rotated_sorted_array;
 pub mod p0167_two_sum_ii;
 pub mod p0187_repeated_dna_sequence;
+pub mod p0189_rotate_array;
 pub mod p0190_reverse_bits;
 pub mod p0191_number_of_1_bits;
 pub mod p0198_house_robber;
