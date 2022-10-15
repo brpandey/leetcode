@@ -27,6 +27,7 @@ pub mod p0033_search_in_rotated_sorted_array;
 pub mod p0036_valid_sudoku;
 pub mod p0039_comb_sum_i;
 pub mod p0040_combination_sum_ii;
+pub mod p0041_first_missing_positive;
 pub mod p0042_trapping_rain_water;
 pub mod p0045_jump_game_ii;
 pub mod p0046_permutations;
