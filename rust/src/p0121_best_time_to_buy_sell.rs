@@ -29,6 +29,23 @@ pub struct Solution {}
 
 impl Solution {
     pub fn run(nums: &[i32]) -> i32 {
+        if nums.len() < 1 { return 0 }
+        let (mut sell, mut min_buy);
+        let mut profit_max = 0;
+
+        min_buy = nums[0];
+
+        // 7,1,5,3,6,4, first iter sell = 1, min_buy 7, second iter sell = 5, min_buy 1
+        for i in 1..nums.len() {
+            sell = nums[i]; // enumerate through the list with sell being current element
+            profit_max = cmp::max(sell - min_buy, profit_max); // keep highest
+            min_buy = cmp::min(sell, min_buy) // keep lowest buy stock
+        }
+
+        profit_max
+    }
+
+    pub fn run1(nums: &[i32]) -> i32 {
         let acc = nums
             .iter()
             .skip(1) // we need to start at the second item in the list to be able to compare

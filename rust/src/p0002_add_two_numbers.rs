@@ -22,19 +22,26 @@ impl Solution {
 
     pub fn add_two_numbers_list(list1: &LinkedList<&u32>, list2: &LinkedList<&u32>) -> LinkedList<u32> {
         let mut output: LinkedList<u32> = LinkedList::new();
-        let mut iter1 = list1.iter().peekable();
-        let mut iter2 = list2.iter().peekable();
+        let mut iter1 = list1.iter(); //.peekable();
+        let mut iter2 = list2.iter(); //.peekable();
+        let mut n1 = iter1.next();
+        let mut n2 = iter2.next();
+
         let mut carry: u32 = 0;
         let mut sum: u32;
         let mut temp_sum: u32 = 0;
 
-        while iter1.peek().is_some() || iter2.peek().is_some() {
-            if let Some(&v1) = iter1.next() {
+        while n1.is_some() || n2.is_some() {
+            if let Some(&v1) = n1 {
                 temp_sum += v1;
+                n1 = iter1.next();
             }
-            if let Some(&v2) = iter2.next() {
+
+            if let Some(&v2) = n2 {
                 temp_sum += v2;
+                n2 = iter2.next();
             }
+
             sum = (temp_sum + carry) % 10;
             carry = (temp_sum + carry) / 10;
 

@@ -35,6 +35,22 @@
  * Y A   H R
  * P     I
  *
+ * The above pattern is converted into the
+ * steps index pattern
+ *
+ * 0     0     0
+ * 1   1 1   1 1
+ * 2 2   2 2
+ * 3     3
+ *
+ * Zip it with the grapheme such that a pair row, ch
+ * is accessible
+ *
+ * Each row as indentified by the unique steps index number
+ * can be stored in a map using the row as the key
+ *
+ * The output can then be derived by concatenating each row's values
+ * to each other (each row can be viewed as a vector of values)
  */
 use unicode_segmentation::UnicodeSegmentation;
 use std::collections::BTreeMap;

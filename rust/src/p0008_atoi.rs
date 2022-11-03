@@ -59,7 +59,7 @@ pub struct Solution {}
 impl Solution {
     pub fn atoi(val: &str) -> i32 {
         let mut iter = val.chars().peekable();
-        let mut output: i32 = 0;
+        let mut acc: i32 = 0;
         let mut sign: i32 = 1;
         let nums: HashSet<&char> = ['0','1','2','3','4','5','6','7','8','9'].iter().collect();
 
@@ -76,13 +76,13 @@ impl Solution {
         // Grab numbers
         while let Some(ch) = iter.next() {
             if nums.contains(&ch) {
-                output = output * 10 + (ch as u32 - '0' as u32) as i32
+                acc = acc * 10 + (ch as u32 - '0' as u32) as i32
             }
             else {
                 break
             }
         }
-        output * sign
+        acc * sign
     }
 }
 

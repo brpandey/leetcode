@@ -13,10 +13,10 @@ impl Solution {
         let digit1000s: [&str; 4] = ["", "M", "MM", "MMM"];
 
         //3218
-        let d4 = digit1000s[val/1000 % 10];
-        let d3 = digit100s[val/100 % 10];
-        let d2 = digit10s[val/10 % 10];
-        let d1 = digit1s[val % 10];
+        let d4 = digit1000s[val/1000 % 10]; // thousands digit
+        let d3 = digit100s[val/100 % 10]; // hundreds digit
+        let d2 = digit10s[val/10 % 10]; // tens digit
+        let d1 = digit1s[val % 10]; // ones digit
 
         roman += d4;
         roman += d3;

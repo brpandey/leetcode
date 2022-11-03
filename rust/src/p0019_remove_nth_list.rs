@@ -1,9 +1,28 @@
 use crate::util::ListNode;
 use crate::util::NodeRef;
 
+/*
+ *  Think of the Option/Rc/RefCell/ListNode as a stack
+ *
+ *  Option     as_ref, unwrap
+ *  -------
+ *  Rc         clone (non-thread safe reference counting, over immutable data)
+ *  -------
+ *  RefCell    borrow, borrow_mut (dynamic borrowing)
+ *  -------
+ *  Listnode   .next field accessor
+ *
+ *
+ * unwrap()         Some
+ *                   ^
+ * |                 |
+ * |-------clone-----|
+ */
+
 pub struct Solution {}
 
 impl Solution {
+    // head = &Option<Rc<RefCell<Node<T>>>>
     pub fn remove_nth_from_end(head: &Option<NodeRef<u32>>, n: u32) -> Option<NodeRef<u32>> {
         let dummy: NodeRef<u32> = ListNode::new(u32::MIN);
         dummy.borrow_mut().next = ListNode::clone(head);
@@ -34,6 +53,9 @@ impl Solution {
         // link second to node after remove which is remove_next, in effect dropping the remove node or the nth node from the end
         // nothing is pointing to remove after this function, so it is dropped
         second.as_ref().unwrap().borrow_mut().next = remove_next;
+        
+        // Option (as_ref, unwrap), RefCell (borrow_mut(), interior mutability), .next (ListNode
+        // field)
 
         let result = dummy.borrow_mut().next.take();
         result
