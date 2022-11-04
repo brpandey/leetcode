@@ -25,7 +25,8 @@ Constraints:
 
  */
 
-
+use std::rc::Rc;
+use std::cell::RefCell;
 pub type TreeNodeRef = Rc<RefCell<TreeNode>>;
 
 // Definition for a binary tree node.
@@ -35,7 +36,6 @@ pub struct TreeNode {
    pub left: Option<Rc<RefCell<TreeNode>>>,
    pub right: Option<Rc<RefCell<TreeNode>>>,
 }
-
 
 impl TreeNode {
    #[inline]
@@ -52,19 +52,15 @@ impl TreeNode {
    }
 }
 
-
 pub struct Solution {}
 
-
-use std::rc::Rc;
-use std::cell::RefCell;
 impl Solution {
     pub fn max_depth(root: Option<TreeNodeRef>) -> i32 {
         if root.is_none() { return 0 }
-        
+
         let l = root.as_ref().unwrap().borrow().left.as_ref().map(Rc::clone);
         let r = root.as_ref().unwrap().borrow().right.as_ref().map(Rc::clone);
-        
+
         return 1 + std::cmp::max(Solution::max_depth(l), Solution::max_depth(r));
     }
 }
@@ -84,7 +80,7 @@ pub mod tests {
 
         node3.borrow_mut().left = Some(node9);
         node3.borrow_mut().right = Some(Rc::clone(&node20));
-        
+
         node20.borrow_mut().left = Some(node15);
         node20.borrow_mut().right = Some(node7);
 

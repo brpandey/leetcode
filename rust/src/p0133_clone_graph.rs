@@ -127,9 +127,7 @@ impl Solution {
         }
 
         map
-
     }
-
 
     pub fn to_list(map: &HashMap<i32, Rc<RefCell<GraphNode>>>) -> Vec<Vec<i32>>{
         use std::collections::BTreeMap;
@@ -139,7 +137,6 @@ impl Solution {
         map 3 is (label: 3, orig: false, neighbors: 2, 4, )
         map 1 is (label: 1, orig: false, neighbors: 2, 4, )
         map 2 is (label: 2, orig: false, neighbors: 1, 3, )
-
         */
 
         let mut bmap = BTreeMap::new();

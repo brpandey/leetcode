@@ -36,8 +36,6 @@ Constraints:
  * Then 
  */
 
-use std::mem;
-
 pub struct Solution {}
 
 impl Solution {
@@ -50,12 +48,12 @@ impl Solution {
         // though messy looking
 
         // let mut last: Vec<i32> = intervals[0].clone();
-        let mut last: Vec<i32> = mem::replace(&mut intervals[0], vec![]);
+        let mut last: Vec<i32> = std::mem::replace(&mut intervals[0], vec![]);
         let mut curr: Vec<i32>;
 
         for i in 1..intervals.len() {
             // curr = intervals[i].clone();
-            curr = mem::replace(&mut intervals[i], vec![]);
+            curr = std::mem::replace(&mut intervals[i], vec![]);
 
             // if overlap, need to merge
             if last[1] >= curr[0] {
@@ -77,7 +75,7 @@ impl Solution {
 #[cfg(test)]
 pub mod tests {
     use super::*;
-    
+
     #[test]
     pub fn test_0056() {
         assert_eq!(vec![vec![1,6],vec![8,10],vec![15,18]], Solution::merge(vec![vec![1,3],vec![2,6],vec![8,10],vec![15,18]]));

@@ -40,11 +40,7 @@ Constraints:
  */
 
 pub struct Solution {}
-
-impl Solution {
-
-}
-
+impl Solution {} // Implementation moved to util module
 
 #[cfg(test)]
 pub mod tests {

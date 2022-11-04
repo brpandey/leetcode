@@ -21,20 +21,14 @@ pub struct Solution {}
 impl Solution {
     pub fn dfs(nums: &mut Vec<i32>, start: usize, res: &mut Vec<Vec<i32>>){
         if (start+1) as usize == nums.len(){
-//            println!("dfs A add to solution set n {:?} s {:?}", nums, start);
             res.push(nums.clone());
             return;
         }
 
-//        println!("dfs B {:?}, start {:?}", nums, start);
-
         for i in start..nums.len(){
-//            println!("dfs C start for_loop n {:?} i {:?} s {:?}", nums, i, start);
             Solution::swap(nums, i, start);
-//            println!("dfs C after first swap n {:?} i {:?} s {:?}", nums, i, start);
             Solution::dfs(nums, start+1, res);
             Solution::swap(nums, i, start); // undo previous swap
-//            println!("dfs C end for_loop {:?}", nums);
         }
     }
 

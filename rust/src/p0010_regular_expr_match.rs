@@ -54,6 +54,39 @@ p = "mis*is*p*."
 Output: false
 */
 
+/*
+ A -
+
+ Handle initialization case where we have asterisks
+ So if we have a pattern like "a*", "a*b*", "a*b*c*",
+ let's shrink the asterisks to zero occurences mode and pull that value (p can match an empty string text)
+
+             0 1 2 3
+             a a a b   s
+
+           0 1 2 3 4
+         0 T F F F F
+   0 a   1 F
+   1 *   2 T
+
+     p
+
+
+ B -
+
+             0 1 2  3   i
+             a a a  b   s
+
+           0 1 2 3  4   ts
+        0  T F F F  F
+  0 a   1  F T F F  F
+  1 *   2  T T T T  F
+  -- --
+  j p   tp
+
+  Note compare the outcomes if the string was aaa (T) vs aaab (F)
+ */
+
 const ASTERISK: char = '*';
 const WILDCARD: char = '.';
 
@@ -72,20 +105,10 @@ impl Solution {
         // Base case
         dp[0][0] = true;
 
-        // Handle initialization case where we have asterisks
-        // So if we have a pattern like "a*", "a*b*", "a*b*c*",
-        // let's shrink the asterisks to zero occurences mode and pull that value (p can match an empty string text)
-
-        /*
-                   0 1 2 3
-                   a a a b   s
-
-                 0 1 2 3 4
-               0 T F F F F
-         0 a   1 F
-         1 *   2 T
-
-           p
+        /* See A
+         Handle initialization case where we have asterisks
+         So if we have a pattern like "a*", "a*b*", "a*b*c*",
+         let's shrink the asterisks to zero occurences mode and pull that value (p can match an empty string text)
          */
 
         for tp in 2..=n {
@@ -96,17 +119,7 @@ impl Solution {
             }
         }
 
-        /*
-                    0 1 2  3   i
-                    a a a  b   s
-
-                  0 1 2 3  4   ts
-               0  T F F F  F
-         0 a   1  F T F F  F
-         1 *   2  T T T T  F
-                        -- --
-         j p   tp
-
+        /* See B
         Note compare the outcomes if the string was aaa (T) vs aaab (F)
          */
 
@@ -131,7 +144,6 @@ impl Solution {
 
                     if dp[tp-2][ts] { // If the dp matrix is true (e.g. go up 2) when we use the asterisk pattern to zero occurences, use the result over
                         dp[tp][ts] = true;
-                    
                     } else if WILDCARD == char_before_ast_pat || s[i] == char_before_ast_pat {
                         // Carry the previously computed result over when the string current value was the preceding string char
                         // (effectively grab the previously computed value from one left over)

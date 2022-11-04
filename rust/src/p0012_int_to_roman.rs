@@ -4,9 +4,6 @@ impl Solution {
     pub fn int_to_roman(val: usize) -> String {
 
         let mut roman: String = String::new();
-        // ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"];
-//        let digits: [str, 10] = ["", "a", "aa", "aaa", "ab", "b", "ba", "baa", "baaa", "ac"];
-
         let digit1s: [&str; 10] = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"];
         let digit10s: [&str; 10] = ["", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"];
         let digit100s: [&str; 10] = ["", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"];

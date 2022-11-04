@@ -10,8 +10,6 @@ A transformation sequence from word beginWord to word endWord using a dictionary
 
 Given two words, beginWord and endWord, and a dictionary wordList, return the number of words in the shortest transformation sequence from beginWord to endWord, or 0 if no such sequence exists.
 
-
-
 Example 1:
 
 Input: beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log","cog"]
@@ -24,8 +22,6 @@ Input: beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","
 Output: 0
 Explanation: The endWord "cog" is not in wordList, therefore there is no valid transformation sequence.
 
- 
-
 Constraints:
 
     1 <= beginWord.length <= 10
@@ -35,8 +31,6 @@ Constraints:
     beginWord, endWord, and wordList[i] consist of lowercase English letters.
     beginWord != endWord
     All the words in wordList are unique.
-
-
  */
 
 /*
@@ -44,7 +38,7 @@ Constraints:
  *
  * Iterate through words creating a map of pattern keys and there word values
  *
- * e.g. 
+ * e.g.
  *
  * pattern key *ot, values: [hot, dot, lot]
  * pattern key h*t, values: []
@@ -73,7 +67,6 @@ impl Solution {
         // and for each '*' representation e.g. for word string "abc"
         // produce "*bc", "a*c" ,"ab*"
         let mut patterns: HashMap<Vec<u8>, Vec<&String>> = HashMap::new();
-        
         word_list.push(begin_word.clone());
 
         for w in &word_list {
@@ -85,8 +78,7 @@ impl Solution {
             }
         }
 
-
-        dbg!(&patterns);
+//        dbg!(&patterns);
 
         // setup bfs traverse structures, seeding queue with
         // beginning word
@@ -138,13 +130,13 @@ impl Solution {
 #[cfg(test)]
 pub mod tests {
     use super::*;
-    
+
     #[test]
     pub fn test_0127() {
         let wl1 = vec!["hot", "dot", "dog", "lot", "log", "cog"]; 
         let words1 = wl1.iter().map(|s| s.to_string()).collect();
         assert_eq!(5, Solution::ladder_length("hit".to_string(), "cog".to_string(), words1));
-    
+
         let wl2 =  vec!["hot", "dot", "dog", "lot", "log"]; 
         let words2 = wl2.iter().map(|s| s.to_string()).collect();
         assert_eq!(0, Solution::ladder_length("hit".to_string(), "cog".to_string(), words2));

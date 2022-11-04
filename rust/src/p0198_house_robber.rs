@@ -60,11 +60,7 @@ _ X  _         = (0+2) = 2 > 0
      _  X  _     = (2+9) = 11 > 7
         _  X  _   = (7+3) = 10 < 11
            _  X  _ = (11+1) = 12 > 11
-
-
  */
-
-
 
 impl Solution {
     pub fn rob(nums: Vec<i32>) -> i32 {
@@ -108,7 +104,6 @@ impl Solution2 {
                     // mark the maximum rob value seen thus far at index i
                     dp[i] = cmp::max(nums[i] + dp[i - 2], dp[i - 1]);
                 }
-
 
                 return dp[len-1]
             }

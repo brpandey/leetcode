@@ -36,6 +36,31 @@
 //     1 <= n <= 20
 //             -1000 <= matrix[i][j] <= 1000
 
+/*
+ Notes
+
+ Basically there's two dynamics here
+ 1) The function that maps a cell position matric[r][c] to its destination
+ is m[r][c] => m[c][size - 1 - r]
+
+ Here's the table of transitions for the  first input example 1 (m[r][c] => m[c][2-r])
+ value      origin       destination
+ 1          m[0][0]      m[0][2]
+ 2          m[0][1]      m[1][2]
+ 3          m[0][2]      m[2][2]
+ 4          m[1][0]      m[0][1]
+ 5          m[1][1]      m[1][1]
+ 6          m[1][2]      m[2][1]
+ 7          m[2][0]      m[0][0]
+ 8          m[2][1]      m[1][0]
+ 9          m[2][2]      m[2][0]
+
+ 2) The process with which we swap things over, the easiest way w/o having to use a queue or some auxiliary
+ data structure is to use a temporary value, where we take one value out creating a hole, and then swap all the
+ transitions into that place for that first "cycle" so to speak
+ 
+*/
+
 pub struct Solution {}
 
 impl Solution {
@@ -45,27 +70,7 @@ impl Solution {
         if matrix[0].len() != size {
             panic!("matrix is not square");
         }
-        /*
-        Basically there's two dynamics here
-        1) The function that maps a cell position matric[r][c] to its destination
-        is m[r][c] => m[c][size - 1 - r]
-
-        Here's the table of transitions for the  first input example 1 (m[r][c] => m[c][2-r])
-        value      origin       destination
-        1          m[0][0]      m[0][2]
-        2          m[0][1]      m[1][2]
-        3          m[0][2]      m[2][2]
-        4          m[1][0]      m[0][1]
-        5          m[1][1]      m[1][1]
-        6          m[1][2]      m[2][1]
-        7          m[2][0]      m[0][0]
-        8          m[2][1]      m[1][0]
-        9          m[2][2]      m[2][0]
-
-        2) The process with which we swap things over, the easiest way w/o having to use a queue or some auxiliary
-        data structure is to use a temporary value, where we take one value out creating a hole, and then swap all the
-        transitions into that place for that first "cycle" so to speak
-         */
+        // See Notes
 
         // Note: column is dependent on row so we have separate for loops
         for r in 0..size/2 { // Essentially how many squares (nested concentric squares including outer square)

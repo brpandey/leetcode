@@ -15,10 +15,10 @@ Output: "bb"
 
 */
 
-pub struct Solution {}
-
-impl Solution {
     /*
+        Notes
+
+        Overview
                         0123
         Given a string "abba", We store true/false if the substring indicated by the start index i
         and the end index j are palindromes as populated from substrings of length 1 up to length
@@ -38,7 +38,24 @@ impl Solution {
         To evaluate the palindrome value at i,j = 0,3 we check if the first and last characters are the same
         Since "a" == "a" we then check if the dp matrix at i+1,j-1 = 0+1,3-1 = 1,2 is true which it is making
         dp[i,j] = true as well
+
+        A -
+
+        0123
+        If value is "abba" and i is 0 and j is 3, we need to check if ?? is already
+        verified as a palindrome as in,"a??a" using our dynamic programming matrix
+        if it is, the longer string is also a palindrome
+        Since we are populating the dp 2d array bottom up we already have the result
+
+        j-i <=2 condition explanation
+        if j is 2 and i is 2 such that j-i is 0 we have a single char "x"
+        If j is 3 and i is 2 such that j-i is 1 there's no middle char, "xx"
+        If j is 2 and i is 0 such that j-i is 2 we have a middle single char y, "xyx"
      */
+
+pub struct Solution {}
+
+impl Solution {
 
     pub fn longest_palindrome_substring(value: &str) -> String {
         let len = value.len();
@@ -50,17 +67,7 @@ impl Solution {
         for j in 0..len {
             // Iterate across the row
             for i in (0..=j).rev() {
-                //              0123
-                // If value is "abba" and i is 0 and j is 3, we need to check if ?? is already
-                // verified as a palindrome as in,"a??a" using our dynamic programming matrix
-                // if it is, the longer string is also a palindrome
-                // Since we are populating the dp 2d array bottom up we already have the result
-
-                // j-i <=2 condition explanation
-                // if j is 2 and i is 2 such that j-i is 0 we have a single char "x"
-                // If j is 3 and i is 2 such that j-i is 1 there's no middle char, "xx"
-                // If j is 2 and i is 0 such that j-i is 2 we have a middle single char y, "xyx"
-
+                // See A
                 if list[i] == list[j] && (j-i <= 2 || dp[i+1][j-1]) {
                     dp[i][j] = true;
 

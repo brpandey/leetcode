@@ -40,6 +40,7 @@ impl<T> ListNode<T> {
 pub struct Solution {}
 
 impl Solution {
+    // pub type NodeLink<T> = Option<Box<ListNode<T>>>;
     pub fn sorted_merge(mut l1: NodeLink<u32>, mut l2: NodeLink<u32>) -> NodeLink<u32> {
         // This needs to be mut since as we need a &mut pointing to it
         let mut dummy_head: NodeLink<u32> = ListNode::new(0);
@@ -52,9 +53,6 @@ impl Solution {
             // Retrieve tail and make it mutable
             // Append to tail by modifiying the last node that tail points to
             // and changing that node's next pointer to the n
-
-            // as_mut() gives us Option<&mut ListNode and then we are poised to
-            // be able to change the next pointer of the ListNode
             let mut last = tail.as_mut().unwrap();
 
             match(l1.take(), l2.take()) {

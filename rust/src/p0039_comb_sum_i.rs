@@ -77,17 +77,17 @@ impl Solution {
     }
 
     pub fn recurse(index: usize, target: i32, cand: &Vec<i32>, sequence: &mut Vec<i32>, result: &mut Vec<Vec<i32>>) {
-//        println!("potential combination: {:?}", &sequence);
+        // print A - potential comb
 
         if target == 0 {
-//            println!("winning combination: {:?}", &sequence);
+            // print B - winning
             result.push(sequence.clone());
             return
         }
 
         for i in index..cand.len() {
             if target < cand[i] {
-//                println!("potential combination won't work!: {:?} {:?}", &sequence, &cand[i]);
+                // print C - won't work
                 return // no valid path possible return early -- backtrack
             }
 

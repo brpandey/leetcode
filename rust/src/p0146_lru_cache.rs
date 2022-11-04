@@ -12,8 +12,6 @@ Implement the LRUCache class:
 
 The functions get and put must each run in O(1) average time complexity.
 
- 
-
 Example 1:
 
 Input
@@ -176,14 +174,6 @@ impl LRUCache {
         self.map.insert(key, node.unwrap());
     }
 }
-
-/**
- * Your LRUCache object will be instantiated and called as such:
- * let obj = LRUCache::new(capacity);
- * let ret_1: i32 = obj.get(key);
- * obj.put(key, value);
- */
-
 
 #[cfg(test)]
 pub mod tests {

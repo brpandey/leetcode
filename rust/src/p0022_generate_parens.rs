@@ -15,13 +15,11 @@ impl Solution {
     pub fn run(n: u32) -> Vec<String> {
         let mut acc: Vec<String> = Vec::new();
         Solution::generate(&mut acc, "", 0, 0, n, 0);
-
         acc
     }
 
     pub fn generate(list: &mut Vec<String>, acc: &str, left: u32, right: u32, max: u32, tabs: u32) {
-//        println!("{}{}", TAB_SPACE.repeat(tabs as usize), acc);
-
+        // println!("{}{}", TAB_SPACE.repeat(tabs as usize), acc);
         // If max is 3 we have three left parens and three right parens and hence 3 pairs
         if left == max && right == max {
             list.push(acc.to_string());

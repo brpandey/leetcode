@@ -72,7 +72,7 @@ impl Solution {
 #[cfg(test)]
 pub mod tests {
     use super::*;
-    
+
     #[test]
     pub fn test_0045() {
         assert_eq!(2, Solution::jump(vec![2,3,1,1,4]));

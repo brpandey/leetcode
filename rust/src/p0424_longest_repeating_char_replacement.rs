@@ -33,41 +33,40 @@ s consists of only uppercase English letters.
 
  */
 
+/*
+Strategy
+
+Given a str like AABABBA and k = 1, create a sliding window that encompasses the first character
+
+AABABBA //  then expand sliding window assuming it follows the invariant of k, recording max window len
+-
+
+AABABBA -> AABABBA -> AABABBA 
+--         ---        ----
+
+When # of chars to replace exceeds k, e.g. k = 1, shift left edge of sliding window over
+
+AABABBA -> AABABBA -> AABABBA
+-----       ----        ---
+
+Continue, expanding sliding window as possible
+
+AABABBA
+----
+
+Ultimately the formula to continue expanding window size is:
+window_len - count[most_frequent_char] <= k
+ */
+
 use std::cmp;
 use std::collections::HashMap;
 
 pub struct Solution {}
 
-
 impl Solution {
     pub fn character_replacement(s: String, k: i32) -> i32 {
-
-        /*
-        Given a str like AABABBA and k = 1, create a sliding window that encompasses the first character
-
-        AABABBA //  then expand sliding window assuming it follows the invariant of k, recording max window len
-        -
-
-        AABABBA -> AABABBA -> AABABBA 
-        --         ---        ----
-
-        When # of chars to replace exceeds k, e.g. k = 1, shift left edge of sliding window over
-
-        AABABBA -> AABABBA -> AABABBA
-        -----       ----        ---
-
-        Continue, expanding sliding window as possible
-
-        AABABBA
-          ----
-
-        Ultimately the formula to continue expanding window size is:
-        window_len - count[most_frequent_char] <= k
-        */
-
         let mut max_len = 0;
         let mut counts = HashMap::new();
-
         let mut l = 0; // window left starts at the beginning
 
         for r in 0..s.len() { // sweep though the str indices, creating a sliding window along with l

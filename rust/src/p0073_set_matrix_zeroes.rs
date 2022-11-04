@@ -41,7 +41,7 @@ Follow up:
 
 /*
  *   Given a matrix a)
- *              
+ *
  *   a)             Use first row (X's) and col (Y's) 
  *                  as control structure
  *                  with the top left corner (R) 
@@ -55,7 +55,7 @@ Follow up:
  * Hence,           0 0 2 0                          0 0 0 0 (Final result)
  *                  3 4 5 2                          0 0 5 0
  *                * 0 0 1 5                          0 0 1 0
- *                  
+ *
  *
  *          This runs in-place in O(nm) time
  */
@@ -123,7 +123,7 @@ impl Solution {
 #[cfg(test)]
 pub mod tests {
     use super::*;
-    
+
     #[test]
     pub fn test_0073() {
         let mut input = vec![vec![1,1,1],vec![1,0,1],vec![1,1,1]];
@@ -134,7 +134,7 @@ pub mod tests {
 
         let mut input = vec![vec![0,1,2,0],vec![3,4,5,2],vec![1,3,1,5]];
         let output = vec![vec![0,0,0,0],vec![0,4,5,0],vec![0,3,1,0]];
-        
+
         Solution::set_zeroes(&mut input);
         assert_eq!(output, input);
     }

@@ -87,9 +87,11 @@ impl Solution {
         // Base cases are size 0 and 1
         let mut dp: Vec<i32> = vec![0; s.len()+1];
         dp[0] = 1;  // base to support algorithm - string length of size 0 doesn't mean anything intrinsically
-        dp[1] = if &s[0..1] == "0" { 0 } else { 1 }; // if string contains a 0 as first char there are zero ways to decode
-                                               // otherwise for a string of length 1 ('A', 'B', 'C', .. ) there is only
-                                               // 1 way
+
+        // if string contains a 0 as first char there are zero ways to decode
+        // otherwise for a string of length 1 ('A', 'B', 'C', .. ) there is only 1 way
+        dp[1] = if &s[0..1] == "0" { 0 } else { 1 };
+
         // Handle recursive cases
         for i in 2..=s.len() {
             // grab string that constitutes 1 digit

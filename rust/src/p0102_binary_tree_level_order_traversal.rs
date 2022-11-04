@@ -32,7 +32,6 @@ Constraints:
  */
 
 use std::collections::VecDeque;
-
 use crate::util::TreeNode;
 use crate::util::TreeNodeRef;
 
@@ -45,7 +44,6 @@ impl Solution {
         queue.push_back(root);
 
         while !queue.is_empty() {
-
             let size = queue.len();
             let mut list = vec![];
 

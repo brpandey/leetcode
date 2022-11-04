@@ -33,27 +33,26 @@ Example 3:
 Input: lists = [[]]
 Output: [] 
 
+ */
+
+/*
+lists
+[list0, list1, list2, list3, list4, list5]
+
+becomes: 
+[list0(0,5), list1(1,4), list2(2,3), None, None, None] -->
+[list0(0,2), list1, None, None, None, None] -->
+[list0(0,1), None, None, None, None, None]
 */
 
 // Using code from p0021_merge_two_sorted_lists
-
 type NodeLink<T> = lists::NodeLink<T>;
 
 pub struct Solution {}
 
 impl Solution {
-
+    // pub type NodeLink<T> = Option<Box<ListNode<T>>>;
     pub fn run(lists: &mut [NodeLink<u32>]) -> NodeLink<u32> {
-        /*
-        lists
-        [list0, list1, list2, list3, list4, list5]
-        
-        becomes: 
-        [list0(0,5), list1(1,4), list2(2,3), None, None, None] -->
-        [list0(0,2), list1, None, None, None, None] -->
-        [list0(0,1), None, None, None, None, None]
-        */
-
         if lists.len() == 0 { return None; }
         let mut end = lists.len() - 1;
 

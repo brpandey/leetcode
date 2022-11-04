@@ -63,7 +63,7 @@ impl Solution {
     pub fn spiral_order(matrix: Vec<Vec<i32>>) -> Vec<i32> {
         let rows = matrix.len();
         let cols = matrix[0].len();
-        
+
         // the bounding box params
         let mut left = 0;
         let mut right = cols-1;
@@ -108,7 +108,7 @@ impl Solution {
 
             direction = Direction::toggle(&direction);
         }
-        
+
         output
     }
 }

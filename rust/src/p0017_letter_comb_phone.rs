@@ -8,12 +8,21 @@ pub struct Solution {}
  *
  * pop a, code is def, hence => ad, ae, af
  *
+
+
+ * Note A
+ * Create the auxiliary queue before we iterate through main queue
+ * This allows us to have remove from the main queue (1 mutable reference)
+ * And insert onto an auxiliary queue (1 mutable reference)
+ * (Preventing us from compiler errors about potential data race issues if we tried to simultaneously
+ * Pop off from main and push onto main - or 2 mutable references aka not allowed)
  */
 
 
 impl Solution {
     pub fn run(digits: &str) -> Vec<String> {
-        let at: [(u32, &str); 10] = [(0, ""), (1, ""), (2, "abc"), (3, "def"), (4, "ghi"), (5, "jkl"), (6, "mno"), (7, "pqrs"), (8, "tuv"), (9, "wxyz")];
+        let at: [(u32, &str); 10] = [(0, ""), (1, ""), (2, "abc"), (3, "def"),
+                                     (4, "ghi"), (5, "jkl"), (6, "mno"), (7, "pqrs"), (8, "tuv"), (9, "wxyz")];
         let mapping: HashMap<u32, &str> = at.iter().cloned().collect();
         let (mut queue, mut aux) : (VecDeque<String>, VecDeque<String>);
         let seed: String = String::from("");
@@ -33,11 +42,7 @@ impl Solution {
             digit = d.to_digit(10).unwrap() as u32;
             code = mapping.get(&digit).unwrap();
 
-            // Create the auxiliary queue before we iterate through main queue
-            // This allows us to have remove from the main queue (1 mutable reference)
-            // And insert onto an auxiliary queue (1 mutable reference)
-            // (Preventing us from compiler errors about potential data race issues if we tried to simultaneously
-            // Pop off from main and push onto main - or 2 mutable references aka not allowed)
+            // See Note A
             aux = VecDeque::new();
 
             // first "", then "a", "b", "c", then "ad", "ae", "af", "bd", "be", "bf", ....

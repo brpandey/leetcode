@@ -29,13 +29,7 @@ pub struct MyQueue {
     outbox: Vec<i32>,
 }
 
-
-/** 
- * `&self` means the method takes an immutable reference.
- * If you need a mutable reference, change it to `&mut self` instead.
- */
 impl MyQueue {
-    /** Initialize your data structure here. */
     pub fn new() -> Self {
         return MyQueue {
             inbox: Vec::new(),

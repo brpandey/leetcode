@@ -14,34 +14,36 @@ Constraints:
 
  */
 
+/*
+ Notes
+
+ Given a 3x2 matrix, there's only 1 way to reach to top of the columns, or the start of each row
+
+ [1][1]
+ [1][ ]
+ [1][ ]
+
+ [1][1]
+ [1][1+1=2]
+ [1][1+2=3]
+
+ [1][1]
+ [1][2]
+ [1][3]
+
+ cells not already initialized can only look at cells, directly above (row-1, col) or directly to the left (row, col-1)
+ adding these two path values gives the total number of path values to that cell
+ */
+
+
 pub struct Solution {}
 
 impl Solution {
     pub fn unique_paths(m: usize, n: usize) -> i32 {
-
         let row: Vec<i32> = vec![0 as i32; n];
         let mut dp: Vec<Vec<i32>> = vec![row; m]; // m rows of vecs size n (col)
 
         dp[0][0] = 1;
-
-        /*
-          Given a 3x2 matrix, there's only 1 way to reach to top of the columns, or the start of each row
-
-          [1][1]
-          [1][ ]
-          [1][ ]
-
-          [1][1]
-          [1][1+1=2]
-          [1][1+2=3]
-
-          [1][1]
-          [1][2]
-          [1][3]
-
-          cells not already initialized can only look at cells, directly above (row-1, col) or directly to the left (row, col-1)
-          adding these two path values gives the total number of path values to that cell
-        */
 
         // first row, initialize all col values to 1
         for col in 0..n {

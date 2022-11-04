@@ -9,8 +9,6 @@ The path sum of a path is the sum of the node's values in the path.
 
 Given the root of a binary tree, return the maximum path sum of any non-empty path.
 
- 
-
 Example 1:
 
 Input: root = [1,2,3]
@@ -23,22 +21,29 @@ Input: root = [-10,9,20,null,null,15,7]
 Output: 42
 Explanation: The optimal path is 15 -> 20 -> 7 with a path sum of 15 + 20 + 7 = 42.
 
- 
-
 Constraints:
 
     The number of nodes in the tree is in the range [1, 3 * 104].
     -1000 <= Node.val <= 1000
 
-
  *
  */
 
+/*
+ * Strategy:
+ *
+ * At each level of the tree track the max forked value and the mark single path value
+ */
+
+// Adding 1) val + max l + max r gives the value over the path LNR which is branched/forked over N
+//
+//            N       whereas 2) val + max(l, r)  gives either   N      or      N
+//           / \                                                /                \
+//          L   R                                              L                  R
 
 use std::cmp;
-
 use crate::util::TreeNode;
-use crate::util::TreeNodeRef as TreeNodeRef;
+use crate::util::TreeNodeRef;
 
 pub struct Solution {}
 
@@ -47,18 +52,6 @@ impl Solution {
         let (mf, ms) = Self::dfs(root);
         cmp::max(mf, ms)
     }
-
-    /*
-     * Strategy:
-     *
-     * At each level of the tree track the max forked value and the mark single path value
-     */
-
-    // Adding 1) val + max l + max r gives the value over the path LNR which is branched/forked over N
-    //
-    //            N       whereas 2) val + max(l, r)  gives either   N      or      N
-    //           / \                                                /                \
-    //          L   R                                              L                  R
 
     pub fn dfs(root: Option<TreeNodeRef>) -> (i32, i32) {
         if root == None {
@@ -69,7 +62,6 @@ impl Solution {
         let (r_mf, r_ms) = Self::dfs(TreeNode::right(&root));
 
         let mf = cmp::max(l_mf, r_mf);
-
         let val = TreeNode::value(&root);
 
         // Compute 1) and 2)
@@ -93,4 +85,3 @@ pub mod tests {
         assert_eq!(42, Solution::max_path_sum(root)); 
     }
 }
-

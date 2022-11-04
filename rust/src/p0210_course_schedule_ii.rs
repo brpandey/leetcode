@@ -36,8 +36,6 @@ Constraints:
     0 <= ai, bi < numCourses
     ai != bi
     All the pairs [ai, bi] are distinct.
-
-
  */
 
 use std::collections::VecDeque;

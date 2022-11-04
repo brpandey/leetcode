@@ -13,11 +13,7 @@ Implement the WordDictionary class:
  */
 
 pub struct Solution {}
-
-impl Solution {
-
-}
-
+impl Solution {}
 
 #[cfg(test)]
 pub mod tests {

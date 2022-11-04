@@ -99,9 +99,8 @@ impl Solution {
                         return node.borrow_mut().left.clone();
                     }
 
-                    // We have found the key and we have both left and right subtrees, we need to substitute the key with the next largest value
-
-                    // Essentially we pluck the minimum value in right subtree
+                    // Key is found and we have both left and right subtrees, substitute the key with the next largest value
+                    // Grab minimum value in right subtree
                     // (which is the leftmost value in the right BST subtree, extract that value and delete that physical node)
                     let mut minimum = node.borrow_mut().right.clone();
 

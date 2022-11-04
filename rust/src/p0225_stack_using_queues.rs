@@ -27,13 +27,7 @@ pub struct MyStack {
     second: VecDeque<i32>,
 }
 
-
-/** 
- * `&self` means the method takes an immutable reference.
- * If you need a mutable reference, change it to `&mut self` instead.
- */
 impl MyStack {
-    /** Initialize your data structure here. */
     pub fn new() -> Self {
         return MyStack {
             first: VecDeque::new(),
@@ -59,7 +53,7 @@ impl MyStack {
                     self.second.push_back(x);
                 }
             }
-            
+
             let value = self.first.pop_front().unwrap();
             mem::swap(&mut self.first, &mut self.second);
             value

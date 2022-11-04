@@ -6,8 +6,6 @@ Given an integer array nums, return the length of the longest strictly increasin
 
 A subsequence is a sequence that can be derived from an array by deleting some or no elements without changing the order of the remaining elements. For example, [3,6,2,7] is a subsequence of the array [0,3,1,6,2,2,7].
 
-
-
 Example 1:
 
 Input: nums = [10,9,2,5,3,7,101,18]
@@ -23,8 +21,6 @@ Example 3:
 
 Input: nums = [7,7,7,7,7,7,7]
 Output: 1
-
-
 
 Constraints:
 
@@ -67,7 +63,7 @@ impl Solution {
                 // since dp is default 1, we are looking to extend our subsequence as long as m's value is greater than n's
                 if nums[n] < nums[m] {
                     dp[n] = cmp::max(dp[n], 1 + dp[m]);
-                    // println!("dp is {:?}", &dp)
+                    // Print - DP
                 }
             }
         }
@@ -76,8 +72,6 @@ impl Solution {
         dp.into_iter().max().unwrap()
     }
 }
-
-
 
 #[cfg(test)]
 pub mod tests {

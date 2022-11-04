@@ -6,8 +6,6 @@ Given a string s and a dictionary of strings wordDict, return true if s can be s
 
 Note that the same word in the dictionary may be reused multiple times in the segmentation.
 
-
-
 Example 1:
 
 Input: s = "leetcode", wordDict = ["leet","code"]
@@ -26,8 +24,6 @@ Example 3:
 Input: s = "catsandog", wordDict = ["cats","dog","sand","and","cat"]
 Output: false
 
-
-
 Constraints:
 
 1 <= s.length <= 300
@@ -35,10 +31,30 @@ Constraints:
 1 <= wordDict[i].length <= 20
 s and wordDict[i] consist of only lowercase English letters.
 All the strings of wordDict are unique.
-
-
 */
 
+/*
+Notes
+ Say len(s) is 7
+
+// 0   1   2   3   4   5   6   7
+// [T] [ ] [T] [ ] [T] [ ] [ ] [T] // This should be the dp list
+//  h   i   h   i   p   e   n
+//  _               _
+
+// 0   1   2   3   4   5   6   7
+// [T] [ ] [ ] [T] [ ] [T] [ ] [T] // This should be the dp list
+//  p   e   n   h   i   h   i
+//  _           _
+
+// 0   1   2   3   4   5   6   7
+// [T] [ ] [T] [ ] [ ] [T] [ ] [T] // This should be the dp list
+//  h   i   p   e   n   h   i
+//  _           _
+
+// if dict words are ["hi", "pen"]
+
+*/
 
 pub struct Solution {}
 
@@ -47,25 +63,6 @@ impl Solution {
         let slen = s.len(); // e.g. 7
         let mut dp = vec![false; slen+1]; // vec size 8, extra space for base case
         dp[slen] = true;  // this is base case, always set to true (e.g. s[7])
-
-        // Say len(s) is 7
-
-        // 0   1   2   3   4   5   6   7
-        // [T] [ ] [T] [ ] [T] [ ] [ ] [T] // This should be the dp list
-        //  h   i   h   i   p   e   n
-        //  _               _
-
-        // 0   1   2   3   4   5   6   7
-        // [T] [ ] [ ] [T] [ ] [T] [ ] [T] // This should be the dp list
-        //  p   e   n   h   i   h   i
-        //  _           _
-
-        // 0   1   2   3   4   5   6   7
-        // [T] [ ] [T] [ ] [ ] [T] [ ] [T] // This should be the dp list
-        //  h   i   p   e   n   h   i
-        //  _           _
-
-        // if dict words are ["hi", "pen"]
 
         for i in (0..slen).rev() { // start from string end
             for w in word_dict.iter() { // loop through dict
@@ -107,7 +104,6 @@ pub mod tests {
                                       .map(|s| s.to_string())
                                       .collect());
         assert_eq!(false, v1);
-
     }
 }
 

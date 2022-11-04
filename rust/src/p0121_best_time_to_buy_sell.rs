@@ -45,6 +45,7 @@ impl Solution {
         profit_max
     }
 
+    // uses fold
     pub fn run1(nums: &[i32]) -> i32 {
         let acc = nums
             .iter()

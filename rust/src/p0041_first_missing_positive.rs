@@ -106,18 +106,15 @@ impl Solution {
 #[cfg(test)]
 pub mod tests {
     use super::*;
-    
+
     #[test]
     pub fn test_0041() {
         let mut input = vec![1,2,0];
         assert_eq!(3, Solution::first_missing_positive(&mut input));
-        
-        let mut input = vec![3,4,-1,1];
+        input = vec![3,4,-1,1];
         assert_eq!(2, Solution::first_missing_positive(&mut input));
- 
-        let mut input = vec![7,8,9,11,12];
+        input = vec![7,8,9,11,12];
         assert_eq!(1, Solution::first_missing_positive(&mut input));
- 
     }
 }
 

@@ -68,7 +68,6 @@ impl Solution {
         fib_helper1(n)
     }
 
-
     // Solution 2b) Recursive with memoization
     pub fn fib_cache(n: u32) -> u32 {
         fn fib_helper2(n: u32, cache: &mut [Option<u32>]) -> u32 {

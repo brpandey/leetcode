@@ -27,12 +27,10 @@ For the purpose of this problem, we will return 0 when needle is an empty string
 
 use unicode_segmentation::UnicodeSegmentation;
 
-pub struct Solution {
-}
+pub struct Solution {}
 
 impl Solution {
     pub fn str_str(haystack: &str, needle: &str) -> i32 {
-
         if needle.is_empty() {
             return 0;
         }
@@ -47,9 +45,6 @@ impl Solution {
         //3 ple
         //must include index 2
         for i in 0..=(m-n) {
-
-            // Use vector slices
-            // https://doc.rust-lang.org/std/primitive.slice.html#method.starts_with
             if substr[i..].starts_with(&token[..]) {
                 return i as i32;
             }

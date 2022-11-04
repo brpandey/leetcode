@@ -34,27 +34,23 @@ pub struct Solution {
 
 impl Solution {
     pub fn subsets(nums: &[i32]) -> Vec<Vec<i32>> {
-
         let mut result: Vec<Vec<i32>> = Vec::new();
         let mut subset: Vec<i32> = Vec::new();
 
         Solution::generate(0, nums, &mut subset, &mut result);
-
         result
     }
 
     pub fn generate(index: usize, nums: &[i32], subset: &mut Vec<i32>, result: &mut Vec<Vec<i32>>) {
-
-        //println!("subset add is {:?}", subset);
-
+        // Print - Add
         result.push(subset.clone());
 
         for i in index..nums.len() {
             subset.push(nums[i]);
-            //println!("subset push is {:?}", subset);
+            // Print - Push
             Solution::generate(i + 1, nums, subset, result);
             subset.pop();
-            //println!("subset pop is {:?}", subset);
+            // Print - Pop
         }
     }
 }

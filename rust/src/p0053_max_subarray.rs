@@ -39,8 +39,7 @@ pub struct Solution {}
 
 impl Solution {
     pub fn run(nums: &[i32]) -> i32 {
-        // Using Kadane's algorithm
-        // Described here -> https://medium.com/@rsinghal757/kadanes-algorithm-dynamic-programming-how-and-why-does-it-work-3fd8849ed73d
+        // Kadane's algorithm -> https://medium.com/@rsinghal757/kadanes-algorithm-dynamic-programming-how-and-why-does-it-work-3fd8849ed73d
         let acc = nums
             .iter()
             .fold((i32::min_value(), 0), |(mut global_max, mut local_max), &x| {
@@ -51,7 +50,7 @@ impl Solution {
 
                 (global_max, local_max)
             });
-        // Since we've folded the entire array this now the global maximum
+
         acc.0
     }
 }

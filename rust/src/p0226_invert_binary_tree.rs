@@ -65,19 +65,6 @@ pub struct Solution {}
 
 impl Solution {
     pub fn invert_tree(root: Option<Rc<RefCell<TreeNode>>>) -> Option<Rc<RefCell<TreeNode>>>{
-        /*
-        if *root == None { return }
-
-        let left = root.as_ref().unwrap().borrow_mut().left.take();
-        let right = root.as_ref().unwrap().borrow_mut().right.take();
-
-        root.as_ref().unwrap().borrow_mut().left = right;
-        root.as_ref().unwrap().borrow_mut().right = left;
-
-        Solution::invert_tree(&root.as_ref().unwrap().borrow_mut().left);
-        Solution::invert_tree(&root.as_ref().unwrap().borrow_mut().right);
-         */
-
         if root == None { return None }
 
         let left = root.as_ref().unwrap().borrow_mut().left.take();

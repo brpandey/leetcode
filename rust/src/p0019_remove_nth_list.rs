@@ -44,18 +44,9 @@ impl Solution {
         let remove = ListNode::next(&second);
         let remove_next = ListNode::next(&remove);
 
-        // (old comment)
-        // Using interior mutability make immutable reference mutable (using runtime checks instead of compile time)
-        // as_ref takes an Option<T> and turns it into a Option<&T>, so we can borrow the inside
-        // unwrap takes the value inside the Option<&T> hence giving us a &T or &ListNode<u32>
-
-        // (new comment)
-        // link second to node after remove which is remove_next, in effect dropping the remove node or the nth node from the end
-        // nothing is pointing to remove after this function, so it is dropped
-        second.as_ref().unwrap().borrow_mut().next = remove_next;
-        
         // Option (as_ref, unwrap), RefCell (borrow_mut(), interior mutability), .next (ListNode
         // field)
+        second.as_ref().unwrap().borrow_mut().next = remove_next;
 
         let result = dummy.borrow_mut().next.take();
         result

@@ -36,6 +36,29 @@ pos is -1 or a valid index in the linked-list.
 
 */
 
+/*
+3 -> 2 -> 0 -> -4 (-4 is connected to 2)
+- is fast
++ is slow
+
+3 -> 2 -> 0 -> -4
+-
++
+
+3 -> 2 -> 0 -> -4
+          -
+     +
+
+3 -> 2 -> 0 -> -4
+     -
+          +
+3 -> 2 -> 0 -> -4
+                -
+                +
+MEET!
+ */
+
+
 use std::cell::RefCell;
 use std::rc::Rc;
 
@@ -59,31 +82,6 @@ impl<T> ListNode<T> {
         )
     }
 }
-
-
-/*
-    3 -> 2 -> 0 -> -4 (-4 is connected to 2)
-    - is fast
-    + is slow
-
-    3 -> 2 -> 0 -> -4
-    -
-    +
-
-    3 -> 2 -> 0 -> -4
-              -
-         +
-
-    3 -> 2 -> 0 -> -4
-         -
-              +
-
-    3 -> 2 -> 0 -> -4
-                   -
-                   +
-                  MEET!
-*/
-
 
 pub struct Solution {}
 
@@ -110,18 +108,17 @@ impl Solution {
                 // dbg!(&fast.borrow().data); should be -4
                 return true
             }
-
         }
 
         false
-  }
+    }
 }
 
 
 #[cfg(test)]
 pub mod tests {
     use super::*;
-    
+
     #[test]
     pub fn test_0141() {
         //case0 just a straight linked list
@@ -139,8 +136,6 @@ pub mod tests {
         let head = Some(n3); 
 
         assert_eq!(false, Solution::has_cycle(&head));
-
-
 
         //case1
         let n3 = ListNode::new(3);

@@ -100,7 +100,7 @@ impl Solution2 {
 #[cfg(test)]
 pub mod tests {
     use super::*;
-    
+
     #[test]
     pub fn test_0042() {
         assert_eq!(6, Solution2::trap(vec![0,1,0,2,1,0,1,3,2,1,2,1]));

@@ -18,8 +18,6 @@ Example 2:
 Input: nums = [1,2,3], k = 3
 Output: 2
 
- 
-
 Constraints:
 
     1 <= nums.length <= 2 * 104
@@ -43,7 +41,6 @@ Constraints:
  * 3    1    since sum - k or 3 - 2 = 1, look at key 1's value which is 1,
  *           so second result, because [X,1,1] is also a valid subarray
  *           Here X is the 1 whose value we are adding to the total sum
- *           
  */
 
 use std::collections::HashMap;
@@ -55,13 +52,13 @@ impl Solution {
         // sequential sum counts
         let mut map: HashMap<i32, i32> = HashMap::new();
         map.insert(0, 1); // base case
-        
+
         let mut count = 0;
         let mut sum = 0;
 
         for r in 0..nums.len() {
             sum += nums[r]; // update the running sum
-            
+
             // say sum is 2 e.g. [1,1] and k is 2, sum - k is 0 then
             // so increment count by key 0's count
             //
@@ -84,7 +81,7 @@ impl Solution {
 #[cfg(test)]
 pub mod tests {
     use super::*;
-    
+
     #[test]
     pub fn test_0560() {
         assert_eq!(2, Solution::subarray_sum(vec![1,1,1], 2));

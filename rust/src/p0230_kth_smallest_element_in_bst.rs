@@ -4,8 +4,6 @@
 
     Given the root of a binary search tree, and an integer k, return the kth smallest value (1-indexed) of all the values of the nodes in the tree.
 
-    
-
     Example 1:
 
 Input: root = [3,1,4,null,2], k = 1
@@ -15,10 +13,10 @@ Input: root = [3,1,4,null,2], k = 1
 
 Input: root = [5,3,6,2,4,null,null,1], k = 3
     Output: 3
-
     */
 
-
+use std::rc::Rc;
+use std::cell::RefCell;
 pub type TreeNodeRef = Rc<RefCell<TreeNode>>;
 
 // Definition for a binary tree node.
@@ -28,7 +26,6 @@ pub type TreeNodeRef = Rc<RefCell<TreeNode>>;
    pub left: Option<Rc<RefCell<TreeNode>>>,
    pub right: Option<Rc<RefCell<TreeNode>>>,
  }
-
 
  impl TreeNode {
    #[inline]
@@ -44,9 +41,6 @@ pub type TreeNodeRef = Rc<RefCell<TreeNode>>;
        )
    }
  }
-
-use std::rc::Rc;
-use std::cell::RefCell;
 
 pub struct Solution {}
 
@@ -131,8 +125,6 @@ pub mod tests {
         let head = Some(node3);
 
         assert_eq!(1, Solution::kth_smallest(&head,1));
-
-
 
         let node1 = TreeNode::new(1);
         let node2 = TreeNode::new(2);

@@ -7,8 +7,6 @@ Given an m x n board of characters and a list of strings words, return all words
 
 Each word must be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring. The same letter cell may not be used more than once in a word.
 
- 
-
 Example 1:
 
 Input: board = [["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]], words = ["oath","pea","eat","rain"]
@@ -18,8 +16,6 @@ Example 2:
 
 Input: board = [["a","b"],["c","d"]], words = ["abcb"]
 Output: []
-
- 
 
 Constraints:
 
@@ -31,7 +27,6 @@ Constraints:
     1 <= words[i].length <= 10
     words[i] consists of lowercase English letters.
     All the strings of words are unique.
-
 
  *
  */
@@ -63,7 +58,7 @@ impl TrieNode {
         let mut node = self;
 
         for ch in word.chars() {
-            node = node.children.entry(ch).or_insert_with(|| TrieNode::new())    
+            node = node.children.entry(ch).or_insert_with(|| TrieNode::new())
         }
 
         node.terminal = true;
@@ -81,15 +76,13 @@ impl Solution {
 
         let max_rows = board.len() as i32;
         let max_cols = board[0].len() as i32;
-
         let mut output: Vec<String> = vec![];
         let mut buf: Vec<char> = vec![];
-
         let mut visited: HashSet<(usize, usize)> = HashSet::new();
 
         for r in 0..max_rows {
             for c in 0..max_cols {
-                Self::search(&mut root, &board, r, c, 
+                Self::search(&mut root, &board, r, c,
                      &mut visited, &mut output, &mut buf, 
                      max_rows, max_cols);
 

@@ -1,3 +1,6 @@
+use std::rc::Rc;
+use std::cell::RefCell;
+
 // Definition for a binary tree node.
  #[derive(Debug, PartialEq, Eq)]
  pub struct TreeNode {
@@ -33,9 +36,6 @@
      }
  }
 
-use std::rc::Rc;
-use std::cell::RefCell;
-
 pub struct Solution {}
 
 impl Solution {
@@ -64,7 +64,7 @@ impl Solution {
 #[cfg(test)]
 pub mod tests {
     use super::*;
-    
+
     #[test]
     pub fn test_0100() {
 
@@ -85,7 +85,6 @@ pub mod tests {
         let q = Some(TreeNode::new(1, None, Some(Rc::clone(&q_r))));
 
         assert_eq!(false, Solution::is_same_tree(&p, &q));
-
 
         let p_l = TreeNode::new(2, None, None);
         let p_r = TreeNode::new(1, None, None);

@@ -88,7 +88,7 @@ impl Solution {
 mod tests {
     use super::*;
     use lists::Solution as util;
-    
+
     #[test]
     fn test_0024(){
         assert_eq!(util::to_list(&[2, 1, 4, 3]), Solution::run(util::to_list(&[1,2,3,4])));

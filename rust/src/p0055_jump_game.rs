@@ -29,29 +29,32 @@ Constraints:
 
 */
 
+/*
+ Strategy
+
+Essentially go down the list one by one,
+adding the value to the index of the current cell
+
+ 0 1 2 3 4          0 1 2 3 4
+[2,3,1,1,4]        [3,2,1,0,4]
+
+ 2+0 = 2            3+0 = 3
+ 3+1 = 4            2+1 = 3
+ 1+2 = 3            1+2 = 3
+ 1+3 = 4            0+3 = 3
+ 4+4 = 8
+
+ Hence we keep a running total of the max jump updated at each index
+ If we are greater than the current index we can proceed further, if not we can't jump
+ 
+ */
+
 use std::cmp;
 
 pub struct Solution {}
 
 impl Solution {
     pub fn can_jump(nums: Vec<i32>) -> bool {
-        /*
-          Essentially go down the list one by one,
-          adding the value to the index of the current cell
-
-           0 1 2 3 4          0 1 2 3 4
-          [2,3,1,1,4]        [3,2,1,0,4]
-
-           2+0 = 2            3+0 = 3
-           3+1 = 4            2+1 = 3
-           1+2 = 3            1+2 = 3
-           1+3 = 4            0+3 = 3
-           4+4 = 8
-
-           Hence we keep a running total of the max jump updated at each index
-           If we are greater than the current index we can proceed further, if not we can't jump
-         */
-
         let mut max_jump = 0;
 
         for (i, &n) in nums.iter().enumerate() {

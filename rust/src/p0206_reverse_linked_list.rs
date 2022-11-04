@@ -1,6 +1,4 @@
 /*
- * 
- * 
 206. Reverse Linked List
 Easy
 
@@ -13,7 +11,7 @@ pub struct ListNode {
    pub val: i32,
    pub next: Option<Box<ListNode>>
 }
- 
+
 impl ListNode {
    #[inline]
     fn new(val: i32) -> Self {
@@ -118,7 +116,6 @@ pub mod tests {
         // test2
         assert_eq!(vec![2,1], Solution::to_list(&Solution::reverse_list(Solution::from_list(vec![1,2]))));
         assert_eq!(empty_vec, Solution::to_list(&Solution::reverse_list(Solution::from_list(vec![]))));
-            
     }
 
 

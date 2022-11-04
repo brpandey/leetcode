@@ -73,7 +73,6 @@ impl Solution {
         let mut l = 0;
 
         for r in 0..nums.len() {
-            
             while !queue.is_empty() && nums[*queue.back().unwrap()] < nums[r] {
                 queue.pop_back();
             }

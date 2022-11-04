@@ -38,7 +38,6 @@ impl Solution {
         let mut index = m + n - 1;
 
         while m > 0 && n > 0 {
-           
             // copy greatest element from two numbers into index
             if nums1[m-1] <= nums2[n-1] {
                 nums1[index] = nums2[n-1];
@@ -50,7 +49,6 @@ impl Solution {
 
             index -= 1;
         }
-
 
         // If nums2 still has data make sure that it is copied over
         while n > 0 {
