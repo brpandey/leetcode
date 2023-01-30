@@ -119,6 +119,7 @@ pub mod p0494_target_sum;
 pub mod p0509_fibonacci_number;
 pub mod p0560_subarray_sum_equals_k;
 pub mod p0572_subtree_of_another_tree;
+pub mod p0621_task_scheduler;
 pub mod p0647_palindromic_substrings;
 pub mod p0704_binary_search;
 pub mod p0739_daily_temperatures;
