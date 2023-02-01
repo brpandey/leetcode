@@ -124,6 +124,7 @@ pub mod p0647_palindromic_substrings;
 pub mod p0704_binary_search;
 pub mod p0739_daily_temperatures;
 pub mod p0763_partition_labels;
+pub mod p0787_cheapest_flights_within_k_stops;
 pub mod p0853_car_fleet;
 pub mod p0875_koko_eating_bananas;
 pub mod p0953_verifying_an_alien_dictionary;
