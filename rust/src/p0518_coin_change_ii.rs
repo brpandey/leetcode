@@ -60,8 +60,6 @@ impl Solution {
             dp[r][c] = 1; // initialize the base cases where the 0th col values are all 0
         }
 
-//        println!("table0 is {:#?}", &dp);
-
         // start populating the dp matrix, start from bottom right, e.g. last row first col and then
         // e.g. given e.g. cols 5,4,3,2,1,0 and rows 1,2,5
         // so start at biggest row smallest col, or (5,0)
@@ -79,7 +77,7 @@ impl Solution {
             }
         }
 
-//        println!("table is {:#?}", &dp);
+        //        println!("table is {:#?}", &dp);
 
         dp[0][0] // return value from top left or 0th row, and 0th col
     }
