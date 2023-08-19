@@ -106,6 +106,7 @@ pub mod p0297_serialize_and_deserialize_binary_tree;
 pub mod p0300_longest_increasing_subsequence;
 pub mod p0322_coin_change;
 pub mod p0323_number_of_connected_components_in_undirected_graph;
+pub mod p0329_longest_increasing_path_matrix;
 pub mod p0338_counting_bits;
 pub mod p0347_top_k_frequent_elements;
 pub mod p0371_sum_of_two_integers;
