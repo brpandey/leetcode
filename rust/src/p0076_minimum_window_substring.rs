@@ -80,75 +80,65 @@ pub struct Solution {}
 
 impl Solution {
     pub fn min_window(s: String, t: String) -> String {
-        // Reduce t into source map with byte counts (using uppercase and lowercase English letters, no foreign character sets)
-        // This is what we will be matching against sort of a master or control reference
-        let source = t.as_bytes().iter().fold(HashMap::new(), |mut acc, c| {
+        // Reduce t into tmap with byte counts, use as a reference
+        let tmap = t.as_bytes().iter().fold(HashMap::new(), |mut acc, c| {
             *acc.entry(c).or_insert(0) += 1;
             acc
         });
 
-        let (target, mut current) = (source.len(), 0);
-
-        // Window counts represent what our min window must have
-        let mut window: HashMap<u8, usize> = HashMap::new();
-
+        let (target, mut current) = (tmap.len(), 0);
+        let mut window: HashMap<u8, usize> = HashMap::new(); // letter frequencies of current window makeup
         let (mut l, mut r): (usize, usize) = (0, 0);
-
         let mut min_len = usize::MAX; // start big since target is minimum
         let mut min_indexes = (l,r);
-        let mut first;
+        let (mut leftmost, mut rightmost);
+        let bytes = s.as_bytes(); // use byte slice
 
-        // Tally counts by walking the main string S
-        // In order to index into String use bytes slice
-        let sb = s.as_bytes();
+        // Tally counts by walking source string s, using bytes slice version
+        for r in 0..bytes.len() {
+            // select byte letter from what r points to (as opposed to l)
+            rightmost = bytes.get(r).unwrap();  // let rightmost = &bytes[r..r+1];
 
-        for r in 0..sb.len() {
-            let letter = sb.get(r).unwrap();
-//            let letter = &sb[r..r+1];
+            // if rightmost exists in tmap letter counts, must track it, else ignore
+            if tmap.contains_key(rightmost) {
+                *window.entry(*rightmost).or_insert(0) += 1;
 
-            // if letter exists in counts, we need to track it, else ignore
-            if source.contains_key(letter) {
-                *window.entry(*letter).or_insert(0) += 1;
-
-                if source.get(letter).unwrap() == window.get(letter).unwrap() {
+                if window.get(rightmost).unwrap() == tmap.get(rightmost).unwrap() {
                     current += 1;
                 }
             }
 
-            // To encourage the search for a shorter sequence, disregard the letter in the beginning of the sequence
-            // and continue the rightward expansion while ensuring current == target -- doing this repeatedly
-
-            // current is a reflection if we are matching all of source's letter counts reflected in the number target
+            // Encourage the search for a shorter sequence, disregard the letter in the beginning of the sequence
+            // Continue the rightward expansion while ensuring current == target -- doing this repeatedly
+            // Current is the number of target letter matches within current sliding window
             while current == target {
-                // if we've found a valid substring, record its info if it is less than previous info
+                // after finding valid substring window, record its info if it is less than previous info
                 if min_len > r-l+1 {
                     min_indexes = (l, r);
                     min_len = r-l+1;
                 }
 
-                // disregard the letter in the beginning of the sequence
-                first = sb.get(l).unwrap(); 
+                // select byte letter in the beginning of the window sequence that l points to for discard
+                leftmost = bytes.get(l).unwrap(); 
 
-                // update current if first's count was equal to its corresponding letter in source
-                if source.contains_key(first) &&
-                    // Check equality before we decrement
-                    source.get(first).unwrap() == window.get(first).unwrap() {
-                        current -= 1; // decrement current since we're going to decrement first's count
+                // if leftmost byte letter is found in target,
+                // decrement current if leftmost's count was equal to its corresponding letter in tmap
+                if tmap.contains_key(leftmost) {
+                    if tmap.get(leftmost).unwrap() == window.get(leftmost).unwrap() {
+                        current -= 1; // decrement current since we're going to remove leftmost letter
                     }
 
-                // reflect changes to window
-                if window.contains_key(first) {
-                    *window.get_mut(first).unwrap() -= 1;
+                    *window.get_mut(leftmost).unwrap() -= 1; // reflect changes to window
                 }
 
-                l += 1; // move l to the right by 1
+                l += 1; // move l to the right by 1 (shrink window on left side)
             }
         }
 
         // check just in case if a substring wasn't found
         if min_len != usize::MAX {
             (l, r) = min_indexes;
-            std::str::from_utf8(&sb[l..=r]).unwrap().to_string()
+            std::str::from_utf8(&bytes[l..=r]).unwrap().to_string()
         } else {
             String::new()
         }
