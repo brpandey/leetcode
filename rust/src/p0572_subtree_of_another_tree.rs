@@ -26,7 +26,7 @@ The number of nodes in the subRoot tree is in the range [1, 1000].
 
 use crate::util::TreeNode;
 use crate::util::TreeNodeRef as TreeNodeRef;
-use std::rc::Rc;
+// use std::rc::Rc;
 
 pub struct Solution {}
 
@@ -36,12 +36,8 @@ impl Solution {
         if root == None { return false }
 
         // create the extra ref ptrs to the root and subroot as we need
-        let r1 = root.as_ref().map(Rc::clone);
-        let r2 = root.as_ref().map(Rc::clone);
-
-        let s1 = sub_root.as_ref().map(Rc::clone);
-        let s2 = sub_root.as_ref().map(Rc::clone);
-        let s3 = sub_root.as_ref().map(Rc::clone);
+        let (r1, r2) = (root.clone(), root.clone());
+        let (s1, s2, s3) = (sub_root.clone(), sub_root.clone(), sub_root.clone());
 
         if Self::is_same(r1, s1) { return true }
 
