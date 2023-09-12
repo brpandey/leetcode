@@ -5,7 +5,8 @@ Easy
 Given the head of a singly linked list, reverse the list, and return the reversed list.
 
 */
- // Definition for singly-linked list.
+// Definition for singly-linked list.
+
 #[derive(PartialEq, Eq, Clone, Debug)]
 pub struct ListNode {
    pub val: i32,
@@ -26,14 +27,13 @@ pub struct Solution {}
 
 impl Solution {
     pub fn reverse_list(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
-
         if head == None {
             return None
         }
 
-        let mut temp;
-        let mut node = head;
-        let mut reversed = ListNode::new(-1);
+        let mut former_forward_neighbor;
+        let mut current = head;
+        let mut reversed_dummy_head = ListNode::new(-1);
 
         // 1-> 2 -> None
 
@@ -51,17 +51,18 @@ impl Solution {
         // reversed.next -> 2 -> 1 -> None
         // node -> None
 
-        while let Some(mut n) = node {
-            temp = n.next; // move node's next neighbor aside for a second
-            n.next = reversed.next; // point node next to point back to the last node handled
-            reversed.next = Some(n); // update reversed next to point to current node
-            node = temp; // update node to its former neighbor
+        while let Some(mut c) = current {
+            former_forward_neighbor = c.next.take(); // move node's next neighbor aside for a second
+//            println!("c is {:?}, former_forward_neighbor is {:?}", &c, &former_forward_neighbor);
+            c.next = reversed_dummy_head.next; // point node next to point back to the last node handled
+            reversed_dummy_head.next = Some(c); // update reversed next to point to current node
+            current = former_forward_neighbor; // update node to its former neighbor
         }
 
         // This points to the last node in the old sequence
         // since reversed isn't part of the original list it is discarded,
         // leaving the Option<Box<ListNode>> it points to
-        reversed.next
+        reversed_dummy_head.next
     }
 
     pub fn from_list(list: Vec<i32>) -> Option<Box<ListNode>> {
@@ -69,17 +70,17 @@ impl Solution {
             return None
         }
 
-        let mut head = ListNode::new(-1);
+        let mut dummy_head = ListNode::new(-1);
         let mut node;
 
         // reverse list as its easier to
         for l in list.iter().rev() {
-            node = ListNode::new(*l);
-            node.next = head.next; // Node next points to old head.next
-            head.next = Some(Box::new(node)); // Update head.next to current node
+            node = ListNode::new(*l); // create new node w/o box or option
+            node.next = dummy_head.next; // Node next points to previous head.next
+            dummy_head.next = Some(Box::new(node)); // Update head.next to current node
         }
 
-        head.next
+        dummy_head.next
     }
 
     // keep the original list intact
