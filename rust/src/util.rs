@@ -39,7 +39,6 @@ impl TreeNode {
         node.as_ref().unwrap().borrow().right.as_ref().map(Rc::clone)
     }
 
-    
     // Create tree structure from bfs list of values
     pub fn from_list(list: Vec<i32>) -> Option<TreeNodeRef> {
         let mut queue1 = list.iter().cloned().collect::<VecDeque<i32>>();
@@ -92,50 +91,88 @@ impl TreeNode {
 }
 
 
-pub type NodeRef<T> = Rc<RefCell<ListNode<T>>>;
+/* Box List Node */
 
-#[derive(PartialEq, Eq, Debug)]
-pub struct ListNode<T> {
-    pub data: T,
-    pub next: Option<NodeRef<T>>
+pub type ListNodeRef = Option<Box<ListNode>>;
+
+#[derive(PartialEq, Eq, Clone, Debug)]
+pub struct ListNode {
+    pub data: i32,
+    pub next: ListNodeRef
 }
 
-impl<T> ListNode<T> {
-    pub fn new(data: T) -> NodeRef<T> {
-        Rc::new(
-            RefCell::new(
-                ListNode {
-                    next: None,
-                    data
-                }
+impl ListNode {
+    pub fn new(data: i32) -> ListNodeRef {
+        Some(Box::new(ListNode {
+            next: None,
+            data
+        }))
+    }
+
+    pub fn to_list(a: &[u32]) -> ListNodeRef {
+        let mut head: ListNodeRef = None;
+
+        // Reverse the array list [4,5] to 5,4 so 4 then points to 5 etc..
+        for &v in a.iter().rev() {
+            let mut n = (ListNode::new(v as i32)).unwrap(); // un-wrap
+            n.next = head;
+            head = Some(n); // re-wrap
+        }
+
+        head
+    }
+}
+
+/* Shared List Node*/ 
+
+pub type ListSNodeRef = Option<Rc<RefCell<ListSNode>>>;
+
+#[derive(PartialEq, Eq, Debug)]
+pub struct ListSNode {
+    pub data: i32,
+    pub next: ListSNodeRef
+}
+
+impl ListSNode {
+    pub fn new(data: i32) -> ListSNodeRef {
+        Some(
+            Rc::new(
+                RefCell::new(
+                    ListSNode {
+                        next: None,
+                        data
+                    }
+                )
             )
         )
     }
-
-    pub fn clone(node: &Option<NodeRef<T>>) -> Option<NodeRef<T>>{
-        node.as_ref().map(Rc::clone)
+    
+    pub fn clone(node: &ListSNodeRef) -> ListSNodeRef {
+        node.clone() //node.as_ref().map(Rc::clone)
     }
 
-    pub fn next(current: &Option<NodeRef<T>>) -> Option<NodeRef<T>>{
+    pub fn next(current: &ListSNodeRef) -> ListSNodeRef {
         if current.is_none() { return None }
-        current.as_ref().unwrap().borrow().next.as_ref().map(Rc::clone)
+        //current.as_ref().unwrap().borrow().next.as_ref().map(Rc::clone)
+        current.as_ref().unwrap().borrow().next.clone()
     }
 
-    pub fn from_list(a: &[T]) -> Option<NodeRef<T>> 
-    where T: Copy {
-        let mut head: Option<NodeRef<T>> = None;
-        let mut n: NodeRef<T>;
+    pub fn set_next(current: &ListSNodeRef, next: ListSNodeRef) {
+        if current.is_none() { return }
+        current.as_ref().unwrap().borrow_mut().next = next;
+    }
+
+    pub fn from_list(a: &[i32]) -> ListSNodeRef {
+        let mut head: ListSNodeRef = None;
+        let mut n;
 
         // Reverse the array list so 4 then points to 5 etc..
         for v in a.iter().rev() {
-            n = ListNode::new(*v);
-            if head.is_none() {
-                n.borrow_mut().next = head;
-            } else {
-                n.borrow_mut().next = Some(Rc::clone(&head.unwrap()));
-            }
-            head = Some(n);
+            n = ListSNode::new(*v);
+            n.as_ref().unwrap().borrow_mut().next = head.clone(); // Some(Rc::clone(&head.unwrap()));
+            head = n;
         }
+
         head
     }
 }
