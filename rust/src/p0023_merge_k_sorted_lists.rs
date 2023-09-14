@@ -1,5 +1,4 @@
-#[path = "./p0021_merge_two_sorted_lists.rs"] pub mod lists;
-use lists::Solution as util;
+
 /*
 23. Merge k Sorted Lists
 Hard
@@ -40,52 +39,54 @@ lists
 [list0, list1, list2, list3, list4, list5]
 
 becomes: 
-[list0(0,5), list1(1,4), list2(2,3), None, None, None] -->
-[list0(0,2), list1, None, None, None, None] -->
-[list0(0,1), None, None, None, None, None]
+[list0(0,5), list1(1,4), list2(2,3)] -->
+[list0(0,2), list1] -->
+[list0(0,1)]
 */
 
-// Using code from p0021_merge_two_sorted_lists
-type NodeLink<T> = lists::NodeLink<T>;
+#[path = "./p0021_merge_two_sorted_lists.rs"] pub mod p0021;
+use p0021::Solution as previous;
+use crate::util::ListNode;
+use crate::util::ListNodeRef;
 
 pub struct Solution {}
 
 impl Solution {
     // pub type NodeLink<T> = Option<Box<ListNode<T>>>;
-    pub fn run(lists: &mut [NodeLink<u32>]) -> NodeLink<u32> {
-        if lists.len() == 0 { return None; }
-        let mut end = lists.len() - 1;
+    pub fn merge_k_sorted(lists: Vec<Option<Box<ListNode>>>) -> ListNodeRef {
+        let mut size = lists.len();
 
-        while end != 0 {
-            let mut i: usize = 0;
-            let mut j: usize = end;
+        if size == 0 { return None; }
 
-            // Basically we pluck a pair of lists indexed by (i, j) and sort these and store
-            // the result back at i
+        let mut l = lists;
 
-            // We finish once there is only 1 list left in the array
+        // finish only when one sorted list left
+        while size > 1 {
+            let (mut i, mut j) = (0, l.len() - 1);
+            let mut merged = vec![];
 
+            // Choose a pair of lists indexed by (i, j) and sort these and store in aux vec
             while i < j {
-                // Since we can't move out of indexed content use take() which uses mem:replace
-                // under the covers to replace the taken value from the array slice with None
-                // so that the array doesn't have holes 
-                lists[i] = util::sorted_merge(lists[i].take(), lists[j].take());
+                // Since we can't move out of indexed content use take() so as not to leave holes
+                merged.push(previous::sorted_merge(l[i].take(), l[j].take()));
 
-                //If the old pair was 0, k, its now at index 1, k-1, then 2, k-2 ..
+                //If the previous markers were 0, k, its now at index 1, k-1, then 2, k-2 ..
                 i += 1;
                 j -= 1;
-
-                // if we've swept through the current iteration, set end to j
-                // if we've finished all the sweep iterations, the last pair will be
-                // i being 0 and j being 1, and hence the new pair will be i will be 1 and j will be 0
-
-                if i >= j {
-                    end = j;
-                }
             }
+
+            //                                         0  1  2  3  4
+            // if say the list was odd or size 5 e.g. [a, b, c, d, e], our merged is [a+e, b+d], need to push c, i=2, j=2
+            // if say the list was even or size 4 e.g.[a, b, c, d], our merged is [a+d, b+c], no need to push, i=2, j=1
+            if i == j {
+                merged.push(l[i].take())
+            }
+
+            l = merged; // set l to the intermediate list
+            size = l.len(); // update
         }
 
-        return lists[0].take();
+        return l[0].take();
     }
 }
 
@@ -94,17 +95,18 @@ impl Solution {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::util::ListNode;
 
     #[test]
     fn test_0023(){
-
-        let mut y = [
-            util::to_list(&[1,4,5]),
-            util::to_list(&[1,3,4]),
-            util::to_list(&[2,6])
+        let input = vec![
+            ListNode::to_list(&[1,4,5]),
+            ListNode::to_list(&[1,3,4]),
+            ListNode::to_list(&[2,6])
         ];
-        assert_eq!(util::to_list(&[1, 1, 2, 3, 4, 4, 5, 6]), Solution::run(&mut y));
-        assert_eq!(None, Solution::run(&mut []));
-        assert_eq!(None, Solution::run(&mut [None]));
+
+        assert_eq!(ListNode::to_list(&[1, 1, 2, 3, 4, 4, 5, 6]), Solution::merge_k_sorted(input));
+        assert_eq!(None, Solution::merge_k_sorted(vec![]));
+        assert_eq!(None, Solution::merge_k_sorted(vec![None]));
     }
 }
