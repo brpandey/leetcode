@@ -123,7 +123,26 @@ impl ListNode {
     }
 }
 
-/* Shared List Node*/ 
+/* Shared List Node*/
+
+/*
+ *  Think of the Option/Rc/RefCell/ListNode as a stack
+ *
+ *  Option     as_ref, unwrap
+ *  -------
+ *  Rc         clone (non-thread safe reference counting, over immutable data)
+ *  -------
+ *  RefCell    borrow, borrow_mut (dynamic borrowing)
+ *  -------
+ *  Listnode   .next field accessor
+ *
+ *
+ * unwrap()         Some
+ *                   ^
+ * |                 |
+ * |-------clone-----|
+ */
+
 
 pub type ListSNodeRef = Option<Rc<RefCell<ListSNode>>>;
 
