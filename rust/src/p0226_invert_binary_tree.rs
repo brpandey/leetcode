@@ -5,8 +5,6 @@ Easy
 
 Given the root of a binary tree, invert the tree, and return its root.
 
- 
-
 Example 1:
 
 Input: root = [4,2,7,1,3,6,9]
@@ -22,53 +20,24 @@ Example 3:
 Input: root = []
 Output: []
 
- 
-
 Constraints:
 
     The number of nodes in the tree is in the range [0, 100].
     -100 <= Node.val <= 100
 
-
  */
 
-pub type TreeNodeRef = Rc<RefCell<TreeNode>>;
-
-
-// Definition for a binary tree node.
-#[derive(Debug, PartialEq, Eq)]
-pub struct TreeNode {
-    pub val: i32,
-    pub left: Option<Rc<RefCell<TreeNode>>>,
-    pub right: Option<Rc<RefCell<TreeNode>>>,
-}
-
-impl TreeNode {
-    #[inline]
-    pub fn new(val: i32) -> TreeNodeRef {
-        Rc::new(
-            RefCell::new(
-                TreeNode {
-                    val,
-                    left: None,
-                    right: None
-                }
-            )
-        )
-    }
- }
-
-use std::rc::Rc;
-use std::cell::RefCell;
+use crate::util::TreeNode;
+use crate::util::TreeNodeRef;
 
 pub struct Solution {}
 
 impl Solution {
-    pub fn invert_tree(root: Option<Rc<RefCell<TreeNode>>>) -> Option<Rc<RefCell<TreeNode>>>{
+    pub fn invert_tree(root: Option<TreeNodeRef>) -> Option<TreeNodeRef> {
         if root == None { return None }
 
-        let left = root.as_ref().unwrap().borrow_mut().left.take();
-        let right = root.as_ref().unwrap().borrow_mut().right.take();
+        let left = TreeNode::left(&root);
+        let right = TreeNode::right(&root);
 
         root.as_ref().unwrap().borrow_mut().left = Solution::invert_tree(right);
         root.as_ref().unwrap().borrow_mut().right = Solution::invert_tree(left);
@@ -80,7 +49,8 @@ impl Solution {
 #[cfg(test)]
 pub mod tests {
     use super::*;
-    
+    use std::rc::Rc;
+
     #[test]
     pub fn test_0226() {
         // case 1

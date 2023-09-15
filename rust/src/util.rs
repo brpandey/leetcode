@@ -6,20 +6,20 @@ pub type TreeNodeRef = Rc<RefCell<TreeNode>>;
 
 // Definition for a binary tree node.
 #[derive(Debug, PartialEq, Eq)]
-pub struct TreeNode {
- pub val: i32,
-  pub left: Option<TreeNodeRef>,
-  pub right: Option<TreeNodeRef>,
-}
 
+pub struct TreeNode {
+    pub data: i32,
+    pub left: Option<TreeNodeRef>,
+    pub right: Option<TreeNodeRef>,
+}
 
 impl TreeNode {
     #[inline]
-    pub fn new(val: i32) -> TreeNodeRef {
+    pub fn new(data: i32) -> TreeNodeRef {
         Rc::new(
             RefCell::new(
                 TreeNode {
-                    val,
+                    data,
                     left: None,
                     right: None
                 }
@@ -28,7 +28,7 @@ impl TreeNode {
     }
 
     pub fn value(node: &Option<TreeNodeRef>) -> i32 {
-        node.as_ref().unwrap().borrow().val
+        node.as_ref().unwrap().borrow().data
     }
 
     pub fn left(node: &Option<TreeNodeRef>) -> Option<TreeNodeRef> {
@@ -165,7 +165,7 @@ impl ListSNode {
             )
         )
     }
-    
+
     pub fn clone(node: &ListSNodeRef) -> ListSNodeRef {
         node.clone() //node.as_ref().map(Rc::clone)
     }
