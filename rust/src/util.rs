@@ -27,6 +27,18 @@ impl TreeNode {
         )
     }
 
+    pub fn new_with(data: i32, left: Option<TreeNodeRef>, right: Option<TreeNodeRef>) -> TreeNodeRef {
+        Rc::new(
+            RefCell::new(
+                TreeNode {
+                    data,
+                    left,
+                    right,
+                }
+            )
+        )
+    }
+
     pub fn value(node: &Option<TreeNodeRef>) -> i32 {
         node.as_ref().unwrap().borrow().data
     }

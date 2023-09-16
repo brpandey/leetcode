@@ -2,11 +2,15 @@
  * 297. Serialize and Deserialize Binary Tree
 Hard
 
-Serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, or transmitted across a network connection link to be reconstructed later in the same or another computer environment.
+Serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file
+or memory buffer, or transmitted across a network connection link to be reconstructed later in the same or another computer environment.
 
-Design an algorithm to serialize and deserialize a binary tree. There is no restriction on how your serialization/deserialization algorithm should work. You just need to ensure that a binary tree can be serialized to a string and this string can be deserialized to the original tree structure.
+Design an algorithm to serialize and deserialize a binary tree. There is no restriction on how your serialization/deserialization
+algorithm should work. You just need to ensure that a binary tree can be serialized to a string and this string can be deserialized
+to the original tree structure.
 
-Clarification: The input/output format is the same as how LeetCode serializes a binary tree. You do not necessarily need to follow this format, so please be creative and come up with different approaches yourself.
+Clarification: The input/output format is the same as how LeetCode serializes a binary tree. You do not necessarily need to
+follow this format, so please be creative and come up with different approaches yourself.
 
  
 
@@ -47,7 +51,7 @@ impl Codec {
         Codec {}
     }
 
-    // convert nodes to a string containing the values separated by commas
+    // Convert nodes to a string containing the values separated by commas
     // null is marked as !, using a dfs preorder (NLR) approach
     pub fn serialize(&self, root: Option<Rc<RefCell<TreeNode>>>) -> String {
         let mut result = String::with_capacity(20);
@@ -86,21 +90,21 @@ impl Codec {
         Self::dfs2(&mut index, &input)
     }
 
-    fn dfs2(index: &mut usize, input: &[&str]) -> Option<TreeNodeRef> {
+    fn dfs2(acc_index: &mut usize, input: &[&str]) -> Option<TreeNodeRef> {
         // do DFS search using preorder traversal (NLR) to build up sub trees
 
-        if input[*index] == "!" {
-            *index += 1;
+        if input[*acc_index] == "!" {
+            *acc_index += 1;
             return None
         }
 
-        let val: i32 = input[*index].parse().unwrap();
+        let val: i32 = input[*acc_index].parse().unwrap();
         let node = TreeNode::new(val);
 
-        *index += 1;
+        *acc_index += 1;
 
-        node.as_ref().borrow_mut().left = Self::dfs2(index, input);
-        node.as_ref().borrow_mut().right = Self::dfs2(index, input);
+        node.as_ref().borrow_mut().left = Self::dfs2(acc_index, input);
+        node.as_ref().borrow_mut().right = Self::dfs2(acc_index, input);
 
         return Some(node);
     }

@@ -31,7 +31,7 @@ use std::cell::RefCell;
 
 /*
 Strategy:
-Build tree recursively, think only one level at a time
+Build tree recursively, think only one level at a time, preorder and inorder slices are two sources of truth to build each level
 
 The goal for the current level is just to find the root and partition each of the preorder and inorder lists into their
 constituent left and right halves
@@ -45,6 +45,13 @@ Everything before root element in inorder list is the left subtree, so root elem
 //               - -------              -   -------
 //  NLR          L    R       LNR       L      R
 //
+
+
+    3
+   / \
+  9   20
+     / \
+    15  7
 
 */
 

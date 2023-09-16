@@ -2,7 +2,8 @@
 230. Kth Smallest Element in a BST
     Medium
 
-    Given the root of a binary search tree, and an integer k, return the kth smallest value (1-indexed) of all the values of the nodes in the tree.
+    Given the root of a binary search tree, and an integer k, return the kth smallest value (1-indexed) of all the values of the
+   nodes in the tree.
 
     Example 1:
 
@@ -15,85 +16,68 @@ Input: root = [5,3,6,2,4,null,null,1], k = 3
     Output: 3
     */
 
-use std::rc::Rc;
-use std::cell::RefCell;
-pub type TreeNodeRef = Rc<RefCell<TreeNode>>;
 
-// Definition for a binary tree node.
- #[derive(Debug, PartialEq, Eq)]
- pub struct TreeNode {
-   pub val: i32,
-   pub left: Option<Rc<RefCell<TreeNode>>>,
-   pub right: Option<Rc<RefCell<TreeNode>>>,
- }
+use crate::util::TreeNodeRef;
+use crate::util::TreeNode;
 
- impl TreeNode {
-   #[inline]
-   pub fn new(val: i32) -> TreeNodeRef {
-       Rc::new(
-           RefCell::new(
-               TreeNode {
-                   val,
-                   left: None,
-                   right: None
-               }
-           )
-       )
-   }
- }
+/*
+Given tree
+//
+//       5
+//      / \
+//     2   9
+//    / \
+//   1  4
+
+Algorithm is =>
+1) 5 is pushed on to the stack,
+2) Go left push 2,
+3) Go left push 1,
+4) Not able to go left, pop stack and get 1, k = 1,
+5) Not able to go right as it is null
+6) Pop again, get 2 and k = 2,
+7) Go right, current pointing to 4, push 4 onto stack,
+8) Not able to go left, pop stack and get 4 and k = 3
+8) Not able to go right as its is null, pop stack and get 5 with k = 4
+9) Go right, current now points to 9 and so on ...
+ */
+
 
 pub struct Solution {}
 
 impl Solution {
     pub fn kth_smallest(root: &Option<TreeNodeRef>, k: i32) -> i32 {
         let not_found = 0;
+        let mut count = 0;
         let mut stack: Vec<TreeNodeRef> = vec![];
-        let mut cnt = 0;
-        let mut rc_node: TreeNodeRef;
-        let mut temp: Option<TreeNodeRef>;
-        let mut current: Option<TreeNodeRef> = root.as_ref().map(Rc::clone);
-//        stack.push(Rc::clone(root.as_ref().unwrap())); move it into second while loop
+        let mut last: TreeNodeRef;
+        let mut left: Option<TreeNodeRef>;
 
-        // Keep going as long as there are things to process
+        let mut current: Option<TreeNodeRef> = root.clone(); // root.as_ref().map(Rc::clone);
+
+        // Keep going as long as there are nodes to process
         while current != None || !stack.is_empty() {
 
-            // Traverse left subtrees
+            // Traverse left subtrees (Left is where all the smaller elements are)
             while current != None {
+                stack.push(current.clone().unwrap());
 
-                stack.push(Rc::clone(&current.as_ref().unwrap()));
-
-                // if possible keep going left down the tree (inorder -- L N R)
-                //
-                //       5
-                //      / \
-                //     2   9
-                //    / \
-                //   1  4
-
-                // Left is where all the smaller elements are
-                temp = current.as_ref().unwrap().borrow().left.as_ref().map(Rc::clone);
-//                if temp != None { stack.push(Rc::clone(&temp.as_ref().unwrap())) } // move to top of block, add current != None on top while loop
-                current = temp;
+                // If possible keep going left, down the tree (inorder -- L N R)
+                left = TreeNode::left(&current);
+                current = left;
             }
 
-            // For example, say we've pushed 5 on to the stack, gone left pushed 2 as well, gone left again, pushed 1,
-            // we're not able to go left anymore, we pop and rc_node is node 1 and k = 1,
-            // we try to go right, it is null as well,
-            // pop again, rc_node is now 2 and k = 2,
-            // we go right with current pointing to 4, push 4 onto stack, can't go left anymore, so we pop 4 and k = 3
-            // we go right to no luck, we pop again and rc_node is node 5 with k = 4, we go right, current now points to 9 and so on ...
+            last = stack.pop().unwrap(); // if left or right is null pop stack
 
-            rc_node = stack.pop().unwrap();
+            // for each pop increment count, this signifies the number of lowest values seen thus far
+            count += 1;
 
-            // everytime we pop, increment count, this signifies the number of lowest values seen thus far
-            cnt += 1;
-
-            if cnt == k {
-                return rc_node.borrow().val
+            if count == k {
+                return last.borrow().data
             }
 
-            // update current with a cloned RC to right node
-            current = rc_node.borrow().right.as_ref().map(Rc::clone);
+            // try last's right now as current
+            current = TreeNode::right(&Some(last));
 
         }
 
@@ -106,6 +90,7 @@ impl Solution {
 #[cfg(test)]
 pub mod tests {
     use super::*;
+    //use std::rc::Rc;
 
     #[test]
     pub fn test_0230() {

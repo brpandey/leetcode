@@ -26,38 +26,41 @@ The number of nodes in the subRoot tree is in the range [1, 1000].
 
 use crate::util::TreeNode;
 use crate::util::TreeNodeRef as TreeNodeRef;
-// use std::rc::Rc;
 
 pub struct Solution {}
 
 impl Solution {
+    // check if subroot and root are same, otherwise traverse the l and r subtrees of root
+    // checking if they match the subroot
     pub fn is_subtree(root: Option<TreeNodeRef>, sub_root: Option<TreeNodeRef>) -> bool {
-        if sub_root == None { return true }
-        if root == None { return false }
+        if sub_root == None { return true } // base case 1: the root's empty leaves match an empty subroot 
+        if root == None { return false } // base case 2: if root is empty, nothing can be a smaller subtree of it 
 
-        // create the extra ref ptrs to the root and subroot as we need
-        let (r1, r2) = (root.clone(), root.clone());
-        let (s1, s2, s3) = (sub_root.clone(), sub_root.clone(), sub_root.clone());
+        // create the extra ref ptrs to the subroot
+        let (sr1, sr2, sr3) = (sub_root.clone(), sub_root.clone(), sub_root.clone());
 
-        if Self::is_same(r1, s1) { return true }
+        if Self::is_same(root.clone(), sr1) { return true }
 
-        // adjust the tree by taking the sub_root and matching against its left or right subtrees
-        Self::is_subtree(TreeNode::left(&r2), s2) || Self::is_subtree(TreeNode::right(&r2), s3)
+        // adjust view of root tree in comparison to subroot by recursively
+        // checking root's l and r subtrees and matching against the sub_root
+        let (left, right) = (TreeNode::left(&root), TreeNode::right(&root));
+
+        Self::is_subtree(left, sr2) || Self::is_subtree(right, sr3)
     }
 
-    pub fn is_same(node1: Option<TreeNodeRef>, node2: Option<TreeNodeRef>) -> bool {
-        if node1 == None && node2 == None {
+    pub fn is_same(n1: Option<TreeNodeRef>, n2: Option<TreeNodeRef>) -> bool {
+        if n1 == None && n2 == None { // both None (same)
             return true
         }
 
-        if node1 == None || node2 == None {
+        if n1 == None || n2 == None { // only one is None (not same)
             return false
         }
 
         // If the current node value matches, check the that the l & r subtrees both match, recursively
-        if TreeNode::value(&node1) == TreeNode::value(&node2) {
-            return Self::is_same(TreeNode::left(&node1), TreeNode::left(&node2)) &&
-                Self::is_same(TreeNode::right(&node1), TreeNode::right(&node2))
+        if TreeNode::value(&n1) == TreeNode::value(&n2) {
+            return Self::is_same(TreeNode::left(&n1), TreeNode::left(&n2)) &&
+                Self::is_same(TreeNode::right(&n1), TreeNode::right(&n2))
         }
 
         // if no match up to this point the nodes/trees aren't the same

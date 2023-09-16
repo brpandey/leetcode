@@ -25,32 +25,8 @@ Constraints:
 
  */
 
-use std::rc::Rc;
-use std::cell::RefCell;
-pub type TreeNodeRef = Rc<RefCell<TreeNode>>;
-
-// Definition for a binary tree node.
-#[derive(Debug, PartialEq, Eq)]
-pub struct TreeNode {
-   pub val: i32,
-   pub left: Option<Rc<RefCell<TreeNode>>>,
-   pub right: Option<Rc<RefCell<TreeNode>>>,
-}
-
-impl TreeNode {
-   #[inline]
-   pub fn new(val: i32) -> TreeNodeRef {
-       Rc::new(
-           RefCell::new(
-               TreeNode {
-                   val,
-                   left: None,
-                   right: None
-               }
-           )
-       )
-   }
-}
+use crate::util::TreeNode;
+use crate::util::TreeNodeRef;
 
 pub struct Solution {}
 
@@ -58,8 +34,8 @@ impl Solution {
     pub fn max_depth(root: Option<TreeNodeRef>) -> i32 {
         if root.is_none() { return 0 }
 
-        let l = root.as_ref().unwrap().borrow().left.as_ref().map(Rc::clone);
-        let r = root.as_ref().unwrap().borrow().right.as_ref().map(Rc::clone);
+        let l = TreeNode::left(&root);
+        let r = TreeNode::right(&root);
 
         return 1 + std::cmp::max(Solution::max_depth(l), Solution::max_depth(r));
     }
@@ -68,10 +44,10 @@ impl Solution {
 #[cfg(test)]
 pub mod tests {
     use super::*;
+    use std::rc::Rc;
     
     #[test]
     pub fn test_0104() {
-
         let node3 = TreeNode::new(3);
         let node9 = TreeNode::new(9);
         let node20 = TreeNode::new(20);

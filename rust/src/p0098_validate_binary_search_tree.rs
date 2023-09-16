@@ -30,61 +30,32 @@ The number of nodes in the tree is in the range [1, 104].
 
 */
 
-pub type TreeNodeRef = Rc<RefCell<TreeNode>>;
-
-// Definition for a binary tree node.
-#[derive(Debug, PartialEq, Eq)]
-pub struct TreeNode {
-    pub val: i32,
-    pub left: Option<TreeNodeRef>,
-    pub right: Option<TreeNodeRef>,
-}
-
-impl TreeNode {
-    #[inline]
-    pub fn new(val: i32) -> TreeNodeRef {
-        Rc::new(
-            RefCell::new(
-                TreeNode {
-                    val,
-                    left: None,
-                    right: None
-                }
-            )
-        )
-    }
-}
-
-
-use std::rc::Rc;
-use std::cell::RefCell;
+use crate::util::TreeNodeRef;
+use crate::util::TreeNode;
 
 pub struct Solution {}
 
 impl Solution {
     pub fn is_valid_bst(root: &Option<TreeNodeRef>) -> bool {
-        Solution::helper(root.as_ref().map(Rc::clone), i32::MIN, i32::MAX)
+        Solution::dfs(root.clone(), i32::MIN, i32::MAX)
     }
 
-    pub fn helper(node: Option<TreeNodeRef>, min: i32, max: i32) -> bool {
+    pub fn dfs(node: Option<TreeNodeRef>, min: i32, max: i32) -> bool {
         // true is somewhat base case, until we've traveresed through the entire path down to leaf node 
-        if node == None {
-            return true
-        }
+        if node.is_none() { return true }
+        let value = TreeNode::value(&node);
 
-        // grab value
-        let value = node.as_ref().unwrap().borrow().val;
-
-        // shortcut early if not within proper BST ranges
         if value < min || value > max {
+            // if not within proper BST ranges, return false
             return false
         }
 
-        // if go left, current node's value is going to be max (everything on left is smaller than current)
-        // if go right, current node's value is going to be min (everything on right is bigger than current)
-        Solution::helper(node.as_ref().unwrap().borrow().left.as_ref().map(Rc::clone), min, value) &&
-            Solution::helper(node.as_ref().unwrap().borrow().right.as_ref().map(Rc::clone), value, max)
+        // Case 1) if go left, current node's value is going to be max (everything on left is smaller than current)
+        // Case 2) if go right, current node's value is going to be min (everything on right is bigger than current)
+        let (left, right) = (TreeNode::left(&node), TreeNode::right(&node));
 
+        // DFS both branches and must be true for both recursive calls
+        Solution::dfs(left, min, value) && Solution::dfs(right, value, max)
     }
 }
 
@@ -92,7 +63,8 @@ impl Solution {
 #[cfg(test)]
 pub mod tests {
     use super::*;
-
+    use std::rc::Rc;
+    
     #[test]
     pub fn test_0098() {
         // case 1

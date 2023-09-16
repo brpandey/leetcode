@@ -41,23 +41,23 @@ impl Solution {
     pub fn level_order(root: Option<TreeNodeRef>) -> Vec<Vec<i32>> {
         let mut queue = VecDeque::new();
         let mut result = Vec::new();
-        queue.push_back(root);
+        queue.push_back(root); // 1) Seed BFS queue
 
-        while !queue.is_empty() {
-            let size = queue.len();
+        while !queue.is_empty() { // 2) While q not empty
+            let size = queue.len(); // 3) Extract current q level size
             let mut list = vec![];
 
-            for _i in 0..size {
+            for _i in 0..size {  // 4) Process all entries in current level (size)
                 let node = queue.pop_front().unwrap();
 
                 if node.is_some() {
-                    list.push(TreeNode::value(&node));
+                    list.push(TreeNode::value(&node)); // 5) Add current node value to current level
 
                     let l = TreeNode::left(&node);
                     let r = TreeNode::right(&node);
 
-                    if l.is_some() { queue.push_back(l) }
-                    if r.is_some() { queue.push_back(r) }
+                    if l.is_some() { queue.push_back(l) } // if not None, push to q!
+                    if r.is_some() { queue.push_back(r) } // ""
                 }
             }
 
@@ -79,4 +79,3 @@ pub mod tests {
         assert_eq!(vec![vec![3], vec![9, 20], vec![15, 7]], Solution::level_order(root));
     }
 }
-

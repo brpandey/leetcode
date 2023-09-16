@@ -35,79 +35,45 @@ Constraints:
     p != q
     p and q will exist in the tree.
 
-
  *
  */
 
-pub type TreeNodeRef = Rc<RefCell<TreeNode>>;
-
-// Definition for a binary tree node.
-#[derive(Debug, PartialEq, Eq)]
-pub struct TreeNode {
- pub val: i32,
-  pub left: Option<TreeNodeRef>,
-  pub right: Option<TreeNodeRef>,
-}
-
-
-impl TreeNode {
-    #[inline]
-    pub fn new(val: i32) -> TreeNodeRef {
-        Rc::new(
-            RefCell::new(
-                TreeNode {
-                    val,
-                    left: None,
-                    right: None
-                }
-            )
-        )
-    }
-
-    pub fn value(node: &Option<TreeNodeRef>) -> i32 {
-        node.as_ref().unwrap().borrow().val
-    }
-
-    pub fn left(node: &Option<TreeNodeRef>) -> Option<TreeNodeRef> {
-        node.as_ref().unwrap().borrow().left.as_ref().map(Rc::clone)
-    }
-
-    pub fn right(node: &Option<TreeNodeRef>) -> Option<TreeNodeRef> {
-        node.as_ref().unwrap().borrow().right.as_ref().map(Rc::clone)
-    }
-}
+use crate::util::TreeNodeRef;
+use crate::util::TreeNode;
 
 /*
 Strategy
 
-  if p and q are both less than the current node we know that they must be in the left subtree in a BST
-  also
-  if p and q are both greater than the current node we know that they must be in the right subtree in a BST
+Start top-down from root
 
-  if p and q are split into different subtrees that means p is less than current node while q is not or vice versa
-  OR p or q equals the current node, we then know that the current node is the node of the split or self-referential
-  lowest common ancestor where p and q are descendants
+  1) if p and q are both less than the current node we know that they must be in the left subtree in a BST
+  2) if p and q are both greater than the current node we know that they must be in the right subtree in a BST
 
+  3) if p and q are split into different subtrees that means p is less than current node while q is greater or vice versa
+  4) OR p or q equals the current node, we then know that the current node is the node of the split or self-referential
+     lowest common ancestor where p and q are descendants
 */
-
-use std::rc::Rc;
-use std::cell::RefCell;
 
 pub struct Solution {}
 
 impl Solution {
     pub fn lowest_common_ancestor(root: Option<TreeNodeRef>, p: Option<TreeNodeRef>, q: Option<TreeNodeRef>) -> Option<TreeNodeRef> {
-        let mut node: Option<TreeNodeRef> = root;
+        let mut current = root.clone();
 
-        while None != node {
-            if TreeNode::value(&p) < TreeNode::value(&node) && TreeNode::value(&q) < TreeNode::value(&node) {
-                node = TreeNode::left(&node);
+        while current.is_some() {
+            // Case 1
+            if TreeNode::value(&p) < TreeNode::value(&current) &&
+                TreeNode::value(&q) < TreeNode::value(&current) {
+                current = TreeNode::left(&current);
             }
-            else if TreeNode::value(&p) > TreeNode::value(&node) && TreeNode::value(&q) > TreeNode::value(&node) {
-                node = TreeNode::right(&node);
+            // Case 2
+            else if TreeNode::value(&p) > TreeNode::value(&current) &&
+                TreeNode::value(&q) > TreeNode::value(&current) {
+                current = TreeNode::right(&current);
             }
+            // Case 3 or 4
             else {
-                return node
+                return current
             }
         }
 
@@ -118,6 +84,7 @@ impl Solution {
 #[cfg(test)]
 pub mod tests {
     use super::*;
+    use std::rc::Rc;
 
     #[test]
     pub fn test_0236() {
@@ -148,14 +115,12 @@ pub mod tests {
         let root = Some(Rc::clone(&node6));
 
         let result = Solution::lowest_common_ancestor(root, Some(Rc::clone(&node2)), Some(Rc::clone(&node8)));
-        assert_eq!(6, result.unwrap().borrow().val);
-
+        assert_eq!(6, result.unwrap().borrow().data);
 
         let root = Some(Rc::clone(&node6));
 
         let result = Solution::lowest_common_ancestor(root, Some(Rc::clone(&node2)), Some(Rc::clone(&node4)));
-        assert_eq!(2, result.unwrap().borrow().val);
-
+        assert_eq!(2, result.unwrap().borrow().data);
     }
 }
 
