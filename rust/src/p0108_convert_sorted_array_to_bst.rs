@@ -18,33 +18,13 @@ One possible answer is: [0,-3,9,-10,null,5], which represents the following heig
 
  */
 
-use std::rc::Rc;
-use std::cell::RefCell;
+use crate::util::TreeNodeRef;
+use crate::util::TreeNode;
 
 pub struct Solution {}
 
-// Definition for a binary tree node.
-#[derive(Debug, PartialEq, Eq)]
-pub struct TreeNode {
-   pub val: i32,
-   pub left: Option<Rc<RefCell<TreeNode>>>,
-   pub right: Option<Rc<RefCell<TreeNode>>>,
-}
-
-//
-impl TreeNode {
-   #[inline]
-   pub fn new(val: i32) -> Self {
-     TreeNode {
-       val,
-       left: None,
-       right: None
-     }
-   }
-}
-
 impl Solution {
-    pub fn sorted_array_to_bst(nums: &[i32]) -> Option<Rc<RefCell<TreeNode>>> {
+    pub fn sorted_array_to_bst(nums: &[i32]) -> Option<TreeNodeRef> {
         let size = nums.len();
 
         // [], return None
@@ -53,11 +33,12 @@ impl Solution {
         // [1, 2, 3], size is 3, mid is 1, left is [0..1] or [1,2], right is [2..] or [3]
         // [1, 2, 3, 4], size is 4, mid is 2, left is [0..2] or [1,2], right is [3..] or [4]
         // [1, 2, 3, 4, 5], size is 5, mid is 2, left is [0..2] or [1,2], right is [3..] or [4, 5]
+
         if size == 0 { return None };
         let mid = size/2;
 
         // Put the middle element of the slice as the root
-        let root: Rc<RefCell<TreeNode>> = Rc::new(RefCell::new(TreeNode::new(nums[mid])));
+        let root: TreeNodeRef = TreeNode::new(nums[mid]);
         root.borrow_mut().left = Solution::sorted_array_to_bst(&nums[..mid]);
         root.borrow_mut().right = Solution::sorted_array_to_bst(&nums[mid+1..]);
 
@@ -65,15 +46,19 @@ impl Solution {
     }
 
     // Helper function to verify tree is constructed properly
-    pub fn inorder(root: Option<Rc<RefCell<TreeNode>>>, nums: &mut Vec<i32>) {
-        if root == None {
+    pub fn inorder(node: Option<TreeNodeRef>, nums: &mut Vec<i32>) {
+        if node == None {
             return;
         }
 
+        let left = TreeNode::left(&node);
+        let right = TreeNode::right(&node);
+        let value = TreeNode::value(&node);
+
         // Inorder is LNR
-        Solution::inorder(root.as_ref().unwrap().borrow().left.clone(), nums);
-        nums.push(root.as_ref().unwrap().borrow().val.clone());
-        Solution::inorder(root.as_ref().unwrap().borrow().right.clone(), nums);
+        Solution::inorder(left, nums);
+        nums.push(value);
+        Solution::inorder(right, nums);
     }
 }
 
@@ -86,6 +71,7 @@ mod tests {
         let input = vec![-10,-3,0,5,9];
         let root = Solution::sorted_array_to_bst(&input);
         let mut check = vec![];
+
         // Verify Solution root via inorder traversal is the same as the input!
         Solution::inorder(root, &mut check);
         assert_eq!(input, check);
