@@ -45,116 +45,106 @@ Constraints:
 
  */
 
-#[path = "./p0108_convert_sorted_array_to_bst.rs"] pub mod bst;
-type TreeNode = bst::TreeNode;
+/*
+             5
+            / \
+           3   6
+          / \   \
+         2   4   7
+
+key to delete is 3, 
+*/
+
+
+use crate::util::TreeNode;
+use crate::util::TreeNodeRef;
 
 pub struct Solution {}
 
-/*
-// Definition for a binary tree node.
-#[derive(Debug, PartialEq, Eq)]
- pub struct TreeNode {
-   pub val: i32,
-   pub left: Option<Rc<RefCell<TreeNode>>>,
-   pub right: Option<Rc<RefCell<TreeNode>>>,
- }
- 
-impl TreeNode {
-    #[inline]
-    pub fn new(val: i32) -> Self {
-        TreeNode {
-            val,
-            left: None,
-            right: None
-        }
-    }
-}
-*/
-
-use std::rc::Rc;
-use std::cell::RefCell;
 impl Solution {
-    pub fn delete_node(root: Option<Rc<RefCell<TreeNode>>>, key: i32) -> Option<Rc<RefCell<TreeNode>>> {
-        // Keep a separate variable so we avoid already borrowed errors when doing two successive borrowing in one line!
-        let new_subtree;
+    pub fn delete_node(root: Option<TreeNodeRef>, key: i32) -> Option<TreeNodeRef> {
+        let subtree;
+        let n = &root;
 
-        match root {
-            None => None,
-            // Unwrap here to save us from having to do it in the rest of the code numerous times,
-            Some(node) => {
-                if key < node.borrow().val { // Ensure our left child is prepared that the left subtree may be updated
-                    new_subtree = Solution::delete_node(node.borrow_mut().left.clone(), key);
-                    node.borrow_mut().left = new_subtree;
-                } else if key > node.borrow().val {  // Ensure our right child is prepared that the right subtree may be updated
-                    new_subtree = Solution::delete_node(node.borrow_mut().right.clone(), key);
-                    node.borrow_mut().right = new_subtree;
-                } else { // Found key
-                    // If we have found key but have no left subtree, remove the node at key by returning the right subtree
-                    // (this will eclipse/drop the current node)
-                    if node.borrow().left.is_none() {
-                        return node.borrow_mut().right.clone();
-                    } else if node.borrow().right.is_none() {
-                        // If we have found key but have no right subtree,
-                        // Remove the node at key by returning the left subtree, (this will eclipse/drop the current node)
-                        return node.borrow_mut().left.clone();
-                    }
+        if n.is_none() { return None };
 
-                    // Key is found and we have both left and right subtrees, substitute the key with the next largest value
-                    // Grab minimum value in right subtree
-                    // (which is the leftmost value in the right BST subtree, extract that value and delete that physical node)
-                    let mut minimum = node.borrow_mut().right.clone();
+        let value = TreeNode::value(n);
+        let left = TreeNode::left(n);
+        let mut right = TreeNode::right(n);
 
-                    while let Some(temp) = minimum.clone().unwrap().borrow_mut().left.clone() {
-                        minimum = temp.borrow_mut().left.clone();
-                    }
-
-                    // Now that we have minimum extract its key and use it as our replacement
-                    // (in this case we are not deleting the node but just replacing the i32 val)
-                    let min_key = minimum.unwrap().borrow().val;
-                    node.borrow_mut().val = min_key;
-
-                    // Recursively traverse to delete the physical node attached to the min_key since we are using it elsewhere!
-                    new_subtree = Solution::delete_node(node.borrow_mut().right.clone(), min_key);
-                    node.borrow_mut().right = new_subtree;
-                }
-
-                // Rewrap
-                Some(node)
+        if key < value { // Update left with new subtree 
+            subtree = Solution::delete_node(left, key);
+            n.as_ref().unwrap().borrow_mut().left = subtree;
+        } else if key > value {  // Update right with new subtree
+            subtree = Solution::delete_node(right, key);
+            n.as_ref().unwrap().borrow_mut().right = subtree;
+        } else { // Found key
+            // Case 1) no left subtree, delete node by turning right subtree, eclipsing current
+            if left.is_none() {
+                return right
+            // Case 2) no left subtree, delete node by turning right subtree, eclipsing current
+            } else if right.is_none() {
+                return left
             }
+
+            // If both left or right is None, we return that in each of the return right or return left above
+
+            // Case 3) Key is found with node having both left and right subtrees,
+            // Hence substitute the key with the next largest value
+            // AKA => Grab minimum value in RIGHT subtree
+            // (which is the leftmost value in the right BST subtree, extract that value and delete that physical node)
+            let mut smallest = right;
+            let mut smallest_right = -1;
+
+            while smallest.is_some() {
+                smallest_right = TreeNode::value(&smallest);
+                smallest = TreeNode::left(&smallest); // find smallest in right subtree
+            }
+
+            // Now that we have the next smallest and its key, use it as our replacement
+
+            n.as_ref().unwrap().borrow_mut().data = smallest_right;
+
+            // Recursively traverse to delete the physical node attached to the smallest_right since we are using it elsewhere!
+            right = TreeNode::right(n);
+            subtree = Solution::delete_node(right, smallest_right);
+            n.as_ref().unwrap().borrow_mut().right = subtree;
         }
+
+        n.clone()
     }
 }
+
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use bst::Solution as util;
 
     #[test]
     pub fn test_0450() {
         //Case 1)
         let mut input = [5,3,6,2,4,7];
         input.sort();
-        let root = util::sorted_array_to_bst(&input); // reuse don't have to rewrite!
+        let root = TreeNode::sorted_array_to_bst(&input); // reuse don't have to rewrite!
         let new_root = Solution::delete_node(root, 3);
 
         let mut check = vec![];
-        util::inorder(new_root, &mut check);
+        TreeNode::inorder(new_root, &mut check);
         assert_eq!(vec![2,4,5,6,7], check);
 
         //Case 2)
         let mut input = [5,3,6,2,4,7];
         input.sort();
-        let root = util::sorted_array_to_bst(&input);
+        let root = TreeNode::sorted_array_to_bst(&input);
         let new_root = Solution::delete_node(root, 0);
 
         let mut check = vec![];
-        util::inorder(new_root, &mut check);
+        TreeNode::inorder(new_root, &mut check);
         assert_eq!(vec![2,3,4,5,6,7], check);
 
 
         //Case 3)
-        let root = util::sorted_array_to_bst(&[]);
+        let root = TreeNode::sorted_array_to_bst(&[]);
         let new_root = Solution::delete_node(root, 0);
         assert_eq!(None, new_root);
     }

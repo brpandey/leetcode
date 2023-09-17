@@ -40,14 +40,17 @@ impl TreeNode {
     }
 
     pub fn value(node: &Option<TreeNodeRef>) -> i32 {
+        if node.is_none() { return i32::MIN }
         node.as_ref().unwrap().borrow().data
     }
 
     pub fn left(node: &Option<TreeNodeRef>) -> Option<TreeNodeRef> {
+        if node.is_none() { return None }
         node.as_ref().unwrap().borrow().left.as_ref().map(Rc::clone)
     }
 
     pub fn right(node: &Option<TreeNodeRef>) -> Option<TreeNodeRef> {
+        if node.is_none() { return None }
         node.as_ref().unwrap().borrow().right.as_ref().map(Rc::clone)
     }
 
@@ -100,6 +103,44 @@ impl TreeNode {
 
         Some(head)
     }
+
+    pub fn sorted_array_to_bst(nums: &[i32]) -> Option<TreeNodeRef> {
+        let size = nums.len();
+
+        // [], return None
+        // [1], size is 1, mid is 0, left is [0..0] or [], right is [1..] or []
+        // [1, 2], size is 2, mid is 1, left is [0..1] or [1], right is [2..] or []
+        // [1, 2, 3], size is 3, mid is 1, left is [0..1] or [1,2], right is [2..] or [3]
+        // [1, 2, 3, 4], size is 4, mid is 2, left is [0..2] or [1,2], right is [3..] or [4]
+        // [1, 2, 3, 4, 5], size is 5, mid is 2, left is [0..2] or [1,2], right is [3..] or [4, 5]
+
+        if size == 0 { return None };
+        let mid = size/2;
+
+        // Put the middle element of the slice as the root
+        let root: TreeNodeRef = TreeNode::new(nums[mid]);
+        root.borrow_mut().left = TreeNode::sorted_array_to_bst(&nums[..mid]);
+        root.borrow_mut().right = TreeNode::sorted_array_to_bst(&nums[mid+1..]);
+
+        Some(root)
+    }
+
+    pub fn inorder(node: Option<TreeNodeRef>, nums: &mut Vec<i32>) {
+        if node == None {
+            return;
+        }
+
+        let left = TreeNode::left(&node);
+        let right = TreeNode::right(&node);
+        let value = TreeNode::value(&node);
+
+        // Inorder is LNR
+        TreeNode::inorder(left, nums);
+        nums.push(value);
+        TreeNode::inorder(right, nums);
+    }
+
+
 }
 
 
