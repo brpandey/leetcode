@@ -73,6 +73,7 @@ pub mod p0189_rotate_array;
 pub mod p0190_reverse_bits;
 pub mod p0191_number_of_1_bits;
 pub mod p0198_house_robber;
+pub mod p0199_binary_tree_right_side_view;
 pub mod p0200_number_of_islands;
 pub mod p0206_reverse_linked_list;
 pub mod p0207_course_schedule;
