@@ -80,8 +80,7 @@ pub mod tests {
 
     #[test]
     pub fn test_0199() {
-        let root = TreeNode::from_list(vec![1,2,3,i32::MIN,i32::MIN,5, 4]);
-//        let root = TreeNode::from_list(vec![1,2,3,i32::MIN,5,i32::MIN,4]);
+        let root = TreeNode::from_list(vec![1,2,3,i32::MIN,5,i32::MIN,4]);
         assert_eq!(vec![1,3,4], Solution::right_side_view(root))
     }
 }

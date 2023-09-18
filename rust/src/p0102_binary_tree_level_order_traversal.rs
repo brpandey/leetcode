@@ -28,6 +28,14 @@ Constraints:
     -1000 <= Node.val <= 1000
 
 
+Example 1
+
+     3
+    / \
+   9   20
+       / \
+      15  7
+
  *
  */
 

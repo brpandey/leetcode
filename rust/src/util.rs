@@ -55,53 +55,59 @@ impl TreeNode {
     }
 
     // Create tree structure from bfs list of values
+    // let root = TreeNode::from_list(vec![3,9,20,i32::MIN,i32::MIN,15,7]);
+    // assert_eq!(vec![vec![3], vec![9, 20], vec![15, 7]], Solution::level_order(root));
+
+    /*
+                  3
+                 / \
+                9   20
+                    / \
+                   15  7
+     */
+
     pub fn from_list(list: Vec<i32>) -> Option<TreeNodeRef> {
-        let mut queue1 = list.iter().cloned().collect::<VecDeque<i32>>();
-        let mut queue2: VecDeque<TreeNodeRef> = VecDeque::new();
+        if list.is_empty() { return None }
 
-        let head = TreeNode::new(queue1.pop_front().unwrap());
-        let mut node;
+        let mut q: VecDeque<Option<TreeNodeRef>> = VecDeque::new();
 
-        queue2.push_back(Rc::clone(&head));
+        let root = Some(TreeNode::new(list[0]));
+        let mut parent = None;
 
-        let mut value: i32;
+        q.push_back(root.clone());
+
         let mut left = true;
-        let mut child: TreeNodeRef;
+        let mut child;
 
-        // Process bfs value queue while processing bfs node queue
-        while !queue1.is_empty() {
-            node = queue2.front_mut().unwrap();
-            value = queue1.pop_front().unwrap();
+        for &value in list.iter().skip(1) {
 
-            // handle where we need to not add child nodes to current node by continue-ing
-            if value == i32::MIN {
-                left = !left;
-
-                if left == false {
-                    queue2.pop_front(); // if we have a null right child ensure we clear current node value from queue2
-                }
-                continue
+            if left { // only grab from queue if we are ready to process left child
+                parent = q.pop_front().flatten();
             }
 
-            // Create proper node out of value 
-            child = TreeNode::new(value);
+            // Create proper node out of value
+            if value == i32::MIN {
+                left = !left;
+                continue // skip child processing of node value since this child is null
+            } else {
+                child = Some(TreeNode::new(value)); // create child
+            }
 
             // Connect the child nodes either left or right child,
             // Enqueuing the child for its later processing as a potential parent
-            // left
-            if left {
-                node.borrow_mut().left = Some(Rc::clone(&child));
-                queue2.push_back(Rc::clone(&child));
+
+            if left { // left
+                parent.as_ref().unwrap().borrow_mut().left = child.clone();
             } else { // right
-                node.borrow_mut().right = Some(Rc::clone(&child));
-                queue2.push_back(Rc::clone(&child));
-                queue2.pop_front(); // now that both l and r children have been assigned, pop parent
+                parent.as_ref().unwrap().borrow_mut().right = child.clone();
             }
 
-            left = !left;
+            q.push_back(child);
+            left = !left; // toggle left so if left was true it is now false, and vice versa
         }
 
-        Some(head)
+
+        root
     }
 
     pub fn sorted_array_to_bst(nums: &[i32]) -> Option<TreeNodeRef> {
