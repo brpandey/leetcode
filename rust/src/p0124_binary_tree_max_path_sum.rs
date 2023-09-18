@@ -49,26 +49,28 @@ pub struct Solution {}
 
 impl Solution {
     pub fn max_path_sum(root: Option<TreeNodeRef>) -> i32 {
-        let (mf, ms) = Self::dfs(root);
-        cmp::max(mf, ms)
+        let (max_split, max_nosplit) = Self::dfs(root);
+        cmp::max(max_split, max_nosplit)
     }
 
-    pub fn dfs(root: Option<TreeNodeRef>) -> (i32, i32) {
-        if root == None {
+    pub fn dfs(node: Option<TreeNodeRef>) -> (i32, i32) {
+        if node == None {
+            // tuple.0 is max path sum with split,
+            // tuple.1 is max path sum without split
             return (0, 0)
         }
 
-        let (l_mf, l_ms) = Self::dfs(TreeNode::left(&root));
-        let (r_mf, r_ms) = Self::dfs(TreeNode::right(&root));
+        let left_max = Self::dfs(TreeNode::left(&node));
+        let right_max = Self::dfs(TreeNode::right(&node));
 
-        let mf = cmp::max(l_mf, r_mf);
-        let val = TreeNode::value(&root);
+        let val = TreeNode::value(&node);
 
         // Compute 1) and 2)
-        let max_forked = cmp::max(mf, val + l_ms + r_ms); // update max_forked with the forked value at this level
-        let max_single = val + cmp::max(l_ms, r_ms); // find max single at this level will it be from l or r path?
+        let mut acc_max_with_split = cmp::max(left_max.0, right_max.0);
+        acc_max_with_split = cmp::max(acc_max_with_split, val + left_max.1 + right_max.1);  // find the bigger max path split
 
-        (max_forked, cmp::max(max_single, 0))
+        let acc_max_without_split  = cmp::max(0, val + cmp::max(left_max.1, right_max.1));
+        (acc_max_with_split, acc_max_without_split)
     }
 }
 
