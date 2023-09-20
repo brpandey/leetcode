@@ -54,9 +54,8 @@ Constraints:
    6 hours is less than 8 hours, so next find an even smaller rate of k smaller than k that is still under 8 hours
 
    1+5 = 6 => 6/2 => 3 so that would be [3/3, 6/3, 7/3, 11/3] => 1+2+3+4 => 10 which is > 8
-   4+5 = 9 => 9/2 => 4 so that would be [3/4, 6/4, 7/4, 11/4] => 1+2+2+3 => 7 which is < 8
+   4+5 = 9 => 9/2 => 4 so that would be [3/4, 6/4, 7/4, 11/4] => 1+2+2+3 => 8 which is == 8, found!
 
-   Since we can't go left anymore (l,r) = (4,5) and r can't be 3 the loop terminates
  */
 
 pub struct Solution {}

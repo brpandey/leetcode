@@ -135,5 +135,6 @@ pub mod p0853_car_fleet;
 pub mod p0875_koko_eating_bananas;
 pub mod p0953_verifying_an_alien_dictionary;
 pub mod p0981_time_based_key_value_store;
+pub mod p0994_rotting_oranges;
 pub mod p1143_longest_common_subsequence;
 pub mod p1448_count_good_nodes;
