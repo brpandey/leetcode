@@ -12,18 +12,17 @@ Example:
 Given 1->2->3->4, you should return the list as 2->1->4->3.
  */
 
-use crate::util::ListNodeRef;
 use crate::util::ListNode;
 
 pub struct Solution {}
 
 impl Solution {
 
-    pub fn run(head: ListNodeRef) -> ListNodeRef {
-        let mut dummy_head: ListNodeRef = ListNode::new(-1);
+    pub fn run(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
+        let mut dummy_head: Option<Box<ListNode>> = ListNode::new(-1);
         dummy_head.as_mut().unwrap().next = head;
 
-        let mut current: &mut ListNodeRef = &mut dummy_head;
+        let mut current: &mut Option<Box<ListNode>> = &mut dummy_head;
 
         // Do a check if current != None and current.next != None and current.next.next != None
         // x -> a -> b -> c -> d
@@ -31,8 +30,8 @@ impl Solution {
             && current.as_ref().unwrap().next.is_some() // a != None
             && current.as_ref().unwrap().next.as_ref().unwrap().next.is_some() { // b != None
 
-                let mut first: ListNodeRef = current.as_mut().unwrap().next.take(); // a
-                let second: ListNodeRef = first.as_mut().unwrap().next.take(); // b
+                let mut first: Option<Box<ListNode>> = current.as_mut().unwrap().next.take(); // a
+                let second: Option<Box<ListNode>> = first.as_mut().unwrap().next.take(); // b
 
                 // current is x
                 // x now points to the sequence: x -> b -> a -> c -> d
@@ -48,7 +47,7 @@ impl Solution {
     // a -> b -> c, where first is a and second is b, changes to b -> a -> c
 
     //              a                       b
-    pub fn swap(mut first: ListNodeRef, mut second: ListNodeRef) -> ListNodeRef {
+    pub fn swap(mut first: Option<Box<ListNode>>, mut second: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
         // a -> c
         first.as_mut().unwrap().next = second.as_mut().unwrap().next.take();
         // b -> a -> c

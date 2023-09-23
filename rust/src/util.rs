@@ -152,24 +152,30 @@ impl TreeNode {
 
 /* Box List Node */
 
-pub type ListNodeRef = Option<Box<ListNode>>;
-
 #[derive(PartialEq, Eq, Clone, Debug)]
 pub struct ListNode {
     pub data: i32,
-    pub next: ListNodeRef
+    pub next: Option<Box<ListNode>>
 }
 
 impl ListNode {
-    pub fn new(data: i32) -> ListNodeRef {
+    pub fn new0(data: i32) -> Self {
+        ListNode {
+            next: None,
+            data
+        }
+    }
+
+    pub fn new(data: i32) -> Option<Box<ListNode>> {
         Some(Box::new(ListNode {
             next: None,
             data
         }))
     }
 
-    pub fn to_list(a: &[u32]) -> ListNodeRef {
-        let mut head: ListNodeRef = None;
+
+    pub fn to_list(a: &[u32]) -> Option<Box<ListNode>> {
+        let mut head: Option<Box<ListNode>> = None;
 
         // Reverse the array list [4,5] to 5,4 so 4 then points to 5 etc..
         for &v in a.iter().rev() {
@@ -203,16 +209,16 @@ impl ListNode {
  */
 
 
-pub type ListSNodeRef = Option<Rc<RefCell<ListSNode>>>;
+pub type ListSNodeRef = Rc<RefCell<ListSNode>>;
 
 #[derive(PartialEq, Eq, Debug)]
 pub struct ListSNode {
     pub data: i32,
-    pub next: ListSNodeRef
+    pub next: Option<ListSNodeRef>
 }
 
 impl ListSNode {
-    pub fn new(data: i32) -> ListSNodeRef {
+    pub fn new(data: i32) -> Option<ListSNodeRef> {
         Some(
             Rc::new(
                 RefCell::new(
@@ -225,23 +231,23 @@ impl ListSNode {
         )
     }
 
-    pub fn clone(node: &ListSNodeRef) -> ListSNodeRef {
+    pub fn clone(node: &Option<ListSNodeRef>) -> Option<ListSNodeRef> {
         node.clone() //node.as_ref().map(Rc::clone)
     }
 
-    pub fn next(current: &ListSNodeRef) -> ListSNodeRef {
+    pub fn next(current: &Option<ListSNodeRef>) -> Option<ListSNodeRef> {
         if current.is_none() { return None }
         //current.as_ref().unwrap().borrow().next.as_ref().map(Rc::clone)
         current.as_ref().unwrap().borrow().next.clone()
     }
 
-    pub fn set_next(current: &ListSNodeRef, next: ListSNodeRef) {
+    pub fn set_next(current: &Option<ListSNodeRef>, next: Option<ListSNodeRef>) {
         if current.is_none() { return }
         current.as_ref().unwrap().borrow_mut().next = next;
     }
 
-    pub fn from_list(a: &[i32]) -> ListSNodeRef {
-        let mut head: ListSNodeRef = None;
+    pub fn from_list(a: &[i32]) -> Option<ListSNodeRef> {
+        let mut head: Option<ListSNodeRef> = None;
         let mut n;
 
         // Reverse the array list so 4 then points to 5 etc..

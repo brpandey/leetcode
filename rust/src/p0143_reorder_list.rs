@@ -56,7 +56,6 @@ is reversing the list as we iterate through it, which is n -1 + n -2 + n - 3 ...
      -                                -                               -                                   -
 */
 
-use crate::util::ListNodeRef;
 use crate::util::ListNode;
 
 use crate::util::ListSNodeRef;
@@ -67,7 +66,7 @@ use crate::util::ListSNode;
 pub struct Solution {}
 
 impl Solution {
-    pub fn reorder_list(head: &mut ListNodeRef) {
+    pub fn reorder_list(head: &mut Option<Box<ListNode>>) {
         let second = Self::split_by_mid(head);
 
         let mut reversed = Self::reverse(second); // Reverse second half to setup for stitching
@@ -77,8 +76,8 @@ impl Solution {
         *head = merged
     }
 
-    pub fn split_by_mid(head: &mut ListNodeRef) -> ListNodeRef {
-        let mut current: &ListNodeRef = head;
+    pub fn split_by_mid(head: &mut Option<Box<ListNode>>) -> Option<Box<ListNode>> {
+        let mut current: &Option<Box<ListNode>> = head;
         let mut current_unwrapped;
         let mut count: usize = 0;
 
@@ -91,7 +90,7 @@ impl Solution {
 
         let mid_point = count / 2 + count % 2;
 
-        let mut node: &mut ListNodeRef = head;
+        let mut node: &mut Option<Box<ListNode>> = head;
         let mut n: &mut Box<ListNode>;
 
         for _i in 0..mid_point {
@@ -103,7 +102,7 @@ impl Solution {
         second
     }
 
-    pub fn merge(list1: &mut ListNodeRef, list2: &mut ListNodeRef) -> ListNodeRef{
+    pub fn merge(list1: &mut Option<Box<ListNode>>, list2: &mut Option<Box<ListNode>>) -> Option<Box<ListNode>>{
         let mut l1 = list1;
         let mut l2 = list2;
 
@@ -115,8 +114,8 @@ impl Solution {
 
         let mut l1_next;
         let mut l2_next;
-        let mut n1: ListNodeRef;
-        let mut n2: ListNodeRef;
+        let mut n1: Option<Box<ListNode>>;
+        let mut n2: Option<Box<ListNode>>;
 
         // Add nodes on to the new list (out) and increment the ptrs for out, l1 and l2 as needed
         while l1.is_some() || l2.is_some() {
@@ -142,7 +141,7 @@ impl Solution {
         out.as_mut().unwrap().next.take()
     }
 
-    pub fn reverse(mut current: ListNodeRef) -> ListNodeRef {
+    pub fn reverse(mut current: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
         let mut reversed_dummy_head = ListNode::new(-1);
         let mut forward_next;
 
@@ -167,16 +166,16 @@ impl Solution {
 pub struct Solution1 {}
 
 impl Solution1 {
-    pub fn reorder_list(head: &ListSNodeRef) {
-        let first: ListSNodeRef = ListSNode::clone(head);
+    pub fn reorder_list(head: &Option<ListSNodeRef>) {
+        let first: Option<ListSNodeRef> = ListSNode::clone(head);
         let mut second = Self::find_mid(head);
         second = Self::reverse(second); // Reverse second half to setup for stitching
         Self::merge(first, second);
     }
 
-    pub fn find_mid(head: &ListSNodeRef) -> ListSNodeRef {
-        let mut first: ListSNodeRef = ListSNode::clone(head);
-        let mut second: ListSNodeRef = ListSNode::clone(head);
+    pub fn find_mid(head: &Option<ListSNodeRef>) -> Option<ListSNodeRef> {
+        let mut first: Option<ListSNodeRef> = ListSNode::clone(head);
+        let mut second: Option<ListSNodeRef> = ListSNode::clone(head);
 
         // first while iteration
         // s    second while iteration
@@ -203,7 +202,7 @@ impl Solution1 {
     }
 
 
-    pub fn merge(mut l1: ListSNodeRef, mut l2: ListSNodeRef) {
+    pub fn merge(mut l1: Option<ListSNodeRef>, mut l2: Option<ListSNodeRef>) {
         // Now stitch the nodes from the first and second lists into the output list
 
         // New list, note: the original head is always the start of the new list (so don't need to return anything)
@@ -225,7 +224,7 @@ impl Solution1 {
         }
     }
 
-    pub fn reverse(mut current: ListSNodeRef) -> ListSNodeRef {
+    pub fn reverse(mut current: Option<ListSNodeRef>) -> Option<ListSNodeRef> {
         let reversed_dummy_head = ListSNode::new(-1);
         let mut forward_next;
 

@@ -59,8 +59,6 @@ MEET!
  */
 
 use crate::util::ListNode;
-use crate::util::ListNodeRef;
-
 
 // This is the solution code using Box ListNode but the problem is how to generate
 // the test condition with Box<ListNode> and not Rc<RefCell<ListSNode>>
@@ -68,7 +66,7 @@ use crate::util::ListNodeRef;
 pub struct Solution1 {}
 
 impl Solution1 {
-    pub fn has_cycle(head: &ListNodeRef) -> bool {
+    pub fn has_cycle(head: &Option<Box<ListNode>>) -> bool {
         if head.is_none() { return false }
 
         let (mut slow, mut fast) : (&Box<ListNode>, &Box<ListNode>) =
@@ -101,7 +99,7 @@ impl Solution2 {
         if head.is_none() { return false }
 
         let (mut slow, mut fast) = (head.clone().unwrap(), head.clone().unwrap());
-        let (mut f, mut s): (ListSNodeRef, ListSNodeRef);
+        let (mut f, mut s): (Option<ListSNodeRef>, Option<ListSNodeRef>);
 
         while fast.borrow().next != None && fast.borrow().next.as_ref().unwrap().borrow().next != None {
             f = fast.borrow().next.as_ref().unwrap().borrow().next.clone();

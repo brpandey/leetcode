@@ -10,7 +10,6 @@
     Output: 1->1->2->3->4->4
  */
 
-use crate::util::ListNodeRef;
 use crate::util::ListNode;
 
 /*
@@ -29,8 +28,8 @@ pub struct Solution {}
 
 impl Solution {
 
-    pub fn sorted_merge(mut l1: ListNodeRef, mut l2: ListNodeRef) -> ListNodeRef {
-        let mut dummy_head: ListNodeRef = ListNode::new(-1);
+    pub fn sorted_merge(mut l1: Option<Box<ListNode>>, mut l2: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
+        let mut dummy_head: Option<Box<ListNode>> = ListNode::new(-1);
         let mut tail: &mut Box<ListNode> = dummy_head.as_mut().unwrap();
 
         // While there is data left in atleast one of the lists, otherwise return list start

@@ -47,13 +47,12 @@ becomes:
 #[path = "./p0021_merge_two_sorted_lists.rs"] pub mod p0021;
 use p0021::Solution as previous;
 use crate::util::ListNode;
-use crate::util::ListNodeRef;
 
 pub struct Solution {}
 
 impl Solution {
     // pub type NodeLink<T> = Option<Box<ListNode<T>>>;
-    pub fn merge_k_sorted(lists: Vec<Option<Box<ListNode>>>) -> ListNodeRef {
+    pub fn merge_k_sorted(lists: Vec<Option<Box<ListNode>>>) -> Option<Box<ListNode>> {
         let mut size = lists.len();
 
         if size == 0 { return None; }

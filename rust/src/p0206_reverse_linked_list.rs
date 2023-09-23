@@ -7,21 +7,7 @@ Given the head of a singly linked list, reverse the list, and return the reverse
 */
 // Definition for singly-linked list.
 
-#[derive(PartialEq, Eq, Clone, Debug)]
-pub struct ListNode {
-   pub val: i32,
-   pub next: Option<Box<ListNode>>
-}
-
-impl ListNode {
-   #[inline]
-    fn new(val: i32) -> Self {
-        ListNode {
-            next: None,
-            val
-        }
-    }
-}
+use crate::util::ListNode;
 
 pub struct Solution {}
 
@@ -31,9 +17,9 @@ impl Solution {
             return None
         }
 
-        let mut former_forward_neighbor;
+        let mut future_next;
         let mut current = head;
-        let mut reversed_dummy_head = ListNode::new(-1);
+        let mut reversed_dummy_head = ListNode::new0(-1);
 
         // 1-> 2 -> None
 
@@ -52,11 +38,10 @@ impl Solution {
         // node -> None
 
         while let Some(mut c) = current {
-            former_forward_neighbor = c.next.take(); // move node's next neighbor aside for a second
-//            println!("c is {:?}, former_forward_neighbor is {:?}", &c, &former_forward_neighbor);
+            future_next = c.next.take(); // move node's next neighbor aside for a second
             c.next = reversed_dummy_head.next; // point node next to point back to the last node handled
             reversed_dummy_head.next = Some(c); // update reversed next to point to current node
-            current = former_forward_neighbor; // update node to its former neighbor
+            current = future_next; // update node to its former neighbor
         }
 
         // This points to the last node in the old sequence
@@ -70,12 +55,12 @@ impl Solution {
             return None
         }
 
-        let mut dummy_head = ListNode::new(-1);
+        let mut dummy_head = ListNode::new0(-1);
         let mut node;
 
         // reverse list as its easier to
         for l in list.iter().rev() {
-            node = ListNode::new(*l); // create new node w/o box or option
+            node = ListNode::new0(*l); // create new node w/o box or option
             node.next = dummy_head.next; // Node next points to previous head.next
             dummy_head.next = Some(Box::new(node)); // Update head.next to current node
         }
@@ -90,7 +75,7 @@ impl Solution {
 
         // walk the linked list of nodes, pushing the data value onto vec
         while let Some(n) = node.as_ref() {
-            output.push(n.val);
+            output.push(n.data);
             node = &n.next;
         }
 

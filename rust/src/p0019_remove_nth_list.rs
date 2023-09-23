@@ -1,6 +1,6 @@
 // Solution
 
-use crate::util::ListNodeRef;
+use crate::util::ListNode;
 
 // Solution1
 use crate::util::ListSNode;
@@ -11,11 +11,11 @@ use crate::util::ListSNodeRef;
 pub struct Solution {}
 
 impl Solution {
-    pub fn remove_nth_from_end(mut head: ListNodeRef, n: u32) -> ListNodeRef {
+    pub fn remove_nth_from_end(mut head: Option<Box<ListNode>>, n: u32) -> Option<Box<ListNode>> {
         if n == 0 { return head } // nothing to delete
 
         let mut count: u32 = 0;
-        let mut current: &ListNodeRef = &head;
+        let mut current: &Option<Box<ListNode>> = &head;
 
         // Find the node count in linked list
         while current.is_some() {
@@ -57,12 +57,12 @@ pub struct Solution1 {}
 
 impl Solution1 {
     // head = &Option<Rc<RefCell<Node<T>>>>
-    pub fn remove_nth_from_end(head: &ListSNodeRef, n: u32) -> ListSNodeRef {
-        let dummy: ListSNodeRef = ListSNode::new(-1);
+    pub fn remove_nth_from_end(head: &Option<ListSNodeRef>, n: u32) -> Option<ListSNodeRef> {
+        let dummy: Option<ListSNodeRef> = ListSNode::new(-1);
         dummy.as_ref().unwrap().borrow_mut().next = ListSNode::clone(head);
 
-        let mut first: ListSNodeRef = ListSNode::clone(head);
-        let mut second: ListSNodeRef = ListSNode::clone(head);
+        let mut first: Option<ListSNodeRef> = ListSNode::clone(head);
+        let mut second: Option<ListSNodeRef> = ListSNode::clone(head);
 
         // Advance first so that first and second are n nodes apart
         for _ in 0..=n {
