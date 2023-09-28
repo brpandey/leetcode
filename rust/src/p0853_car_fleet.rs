@@ -72,8 +72,8 @@ Constraints:
  *
  * Looking at the numbers 1,1,7,3,12,  
  * the first two cars reach the target at the same time so they're 1 fleet,
- * the car going at speed 3 won't be able to overtake the car
- * going at speed 7 since it is in front of it, so they become one fleet, 
+ * the car which takes 3 hours won't be able to overtake the car
+ * which takes 7 hours since that is in front of it, so they become one fleet, 
  *
  * So if number after item in list is greater than add 1 to fleet count, init fleet count to 1
  */
@@ -97,16 +97,15 @@ impl Solution {
 
         let (mut fleet, mut prev) = (0, 0);
 
-        for h in hours {
-            // if current hour h is longer than previous hour, 
-            // the previous car speed is faster and 
-            // the current h car can never catch up to the previous car so
-            // increase fleet count
-            if h > prev {
+        // 0 1,1,7,3,12
+        for cur in hours {
+            // if current hour takes longer than the previous hour, the previous car is faster.
+            // since the previous car can't overtake the current, increase fleet count
+            if prev < cur {
                 fleet += 1;
             }
 
-            prev = h;
+            prev = cur;
         }
 
         fleet
@@ -119,7 +118,7 @@ pub mod tests {
     use super::*;
     
     #[test]
-    pub fn test_p0853() {
+    pub fn test_0853() {
         assert_eq!(3, Solution::car_fleet(12, vec![10,8,0,5,3], vec![2,4,1,1,3]));
         assert_eq!(1, Solution::car_fleet(100, vec![3], vec![3]));
         assert_eq!(1, Solution::car_fleet(100, vec![0,2,4], vec![4,2,1]));
