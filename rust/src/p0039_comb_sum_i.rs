@@ -64,38 +64,35 @@ Constraints:
 pub struct Solution {}
 
 impl Solution {
-    pub fn combination_sum(mut candidates: Vec<i32>, target: i32) -> Vec<Vec<i32>> {
-        // Potential candidates must be sorted, so we can clean return early (backtrack early knowing we can't find a valid path if proceed early)
-        candidates.sort();
+    pub fn combination_sum(mut nums: Vec<i32>, target: i32) -> Vec<Vec<i32>> {
+        // Potential nums must be sorted, so we can clean return early (backtrack early knowing we can't find a valid path if proceed early)
+        nums.sort();
 
         let mut result = vec![];
-        let mut sequence = vec![];
+        let mut current = vec![];
 
-        Solution::recurse(0, target, &candidates, &mut sequence, &mut result);
+        Solution::dfs(0, target, &nums, &mut current, &mut result);
 
         result
     }
 
-    pub fn recurse(index: usize, target: i32, cand: &Vec<i32>, sequence: &mut Vec<i32>, result: &mut Vec<Vec<i32>>) {
+    pub fn dfs(i: usize, acc: i32, nums: &Vec<i32>, cur: &mut Vec<i32>, result: &mut Vec<Vec<i32>>) {
         // print A - potential comb
 
-        if target == 0 {
-            // print B - winning
-            result.push(sequence.clone());
+        if acc == 0 { // Base case 1 - found a viable set of numbers in current combination
+            result.push(cur.clone());
             return
         }
 
-        for i in index..cand.len() {
-            if target < cand[i] {
-                // print C - won't work
-                return // no valid path possible return early -- backtrack
-            }
-
-            let value = cand[i];
-            sequence.push(value);
-            Solution::recurse(i, target - value, cand, sequence, result);
-            sequence.pop();
+        if i >= nums.len() || acc < 0 {  // Base case 2
+            return // we've exhausted our candidate set, since sorted, next values will only be larger
         }
+
+        cur.push(nums[i]); // include current value, don't advance i, reuse current value (as same number can be used unlimited times)
+        Self::dfs(i, acc - nums[i], nums, cur, result);  // recursive call tree branch left with current number (decrementing target)
+
+        cur.pop(); // don't include current value, look at next value
+        Self::dfs(i+1, acc, nums, cur, result);  // recursive call tree branch right with next number
     }
 }
 

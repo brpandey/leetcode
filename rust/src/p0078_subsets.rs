@@ -37,24 +37,24 @@ impl Solution {
         let mut result: Vec<Vec<i32>> = Vec::new();
         let mut subset: Vec<i32> = Vec::new();
 
-        Solution::generate(0, nums, &mut subset, &mut result);
+        Solution::dfs(0, nums, &mut subset, &mut result);
+        result.sort_by(|x, y| x.len().cmp(&y.len()));
         result
     }
 
-    pub fn generate(index: usize, nums: &[i32], subset: &mut Vec<i32>, result: &mut Vec<Vec<i32>>) {
-        // Print - Add
-        result.push(subset.clone());
-
-        for i in index..nums.len() {
-            subset.push(nums[i]);
-            // Print - Push
-            Solution::generate(i + 1, nums, subset, result);
-            subset.pop();
-            // Print - Pop
+    pub fn dfs(i: usize, nums: &[i32], subset: &mut Vec<i32>, result: &mut Vec<Vec<i32>>) {
+        if i == nums.len() {
+            result.push(subset.clone());
+            return
         }
+
+        subset.push(nums[i]);  // include current number
+        Self::dfs(i+1, nums, subset, result); // recursive call tree branch left with next number
+
+        subset.pop();  // do not include (skip) current number
+        Self::dfs(i+1, nums, subset, result) // recursive call tree branch right with next number
     }
 }
-
 
 
 #[cfg(test)]
@@ -63,7 +63,7 @@ mod tests {
 
     #[test]
     pub fn test_0078() {
-        let answer = vec![vec![], vec![1], vec![1, 2], vec![1, 2, 3], vec![1, 3], vec![2], vec![2, 3], vec![3]];
+        let answer = vec![vec![],vec![1],vec![2],vec![3],vec![1,2],vec![1,3],vec![2,3],vec![1,2,3]];
         assert_eq!(answer, Solution::subsets(&vec![1,2,3]));
     }
 }

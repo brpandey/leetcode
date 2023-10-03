@@ -35,39 +35,38 @@ Output:
 pub struct Solution {}
 
 impl Solution {
-    pub fn combination_sum2(mut candidates: Vec<i32>, target: i32) -> Vec<Vec<i32>> {
+    pub fn combination_sum2(mut nums: Vec<i32>, target: i32) -> Vec<Vec<i32>> {
         let mut result = vec![];
         let mut current = vec![];
 
-        candidates.sort();
-        Self::dfs(&candidates, &mut result, &mut current, 0, target);
-
+        nums.sort();
+        Self::dfs(0, target, &nums, &mut current,  &mut result);
         result
     }
 
-    pub fn dfs(cand: &Vec<i32>, result: &mut Vec<Vec<i32>>, current: &mut Vec<i32>, index: usize, target: i32) {
+    pub fn dfs(mut i: usize, acc: i32, nums: &Vec<i32>, cur: &mut Vec<i32>, result: &mut Vec<Vec<i32>>) {
         // values within current add up to target, so add to result
-        if target == 0 {
-            result.push(current.clone());
+        if acc == 0 {
+            result.push(cur.clone());
             return
         }
 
         // values within current are too big as target has been overshot
-        if target < 0 {
+        // exhausted possible nums
+        if acc < 0 || i >= nums.len() {
             return
         }
 
-        let mut last = -1;
+        cur.push(nums[i]);
+        Self::dfs(i+1, acc - nums[i], nums, cur, result);  // recursive call tree branch left with next number
 
-        for i in index..cand.len() {
-            let v = cand[i];
-            if v == last { continue } // skip over duplicates at this level
-
-            current.push(v); // try with value v
-            Self::dfs(cand, result, current, i+1, target - v);
-            current.pop(); // try without value v
-            last = v;
+        // don't select duplicate candidate number again if one is present
+        while i+1 < nums.len() && nums[i] == nums[i+1] {  
+            i = i+1;
         }
+
+        cur.pop();
+        Self::dfs(i+1, acc, nums, cur, result); // recursive call tree branch right with next number (that's not a duplicate)
     }
 }
 
