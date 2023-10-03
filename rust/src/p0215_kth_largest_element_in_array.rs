@@ -63,7 +63,7 @@ pub struct Solution {}
 
 impl Solution {
     pub fn find_kth_largest(mut nums: Vec<i32>, k: i32) -> i32 {
-        Self::quick_select(0, len - 1, nums.len() - k as usize, &mut nums)
+        Self::quick_select(0, nums.len() - 1, nums.len() - k as usize, &mut nums)
     }
 
     pub fn quick_select(l: usize, r: usize, target_index: usize, nums: &mut Vec<i32>) -> i32 {

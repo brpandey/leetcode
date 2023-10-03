@@ -62,6 +62,7 @@ pub mod p0124_binary_tree_max_path_sum;
 pub mod p0125_valid_palindrome;
 pub mod p0127_word_ladder;
 pub mod p0128_longest_consecutive_sequence;
+pub mod p0131_palindrome_partitioning;
 pub mod p0133_clone_graph;
 pub mod p0139_word_break;
 pub mod p0141_linked_list_cycle;
