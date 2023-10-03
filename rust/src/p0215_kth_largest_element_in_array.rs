@@ -38,21 +38,23 @@ Constraints:
  */
 
 /*
+
 k = 2
 
 start:
+
 i
-pi           pivot
+j            pivot
 [3,2,1,5,6,0,4]
 
-          pi    i  pivot   <-- interesting point, since value at i (0) is less than pivot (4), hence swap 0 with pi's value (5)
+          j     i  pivot   <-- interesting point, since value at i (0) is less than pivot (4), hence swap 0 with j's value (5)
 [3, 2, 1, 5, 6, 0, 4]
 
-             pi    i    <--- swap i and pi's value since loop has been finished, pi needs to demarcate the two sorted halfs wrt to the pivot
+             j     i    <--- swap i and j's value since loop has been finished, j needs to demarcate the two sorted halfs wrt to the pivot
 [3, 2, 1, 0, 6, 5, 4]
 
-             pi                    target = len(7) - 2 = 5th index,
-                                   (pi's index = 4) since 4 < 5, [p+1..r] or [5,6] is next half of list to recurse
+             j                    target = len(7) - 2 = 5th index,
+                                   (j's index = 4) since 4 < 5, [p+1..r] or [5,6] is next half of list to recurse
 [3, 2, 1, 0, 4, 5, 6]
 
 */
@@ -61,41 +63,41 @@ pub struct Solution {}
 
 impl Solution {
     pub fn find_kth_largest(mut nums: Vec<i32>, k: i32) -> i32 {
-        let len = nums.len();
-        Self::quick_select(0, len - 1, len - k as usize, &mut nums)
+        Self::quick_select(0, len - 1, nums.len() - k as usize, &mut nums)
     }
 
-    pub fn quick_select(l: usize, r: usize, target: usize, nums: &mut Vec<i32>) -> i32 {
-        // pi index increases until it hits target index
-        let mut pi = l; // partition index
+    pub fn quick_select(l: usize, r: usize, target_index: usize, nums: &mut Vec<i32>) -> i32 {
+        let mut j = l; // partition index, j points to the last value > pivot
         let pivot = nums[r];
-        let mut temp;
 
         for i in l..r {
             if nums[i] <= pivot {
-                // swap nums[i] with nums[pi]
-                temp = nums[i];
-                nums[i] = nums[pi];
-                nums[pi] = temp;
-                pi += 1; // keep advancing until num is > than pivot, to swap later on
+                // swap nums[i] with nums[j]
+                Self::swap(i, j, nums);
+                j += 1; // keep advancing while i points to a value <= pivot
             }
 
-            // if nums[i] is greater than pivot, the partition_index stays there until
-            // there's another nums[i] value that is <= pivot at which point we swap with the last higher value at part_index
+            // if nums[i] is greater than pivot, the partition_index j stays there until
+            // there's another nums[i] value that is <= pivot at which point we swap with the last j
         }
 
         // swap last partition index with the end value, ensuring partition index properly demarcates sorted halves
-        temp = nums[pi];
-        nums[pi] = nums[r];
-        nums[r] = temp;
-
-        if pi > target { // target is behind pi, so look at left half
-            Self::quick_select(l, pi - 1, target, nums)
-        } else if pi < target {  // target is ahead of pi, so look at right half
-            Self::quick_select(pi + 1, r, target, nums)
-        } else { // pi == target
-            nums[pi]
+        // left half being less than value at j and right half greater than value at j
+        Self::swap(j, r, nums);
+        
+        if j > target_index { // target_index is behind j, so look at left half
+            Self::quick_select(l, j - 1, target_index, nums)
+        } else if j < target_index {  // target_index is ahead of j, so look at right half
+            Self::quick_select(j + 1, r, target_index, nums)
+        } else { // j == target_index
+            nums[j]
         }
+    }
+
+    pub fn swap(i: usize, j: usize, nums: &mut [i32]) {
+        let temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
     }
 }
 
