@@ -41,6 +41,7 @@ pub mod p0056_merge_intervals;
 pub mod p0057_insert_interval;
 pub mod p0062_unique_paths;
 pub mod p0070_climbing_stairs;
+pub mod p0072_edit_distance;
 pub mod p0073_set_matrix_zeroes;
 pub mod p0076_minimum_window_substring;
 pub mod p0078_subsets;
